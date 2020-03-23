@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>优惠劵</title>
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<link href="${basePath}/resources/css/style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/base.css"/>
+	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/x_index.css"/>
+	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/search_m.css">
+</head>
+<body>
+ <!--
+ 默认为0，0-综合排序，1-商品上架时间从高到低，2-销量从高到低，3-领券量从高到低，4-佣金比例从高到低，5-价格（券后价）从高到低，6-价格（券后价）从低到高 -->
+<section class="">
+	<header class="header" style="position: relative;"><a class="fl" href="javascript:history.back(-1)"><i class="b_1"></i></a><a href="javascript:;">商品列表</a></header>
+	<section class="aui-scrollView">
+		<div class="aui-tab" data-ydui-tab>
+			<ul class="tab-nav">
+				<li class="tab-nav-item tab-active" onclick="searchGoods(0,'${subcid}',1,0)">
+					<a href="javascript:;">
+						<span>综合排序</span>
+					</a>
+				</li>
+				<li class="tab-nav-item" onclick="searchGoods(1,'${subcid}',2,1)">
+					<a href="javascript:;">
+						<span>上架时间</span>
+					</a>
+				</li>
+				<li class="tab-nav-item" onclick="searchGoods(2,'${subcid}',3,2)">
+					<a href="javascript:;">
+						<span>销量</span>
+					</a>
+				</li>
+				<li class="tab-nav-item" onclick="searchGoods(3,'${subcid}',4,3)">
+					<a href="javascript:;">
+						<span>领券量</span>
+					</a>
+				</li>
+				<li class="tab-nav-item" onclick="searchGoods(4,'${subcid}',5,5)">
+					<a href="javascript:;">
+						<span>价格降序</span>
+					</a>
+				</li>
+				<li class="tab-nav-item" onclick="searchGoods(5,'${subcid}',6,6)">
+					<a href="javascript:;">
+						<span>价格升序</span>
+					</a>
+				</li>
+				<!--默认为0，0-综合排序，1-商品上架时间从高到低，2-销量从高到低，3-领券量从高到低，4-佣金比例从高到低，5-价格（券后价）从高到低，6-价格（券后价）从低到高-->
+			</ul>
+			<input type="hidden" id="num" name="num">
+			<input type="hidden" id="goods_subcid" name="goods_subcid">
+			<div class="tab-panel">
+				<div id="goodsInfo0" class="tab-panel-item tab-active"></div>
+				<div id="goodsInfo1" class="tab-panel-item"></div>
+				<div id="goodsInfo2" class="tab-panel-item"></div>
+				<div id="goodsInfo3" class="tab-panel-item"></div>
+				<div id="goodsInfo4" class="tab-panel-item"></div>
+				<div id="goodsInfo5" class="tab-panel-item"></div>
+			</div>
+		</div>
+
+	</section>
+
+</section>
+</body>
+<script type="text/javascript" src="${basePath}/resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/slider.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/tab.js"></script>
+<script src="${basePath}/resources/js/zepto-byothers.min.js"></script>
+<script src="${basePath}/resources/js/search_index.js"></script>
+<script src="${basePath}/resources/js/more.js"></script>
+<script type="text/javascript">
+    var pageIndex = 1;
+    var sort = 0;
+	searchGoods(0,'${subcid}',pageIndex,sort);
+
+    function searchGoods(index,subcid,pageNo,sort) {
+        $("#num").val(index);
+        $("#goods_subcid").val(subcid);
+        $.ajax({
+            type: "post", //使用post方法访问后台
+            dataType: "json", //返回json格式的数据
+            url: "${basePath}/good/goodByClassfyList", //要访问的后台地址
+            data: "subcid="+subcid+"&pageNo="+pageNo+"&sort="+sort,// 你的formid
+            success: function(obj){//msg为返回的数据，在这里做数据绑定
+                if(obj!=""){
+                    if (typeof obj === 'string') {
+                        obj = JSON.parse(obj);
+                    }
+                    if (obj.code == "1000"){
+                        var goodsStr = "";
+                        var goodsInfo = obj.data;
+                        for(var i=0;i<goodsInfo.length;i++){
+                            var goodInfo = goodsInfo[i];
+                            goodsStr += "<a href=\"javascript:goodDetail("+goodInfo.goodsId+");\" class=\"aui-flex b-line\">"+
+								"<div class=\"aui-ser-img\">" +
+                                "<img src=\""+goodInfo.mainPic+"\" alt=\"\">" +
+                                "</div>" +
+                                "<div class=\"aui-flex-box\">" +
+                                "<h2>"+goodInfo.desc+"</h2>" +
+                                "<span>月销 "+goodInfo.monthSales+"</span>" +
+                                "<h3><em>"+goodInfo.couponPrice+"元劵</em><em style='background-color: #f50; color: #fff; position: relative;'>返利"+goodInfo.commission+"元</em><i>原价 "+goodInfo.originalPrice+"</i></h3>" +
+                                "<h4><em>到手价￥"+goodInfo.actualPrice+"</em> <i>已领 <font color='red'>"+goodInfo.couponReceiveNum+"</font></i></h4>" +
+                                "</div></a>";
+						}
+
+                        $("#goodsInfo"+index).html($("#goodsInfo"+index).html()+goodsStr);
+                    } else{
+                        alert(obj.msg);
+                    }
+
+                }else{
+                    alert("添加失败");
+                }
+            }
+        });
+    }
+
+    function goodDetail(goodsId){
+        //window.location.href = "${basePath}/good/privilege?goodsId="+goodsId;
+        window.location.href = "${basePath}/good/good_supper_detail?itemId="+goodsId+"&type=1";
+	}
+
+    // 自定义事件
+    function ajax_function() {
+        pageIndex++;
+        var num = $("#num").val();
+        var goods_subcid = $("#goods_subcid").val();
+        searchGoods(num,goods_subcid,pageIndex);
+    }
+
+</script>
+</html>

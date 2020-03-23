@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oruit.share.dao.TbPddOptMapper" >
+  <resultMap id="BaseResultMap" type="com.oruit.share.domain.TbPddOpt" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="opt_id" property="optId" jdbcType="BIGINT" />
+    <result column="opt_name" property="optName" jdbcType="VARCHAR" />
+    <result column="parent_cat_id" property="parentCatId" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, opt_id, opt_name, parent_cat_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_pddopt
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_pddopt
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.oruit.share.domain.TbPddOpt" >
+    insert into tb_pddopt (id, opt_id, opt_name, 
+      parent_cat_id)
+    values (#{id,jdbcType=BIGINT}, #{optId,jdbcType=BIGINT}, #{optName,jdbcType=VARCHAR}, 
+      #{parentCatId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.oruit.share.domain.TbPddOpt" >
+    insert into tb_pddopt
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="optId != null" >
+        opt_id,
+      </if>
+      <if test="optName != null" >
+        opt_name,
+      </if>
+      <if test="parentCatId != null" >
+        parent_cat_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="optId != null" >
+        #{optId,jdbcType=BIGINT},
+      </if>
+      <if test="optName != null" >
+        #{optName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCatId != null" >
+        #{parentCatId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oruit.share.domain.TbPddOpt" >
+    update tb_pddopt
+    <set >
+      <if test="optId != null" >
+        opt_id = #{optId,jdbcType=BIGINT},
+      </if>
+      <if test="optName != null" >
+        opt_name = #{optName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCatId != null" >
+        parent_cat_id = #{parentCatId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oruit.share.domain.TbPddOpt" >
+    update tb_pddopt
+    set opt_id = #{optId,jdbcType=BIGINT},
+      opt_name = #{optName,jdbcType=VARCHAR},
+      parent_cat_id = #{parentCatId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="queryTbPddOptList" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from tb_pddopt
+    where enable = 1 order by id asc
+  </select>
+</mapper>

@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>优惠劵</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link href="${basePath}/resources/css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="${basePath}/resources/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/resources/css/x_index.css"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/resources/css/search_m.css">
+</head>
+<body>
+<!--
+默认为0，0-综合排序，1-商品上架时间从高到低，2-销量从高到低，3-领券量从高到低，4-佣金比例从高到低，5-价格（券后价）从高到低，6-价格（券后价）从低到高 -->
+<section class="">
+    <header class="header" style="position: relative;"><a class="fl" href="javascript:history.back(-1)"><i class="b_1"></i></a><a href="javascript:;">我的收藏</a></header>
+    <section class="aui-scrollView">
+        <div class="aui-tab" data-ydui-tab>
+            <input type="hidden" id="num" name="num">
+            <input type="hidden" id="goods_subcid" name="goods_subcid">
+            <div class="tab-panel">
+                <div id="goodsInfo" class="tab-panel-item tab-active">
+                    <#if tbCollectionList?? && (tbCollectionList?size>0)>
+                    <#list tbCollectionList as tbCollection>
+                    <a href="javascript:goodDetail(${tbCollection.goodId})" class="aui-flex b-line">
+                        <div class="aui-ser-img">
+                            <img src="${tbCollection.goodImg!''}" alt=\"\">
+                        </div>
+                        <div class="aui-flex-box">
+                            <h2>${tbCollection.goodDesc!''}</h2>
+                            <h3><em>${tbCollection.couponPrice!'0'}元劵</em><i>原价: ${tbCollection.originalPrice!'0'}</i></h3>
+                            <h4><em>券后价: ￥${tbCollection.actualPrice!'0'}</em></h4>
+                        </div>
+                    </a>
+                    </#list>
+                    </#if>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</section>
+</body>
+<script type="text/javascript" src="${basePath}/resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/slider.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/tab.js"></script>
+<script src="${basePath}/resources/js/zepto-byothers.min.js"></script>
+<script src="${basePath}/resources/js/search_index.js"></script>
+<script src="${basePath}/resources/js/more.js"></script>
+<script type="text/javascript">
+
+    function searchGoods(userId,pageIndex) {
+                        $.ajax({
+                            type: "post", //使用post方法访问后台
+                            dataType: "json", //返回json格式的数据
+                            url: "${basePath}/collection/index", //要访问的后台地址
+                            data: "userId="+userId+"&pageIndex="+pageIndex+"&pageSize=10",// 你的formid
+                            success: function(obj){//msg为返回的数据，在这里做数据绑定
+                                if(obj!=""){
+                                    if (typeof obj === 'string') {
+                                        obj = JSON.parse(obj);
+                                    }
+                                    if (obj.code == "1000"){
+                                        var goodsStr = "";
+                                        var goodsInfo = obj.data;
+                                        for(var i=0;i<goodsInfo.length;i++){
+                                            var goodInfo = goodsInfo[i];
+                                            goodsStr += "<a href=\"javascript:goodDetail("+goodInfo.goodsId+");\" class=\"aui-flex b-line\">"+
+                                                "<div class=\"aui-ser-img\">" +
+                                                "<img src=\""+goodInfo.mainPic+"\" alt=\"\">" +
+                                                "</div>" +
+                                                "<div class=\"aui-flex-box\">" +
+                                                "<h2>"+goodInfo.desc+"</h2>" +
+                                                "<h3><em>"+goodInfo.couponPrice+"元劵</em><i>原价 "+goodInfo.originalPrice+"</i></h3>" +
+                                                "<h4><em>券后价: ￥"+goodInfo.actualPrice+"</em></h4>" +
+                                                "</div></a>";
+                                        }
+
+                                     $("#goodsInfo").append(goodsStr);
+                    } else{
+                        alert(obj.msg);
+                    }
+
+                }else{
+                    alert("添加失败");
+                }
+            }
+        });
+    }
+
+    function goodDetail(goodsId){
+        //window.location.href = "${basePath}/good/privilege?goodsId="+goodsId;
+        window.location.href = "${basePath}/good/good_supper_detail?itemId="+goodsId+"&type=1";
+    }
+
+    // 自定义事件
+    function ajax_function() {
+        pageIndex++;
+        searchGoods(0,pageIndex);
+    }
+
+</script>
+</html>

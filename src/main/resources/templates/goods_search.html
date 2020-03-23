@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>优惠劵</title>
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<link href="${basePath}/resources/css/style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/base.css"/>
+	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/x_index.css"/>
+	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/search_m.css">
+</head>
+<body>
+<!--
+
+* 17素材vip建站专区模块代码
+* 详尽信息请看官网：http://www.17sucai.com/pins/vip
+*
+* Copyright , 温州易站网络科技有限公司版权所有
+*
+* 请尊重原创，未经允许请勿转载。
+* 在保留版权的前提下可应用于个人或商业用途
+
+-->
+<div id="search_page_1">
+
+
+	<header class="header" style="position: relative;"><a class="fl" href="javascript:history.back(-1)"><i class="b_1"></i></a><a href="javascript:;">搜索</a></header>
+
+	<div class="search_index_content">
+		<div class="search_index_content_menu">
+			<div class="search_item" style="display:blcok;">
+				<div class="search_item_s clearfix">
+					<div class="search_item_s_b">
+						<form type="post" action="${basePath}/good/list" id="form_xltj_search">
+							<div class="search_item_s_l">
+								<input type="text" id="goodsName" name="goodsName" class="f_b_a_text" placeholder=""  autocomplete="off"/>
+							</div>
+							<a class="r_a js_a" href="javascript:void(0);"><i></i></a>
+						</form>
+					</div>
+				</div>
+				<div class="search_item_x">
+					<div class="item_x_t">
+						热门搜索词
+					</div>
+					<div class="item_x_m">
+						<ul>
+							<#if list?? && (list?size>0)>
+							<#list list as top>
+								<li onclick="searchGoods('${top.words!''}')">
+									<a href="javascript:;">
+										<span>${top.words!''}</span>
+									</a>
+								</li>
+							</#list>
+							</#if>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="search_tishi" class="search_tishi">
+</div>
+<div class="motive_select" id="fromCityLists" style="display:none">
+	<header class="header"><a class="fl" href="javascript:void(0)"><i class="b_1"></i><i class="b_2"></i><i class="b_3"></i></a><a href="javascript:;">选择出发地</a><a href="javascript:void(0)" class="tool"><i class="d_1 d"></i><i class="d_2 d"></i><i class="d_3 d"></i></a></header>
+	<ul class="u_1">
+	</ul>
+</div>
+
+</body>
+<script src="${basePath}/resources/js/zepto-byothers.min.js"></script>
+<script src="${basePath}/resources/js/search_index.js"></script>
+<script>
+    function searchGoods(goods_name){
+        $("#goodsName").val(goods_name);
+        $("#form_xltj_search").submit();
+    }
+</script>
+
+</html>

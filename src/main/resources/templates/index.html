@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>优惠劵</title>
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<link href="./resources/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<section class="aui-flexView">
+	<header class="aui-navBar aui-navBar-fixed">
+		<a href="javascript:;" class="aui-navBar-item">
+			<i class="icon icon-return"></i>
+		</a>
+		<div class="aui-center">
+			<div class="aui-show-search">
+				<i class="icon icon-search"></i>
+				<input type="text" placeholder="纸巾">
+			</div>
+		</div>
+		<a href="javascript:;" class="aui-navBar-item">
+			<i class="icon icon-car"></i>
+		</a>
+	</header>
+	<section class="aui-scrollView">
+		<div class="m-slider" data-ydui-slider>
+			<div id="bannerList"class="slider-wrapper">
+
+				<div class="slider-item">
+					<a href="javascript:;">
+						<img src="./resources/images/banner.png" alt="">
+					</a>
+				</div>
+				<div class="slider-item">
+					<a href="javascript:;">
+						<img src="./resources/images/banner.png" alt="">
+					</a>
+				</div>
+				<div class="slider-item">
+					<a href="javascript:;">
+						<img src="./resources/images/banner.png" alt="">
+					</a>
+				</div>
+				<div class="slider-item">
+					<a href="javascript:;">
+						<img src="./resources/images/banner.png" alt="">
+					</a>
+				</div>
+				<div class="slider-item">
+					<a href="javascript:;">
+						<img src="./resources/images/banner.png" alt="">
+					</a>
+				</div>
+			</div>
+			<div class="slider-pagination"></div>
+		</div>
+		<div class="aui-palace aui-palace-one ">
+			<a href="javascript:;" class="aui-palace-grid">
+				<div class="aui-palace-grid-icon">
+					<img src="./resources/images/nav-001.png" alt="">
+				</div>
+				<div class="aui-palace-grid-text">
+					<h2>今日上新</h2>
+				</div>
+			</a>
+			<a href="javascript:;" class="aui-palace-grid">
+				<div class="aui-palace-grid-icon">
+					<img src="./resources/images/nav-002.png" alt="">
+				</div>
+				<div class="aui-palace-grid-text">
+					<h2>京东</h2>
+				</div>
+			</a>
+			<a href="javascript:;" class="aui-palace-grid">
+				<div class="aui-palace-grid-icon">
+					<img src="./resources/images/nav-003.png" alt="">
+				</div>
+				<div class="aui-palace-grid-text">
+					<h2>拼多多</h2>
+				</div>
+			</a>
+			<a href="javascript:;" class="aui-palace-grid">
+				<div class="aui-palace-grid-icon">
+					<img src="./resources/images/nav-004.png" alt="">
+				</div>
+				<div class="aui-palace-grid-text">
+					<h2>唯品会</h2>
+				</div>
+			</a>
+			<a href="javascript:;" class="aui-palace-grid">
+				<div class="aui-palace-grid-icon">
+					<img src="./resources/images/nav-005.png" alt="">
+				</div>
+				<div class="aui-palace-grid-text">
+					<h2>更多商城</h2>
+				</div>
+			</a>
+			<a href="javascript:;" class="aui-palace-grid">
+				<div class="aui-palace-grid-icon">
+					<img src="./resources/images/nav-006.png" alt="">
+				</div>
+				<div class="aui-palace-grid-text">
+					<h2>今日爆款</h2>
+				</div>
+			</a>
+			<a href="javascript:;" class="aui-palace-grid">
+				<div class="aui-palace-grid-icon">
+					<img src="./resources/images/nav-007.png" alt="">
+				</div>
+				<div class="aui-palace-grid-text">
+					<h2>母婴帮</h2>
+				</div>
+			</a>
+			<a href="javascript:;" class="aui-palace-grid">
+				<div class="aui-palace-grid-icon">
+					<img src="./resources/images/nav-008.png" alt="">
+				</div>
+				<div class="aui-palace-grid-text">
+					<h2>品牌榜</h2>
+				</div>
+			</a>
+			<a href="javascript:;" class="aui-palace-grid">
+				<div class="aui-palace-grid-icon">
+					<img src="./resources/images/nav-009.png" alt="">
+				</div>
+				<div class="aui-palace-grid-text">
+					<h2>低价包邮</h2>
+				</div>
+			</a>
+			<a href="javascript:;" class="aui-palace-grid">
+				<div class="aui-palace-grid-icon">
+					<img src="./resources/images/nav-010.png" alt="">
+				</div>
+				<div class="aui-palace-grid-text">
+					<h2>会员福利</h2>
+				</div>
+			</a>
+		</div>
+		<div class="aui-flex">
+			<div class="aui-flex-box">
+				<img src="./resources/images/ad-001.png" alt="">
+			</div>
+		</div>
+		<div class="divHeight"></div>
+		<div class="aui-tab" data-ydui-tab>
+			<ul class="tab-nav">
+				<li class="tab-nav-item tab-active" onclick="initGoods(0,${cid},1)">
+					<a href="javascript:;">
+						<span>精选</span>
+					</a>
+				</li>
+					<#if classifyList?? && (classifyList?size>0)>
+					<#list classifyList as classifyInfo>
+						<li class="tab-nav-item" onclick="initGoods(${classifyInfo.order},${classifyInfo.cid!''},1)">
+							<a href="javascript:;">
+								<span>${classifyInfo.cname!''}</span>
+							</a>
+						</li>
+					</#list>
+				</#if>
+				<li class="tab-nav-item">
+					<a href="${basePath}/classify">
+						<span>更多</span>
+					</a>
+				</li>
+			</ul>
+			<div class="tab-panel">
+				<div id="goodsInfo0" class="tab-panel-item tab-active"></div>
+				<div id="goodsInfo1" class="tab-panel-item"></div>
+				<div id="goodsInfo2" class="tab-panel-item"></div>
+				<div id="goodsInfo3" class="tab-panel-item"></div>
+				<div id="goodsInfo4" class="tab-panel-item"></div>
+				<div id="goodsInfo5" class="tab-panel-item"></div>
+			</div>
+		</div>
+
+	</section>
+	<footer class="aui-footer aui-footer-fixed">
+		<a href="javascript:;" class="aui-tabBar-item aui-tabBar-item-active">
+                    <span class="aui-tabBar-item-icon">
+                        <i class="icon icon-loan"></i>
+                    </span>
+			<span class="aui-tabBar-item-text">首页</span>
+		</a>
+		<a href="/classify" class="aui-tabBar-item ">
+                    <span class="aui-tabBar-item-icon">
+                        <i class="icon icon-credit"></i>
+                    </span>
+			<span class="aui-tabBar-item-text">分类</span>
+		</a>
+		<a href="javascript:;" class="aui-tabBar-item ">
+                    <span class="aui-tabBar-item-icon">
+                        <i class="icon icon-ions"></i>
+                    </span>
+			<span class="aui-tabBar-item-text">红包</span>
+		</a>
+		<a href="javascript:;" class="aui-tabBar-item ">
+                    <span class="aui-tabBar-item-icon">
+                        <i class="icon icon-news"></i>
+                    </span>
+			<span class="aui-tabBar-item-text">返利</span>
+		</a>
+		<a href="javascript:;" class="aui-tabBar-item ">
+                    <span class="aui-tabBar-item-icon">
+                        <i class="icon icon-me"></i>
+                    </span>
+			<span class="aui-tabBar-item-text">我的</span>
+		</a>
+	</footer>
+</section>
+</body>
+<script type="text/javascript" src="./resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="./resources/js/slider.js"></script>
+<script type="text/javascript" src="./resources/js/tab.js"></script>
+<script type="text/javascript">
+    initGoods(0,${cid},1);
+
+    function initGoods(index,cid,pageNo) {
+        $.ajax({
+            type: "post", //使用post方法访问后台
+            dataType: "json", //返回json格式的数据
+            url: "${basePath}/good/goodList", //要访问的后台地址
+            data: "cid="+cid+"&pageNo="+pageNo,// 你的formid
+            success: function(obj){//msg为返回的数据，在这里做数据绑定
+                if(obj!=""){
+                    if (typeof obj === 'string') {
+                        obj = JSON.parse(obj);
+                    }
+                    if (obj.code == "1000"){
+                        var goodsStr = "";
+                        var goodsInfo = JSON.parse(obj.data);
+                        for(var i=0;i<goodsInfo.length;i++){
+                            var goodInfo = goodsInfo[i];
+                            goodsStr += "<a href=\"javascript:goodDetail("+goodInfo.goodsId+");\" class=\"aui-flex b-line\">"+
+								"<div class=\"aui-ser-img\">" +
+                                "<img src=\""+goodInfo.mainPic+"\" alt=\"\">" +
+                                "</div>" +
+                                "<div class=\"aui-flex-box\">" +
+                                "<h2>"+goodInfo.desc+"</h2>" +
+                                "<span>月销 "+goodInfo.monthSales+"</span>" +
+                                "<h3><em>"+goodInfo.couponPrice+"元劵</em> <i>原价 "+goodInfo.originalPrice+"</i></h3>" +
+                                "<h4><em>到手价￥"+goodInfo.actualPrice+"</em> <i>再返1.88元</i></h4>" +
+                                "</div></a>";
+						}
+
+                        $("#goodsInfo"+index).html(goodsStr);
+                    } else{
+                        alert(obj.msg);
+                    }
+
+                }else{
+                    alert("添加失败");
+                }
+            }
+        });
+    }
+
+    function goodDetail(goodsId){
+        $.ajax({
+            type: "post", //使用post方法访问后台
+            dataType: "json", //返回json格式的数据
+            url: "${basePath}/good/privilege", //要访问的后台地址
+            data: "goodsId="+goodsId,// 你的formid
+            success: function(obj) {//msg为返回的数据，在这里做数据绑定
+                if (obj != "") {
+                    if (typeof obj === 'string') {
+                        obj = JSON.parse(obj);
+                    }
+                    if (obj.code == "1000") {
+                        var goodInfo = obj.data;
+                        window.location.href = goodInfo.couponClickUrl;
+                    }
+                }
+            }
+		});
+	}
+
+
+    window.onscroll = function () {
+        //监听事件内容
+        if (getScrollHeight() == getWindowHeight() + getDocumentTop()) {
+
+            //当滚动条到底时,这里是触发内容
+            //异步请求数据,局部刷新dom
+            initGoods(1,${cid},1);
+
+        }
+    }
+</script>
+</html>

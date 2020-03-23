@@ -1,0 +1,27 @@
+._3n6It_62:first-child, ._3n6It_62:nth-child(2) {
+    margin-top: .12rem;
+}
+._3n6It_62:nth-child(odd) {
+ margin-left: .12rem;
+}
+._3n6It_62 ._1zE7sj0i, ._3n6It_62 ._2FFWxpXp {
+    width: 1.71rem;
+    position: relative;
+    background-color: #fff;
+}
+._3n6It_62 ._2FFWxpXp {
+ height: 1.71rem;
+ overflow: hidden;
+}
+.pdd-lazy-image {
+    min-width: 1px;
+    min-height: 1px;
+}
+img {
+ border: 0;
+ max-width: 100%;
+ width: auto;
+ height: auto;
+ vertical-align: top;
+}
+

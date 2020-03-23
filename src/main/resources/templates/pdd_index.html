@@ -1,0 +1,438 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>水滴淘淘券</title>
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<link href="${basePath}/resources/css/style.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/brand.css"/>
+	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/common.css"/>
+	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/theme.css"/>
+</head>
+<body>
+<style>
+	.aui-palace {
+		padding: 0.5rem 0;
+		position: relative;
+		overflow: hidden;
+		background: #fff;
+	}
+	.aui-palace-grid {
+		position: relative;
+		float: left;
+		padding: 1px;
+		width: 25%;
+		box-sizing: border-box;
+		margin: 5px 0;
+	}
+	.m-slider {
+		overflow-x: hidden;
+		width: 92%;
+		margin: 35px auto 10px auto;
+		border-radius: 10px;
+		position: relative;
+	}
+	input, li, ol, p, textarea, ul {
+		padding: 0;
+		margin: 0;
+		list-style-type: none;
+	}
+	.list1>ul>li {
+		background: #fff;
+		border-radius: 10px;
+		margin-bottom: 10px;
+		padding-bottom: 5px;
+	}
+	a, a:hover {
+		text-decoration: none;
+	}
+
+	.list2 .list2_brand_info a .info .title {
+		height: 27px;
+		font-size: 16px;
+		font-weight: bold;
+		line-height: 27px;
+		margin-bottom: 3px;
+		max-width: 135px;
+		display: inline-block;
+	}
+
+	.list2 .list2_brand_info a {
+		padding: 10px 15px 10px;
+		background: #Fff;
+		display: flex;
+		position: relative;
+		border-radius: 10px 10px 0 0;
+	}
+	.goods-list {
+		background: #fff;
+		border-radius: 15px;
+		padding: 2px;
+		margin: 10px 8px;
+	}
+	.goods-square-item {
+		width: 46%;
+		margin-left: 8px;
+		margin-right: 5px;
+		margin-top: 10px;
+		font-size: 14px;
+		background-color: #fff;
+		display: inline-block;
+	}
+	.goods-square-item .goods-text_price {
+		line-height: 15px;
+		border-top: 2px dashed #fff;
+		position: relative;
+		font-size: 10px;
+	}
+	.goods-text_price .good-quan{
+		position: absolute;
+	}
+
+	.goods-text_price .good-price{
+		position: absolute;
+		right: 2px;
+		text-decoration: line-through;
+		color: #aaa;
+		margin-top: 2px;
+	}
+
+	.goods-text-extra {
+		height: 20px;
+		border-top: 1px dashed #fff;
+		flex-direction: row;
+		align-items: center;
+		position: relative;
+		font-size: 8px;
+		padding-top: 2px;
+	}
+
+	.goods-text-extra .good-fanli{
+		position: absolute;
+	}
+
+	.goods-text-extra .sale-amount {
+		position: absolute;
+		right: 2px;
+	}
+
+	.goods-text_price .merchantTag {
+		box-sizing: border-box;
+		border-radius: 3px;
+		opacity: .7;
+		border: 1px solid #fe3a33;
+		font-size: 10px;
+		font-family: PingFangSC;
+		font-weight: 400;
+		color: #fff;
+		text-align: center;
+		padding: 0 5px;
+		word-break: keep-all;
+		display: inline-block;
+		height: 15px;
+		line-height: 13px;
+		margin-right: 5px;
+		background: #fe3a33;
+	}
+
+	.goods-text-extra label {
+		color: #999999;
+		font-size: 12px;
+		line-height: 35px;
+	}
+
+	.brand_hot_product .cent .textArea .goodTag {
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		word-break: break-all;
+		text-overflow: ellipsis;
+		font-size: 0.9rem;
+		margin-bottom: 0.2rem;
+		position: relative;
+		font-weight: normal;
+	}
+
+	.search {
+		height: 44px;
+		width: 100%;
+		line-height: 42px;
+		text-align: center;
+		font-size: 13px;
+		position: fixed;
+	}
+
+	.so_l {
+		display: inline-block;
+		float: left;
+		padding: 0 0px 0 15px;
+	}
+
+	.so_r {
+		display: inline-block;
+		float: right;
+		padding: 0 15px 0 0;
+	}
+
+	.so_key {
+		margin: 0;
+		list-style-type: none;
+		height: 30px;
+		text-align: center;
+		border: 0;
+		border-radius: 100px;
+		font-size: 13px;
+		padding: 0 1.55rem;
+		background: #fff;
+		line-height: 30px;
+		position: relative;
+		margin-top: 6px;
+		color: #999;
+		width: 16rem;
+		overflow: hidden;
+	}
+	.so_l {
+		display: inline-block;
+		float: left;
+		padding: 10px 0px 0 15px;
+	}
+
+	.so_r {
+		display: inline-block;
+		float: right;
+		padding: 12px 15px 0 0;
+	}
+	.aui-navBar-fixed {
+		position: fixed;
+		width: 100%;
+	}
+
+	.aui-navBar {
+		height: 44px;
+		display: flex;
+		z-index: 102;
+		background-color: #fff;
+	}
+</style>
+<section class="">
+	<header class="aui-navBar aui-navBar-fixed">
+			<div class="search">
+			<div class="so_l" onclick="javascript:history.back(-1);"><img src="http://192.168.0.109:80/resources/supper/images/nbso-back.png?v=3" style="width:18px;vertical-align: middle;margin-bottom:3px;"></div>
+			<div style="width:auto;display:inline-block;" onclick="queryGoods();"><div class="so_key">请输入商品标题或关键字</div></div>
+			<div class="so_r" onclick="reload();"><img src="http://192.168.0.109:80/resources/supper/images/nbso-rand.png?v=3" style="width:18px;vertical-align: middle;margin-bottom:0px;"></div>
+		</div>
+	</header>
+	<section class="aui-scrollView">
+		<div class="m-slider" data-ydui-slider>
+			<div class="slider-pagination"></div>
+		</div>
+		<div class="aui-tab" data-ydui-tab>
+			<ul class="tab-nav">
+				<li class="tab-nav-item tab-active" onclick="initGoods(0,-1,1)">
+					<a href="javascript:;">
+						<span>高佣</span>
+					</a>
+				</li>
+					<#if tbPddOptList?? && (tbPddOptList?size>0)>
+					<#list tbPddOptList as tbPddOpt>
+						<li class="tab-nav-item" onclick="initGoods(${tbPddOpt.optId!''},1)">
+							<a href="javascript:;">
+								<span>${tbPddOpt.optName!''}</span>
+							</a>
+						</li>
+					</#list>
+				</#if>
+			</ul>
+
+			<div class="aui-palace aui-palace-one ">
+				<#if tbClassifyDOList?? && (tbClassifyDOList?size>0)>
+				<#list tbClassifyDOList as tbClassify>
+					<a href="javascript:window.location.href='${tbClassify.classifyUrl!''}';" class="aui-palace-grid">
+						<div class="aui-palace-grid-icon">
+							<img src="${tbClassify.classifyImg!''}" alt="">
+						</div>
+						<div class="aui-palace-grid-text">
+							<h2>${tbClassify.classifyName!''}</h2>
+						</div>
+					</a>
+				</#list>
+				</#if>
+			</div>
+
+		    <input type="hidden" id="opt_id" name="opt_id">
+
+		    <!--热销榜-->
+			<div class="list2">
+				<ul class="list_ul">
+					<li>
+						<div class="list2_brand_info"><a data-dtk-satc="{desc:'美食_来伊份_2',name:'CmsWapBrandFloorEvent'}" href="http://192.168.0.109:80/good/brandGoodsDetail?brandId=7951745">
+							<div class="info"><h4 class="title text-ellipsis">热销榜</h4>
+							 <span class="out">更多<i class="iconfont icon-youjiantou"></i></span></div>
+						</a></div>
+						<div class="list2_brand_product row-s">
+							<ul>
+								<#if goodList?? && (goodList?size>0)>
+								<#list goodList as good>
+								<li class="col-12-4"><a href="${basePath}/good/good_supper_detail?itemId=${good.goods_id}&type=2">
+									<div class="brand_hot_product">
+										<div class="cent">
+											<div class="img ui-act-label">
+												<div class="imgArea"><img ui-lazyload="" src="${good.goods_thumbnail_url!''}" data-original="" +good.mainpic+""="" isload="true" style="background: rgb(245, 245, 245); display: inline;">
+													<div class="imgTag">hot</div>
+												</div>
+											</div>
+
+											<div class="textArea">
+												<div class="goodTag">
+													${good.goods_name!''}
+												</div>
+
+												<div class="price">
+													<div class="priceTag">¥</div>
+													<div class="currentPrice">${good.fee!''}</div>
+													<div class="prePrice">${good.min_group_price!''}</div>
+												</div>
+												<div class="tag">
+													<div class="merchantTag">${good.coupon_discount!'0'}元</div>
+													<div class="saleTag">销量:${good.sales_tip!''}${good.goodsId!''}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</a></li>
+							    </#list>
+						        </#if>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="goods-list goods-container" id="goodList"></div>
+
+			<!--<div class="tab-panel">
+				<div id="goodsInfo" class="tab-panel-item tab-active"></div>
+			</div>-->
+		</div>
+
+
+	</section>
+</section>
+</body>
+<script type="text/javascript" src="${basePath}/resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/slider.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/tab.js"></script>
+<script src="${basePath}/resources/js/more.js"></script>
+<script type="text/javascript">
+
+    var pageIndex = 1;
+    var optId = 0;//默认传0
+    initGoods(optId,pageIndex);
+
+    function initGoods(optId,pageNo) {
+        $("#opt_id").val(optId);
+        $.ajax({
+            type: "post", //使用post方法访问后台
+            dataType: "json", //返回json格式的数据
+            url: "${basePath}/good/pddGoodList", //要访问的后台地址
+            data: "opt_id="+optId+"&pageNo="+pageNo,// 你的formid
+            success: function(obj){//msg为返回的数据，在这里做数据绑定
+                if(obj!=""){
+                    if (typeof obj === 'string') {
+                        obj = JSON.parse(obj);
+                    }
+                    if (obj.code == "1000"){
+                        var goodsStr = "";
+                        var goodsInfo = obj.data;
+                        for(var i=0;i<goodsInfo.length;i++){
+                            var goodInfo = goodsInfo[i];
+
+                            goodsStr +="<div class=\"goods-square-item\" onclick='window.location.href=\"${basePath}/good/good_supper_detail?itemId="+goodInfo.goods_id+"&type=2\"'>" +
+                                "<view class=\"goods-img\">" +
+                                "<img lazyLoad=\"\" src=\""+goodInfo.pic+"\"></img>" +
+                                "</view>" +
+                                "<div class=\"goods-text\">" +
+                                "<div class=\"goods_detail\">" +
+                                "<div class=\"goods-title\">"+goodInfo.title+"</div>" +
+                                "<div class=\"goods-text_price\">" +
+                                "<div class=\"merchantTag\">"+goodInfo.qfee+"元</div>" +
+                                "<label class=\"good-quan\">券后: <font style='font-size: 15px'>"+goodInfo.itemfee2+"</font></label>" +
+                                "<label class=\"good-price\">"+goodInfo.itemfee+"</label>" +
+                                "</div>" +
+                                "<div class=\"goods-text-extra\">" +
+                                "<label class=\"good-fanli\">返利: <font style='color:#ff464e;'>"+goodInfo.fanli+"</font></label>" +
+                                "<label class=\"sale-amount\">销量 "+goodInfo.itemmsell+"</label>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>";
+						}
+                        if(pageNo==1){
+                            $("#goodList").html(goodsStr);
+						}else{
+                            $("#goodList").append(goodsStr);
+						}
+
+                    } else{
+                        alert(obj.msg);
+                    }
+
+                }else{
+                    alert("添加失败");
+                }
+            }
+        });
+    }
+
+    $(window).scroll(function(){
+        if($(window).width()<420){
+            if(400<$(window).scrollTop()){
+                $(".tab-nav").addClass("fixed");
+            }else{
+                $(".tab-nav").removeClass("fixed");
+            }
+        }else if(420<$(window).width() && $(window).width()<450){
+            if(110<$(window).scrollTop()){
+                $(".tab-nav").addClass("fixed");
+            }else{
+                $(".tab-nav").removeClass("fixed");
+            }
+        }else{
+            if(420<$(window).scrollTop()){
+                $(".tab-nav").addClass("fixed");
+            }else{
+                $(".tab-nav").removeClass("fixed");
+            }
+        }
+    });
+
+    function goodDetail(goodsId){
+        //window.location.href = "${basePath}/good/privilege?goodsId="+goodsId;
+        window.location.href = "${basePath}/good/good_supper_detail?itemId="+goodsId+"&type=1";
+    }
+
+	function queryGoods(){
+        window.location.href = "${basePath}/good/goodSupperSearch";
+	}
+
+    // 自定义事件
+    function ajax_function() {
+        pageIndex++;
+        var opt_id = $("#opt_id").val();
+        initGoods(opt_id,pageIndex);
+    }
+
+    function reload(){
+        location.reload();
+	}
+
+    function queryGoods(){
+        window.location.href = "${basePath}/good/goodSupperSearch";
+    }
+</script>
+</html>

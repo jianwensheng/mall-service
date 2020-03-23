@@ -1,0 +1,23 @@
+registryType: LOCAL
+timeout: 10000
+enableCache: true
+
+#  是否开启请求参数签名
+enableSign: true
+#  签名私钥
+secretKey: '2d92eo0dWKNntiantian'
+
+cluster: failover  # failover, failfast, failsafe, failback
+loadbalance: random        # random, robin, consistent
+# for okHttp client configuration
+okHttpConfig:
+  writeTimeout: 0
+  readTimeout: 20000
+  connectTimeout: 10000
+  connectionPoolSize: 50
+  keepAliveDuration: 5000
+
+services:
+  - typeName: com.cashzine.activity.api.resources.ActivityTriggerResource
+    #  多个以逗号隔开
+    serviceUrls: http://47.105.199.15:8081/api/activityTrigger

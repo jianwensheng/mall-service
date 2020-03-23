@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+  <link rel="stylesheet" href="http://www.fqqfq.com/addons/nice_pdd/res/css/common.css?v=2">
+  <link rel="stylesheet" href="http://www.fqqfq.com/addons/nice_pdd/res/css/zt_list.css?v=2">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="applicable-device" content="mobile">
+  <style>
+    .hd_jhs{
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    #dpinfo{
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .hd_type.hd_jhs {
+      color: #ffcbc3;
+      background: -webkit-linear-gradient(left, #E61414, #FE4E4E);
+      filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr=#E61414, endColorstr=#FE4E4E);
+      -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=1, startColorstr=#E61414, endColorstr=#FE4E4E)";
+    }
+    .hd_type {
+      height: 45px;
+      display: block;
+      overflow: hidden;
+      position: relative;
+      color: #ffe2dd;
+      background: -webkit-gradient(linear,0 0,right 0,from(#FF008C),to(#FF6A00));
+      background: -moz-linear-gradient(left,#FF008C,#FF6A00);
+      filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr=#FF008C, endColorstr=#FF6A00);
+      -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=1, startColorstr=#FF008C, endColorstr=#FF6A00)";
+      background: -o-linear-gradient(left,#FF008C,#FF6A00);
+    }
+    .hd_type .join_txt {
+      float: left;
+      width: 30px;
+      font-size: 12px;
+      line-height: 13px;
+      margin-top: 11px;
+      margin-left: 12px;
+    }
+    .join_type {
+      position: relative;
+      float: left;
+      font-size: 14px;
+      padding: 13px 0 0 0px;
+    }
+
+    .outTime {
+      position: absolute;
+      width: 100px;
+      right: 0;
+      top: 0;
+      height: 45px;
+      background: -webkit-gradient(linear,0 0,right 0,from(#FFF58D),to(#FFE545));
+      background: -moz-linear-gradient(left,#FFF58D,#FFE545);
+      filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr=#FFF58D, endColorstr=#FFE545);
+      -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=1, startColorstr=#FFF58D, endColorstr=#FFE545)";
+      background: -o-linear-gradient(left,#FFF58D,#FFE545);
+    }
+    .outTime:before {
+      position: absolute;
+      content: '';
+      width: 0;
+      height: 0;
+      background: 0 0;
+      left: -15px;
+      border-right: 15px solid #FFF58D;
+      border-top: 22px solid transparent;
+      border-bottom: 23px solid transparent;
+    }
+
+    .outTime span {
+      width: 100%;
+      display: block;
+      color: #FE4A65;
+      font-size: 12px;
+      line-height: 14px;
+      text-align: center;
+      margin: 3px 0 2px;
+    }
+    .outTime p {
+      height: 20px;
+      color: #552C0E;
+      margin: 0;
+      line-height: 18px;
+      text-align: center;
+    }
+    .outTime p b {
+      background: #552C0E;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #fff;
+      font-family: Arial;
+      height: 18px;
+      width: 18px;
+      font-weight: 400;
+      display: inline-block;
+    }
+    .swiper-container .num {
+      position: absolute;
+      bottom: 66px;
+      right: 10px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      text-align: center;
+      z-index: 99;
+    }
+    .swiper-container .num i {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0.4;
+      background-color: #000;
+      border-radius: 50%;
+      left: 0;
+      top: 0;
+    }
+    .swiper-container .num span {
+      color: #fff;
+      position: relative;
+      z-index: 99;
+      font-size: 12px;
+      font-family: 'PingFangSC-Light',Arial;
+      line-height: 32px;
+      bottom: 7px;
+    }
+  </style>
+  <style>
+    .loadingbar2 {
+      width: 100%;
+      height: 100px;
+      display: none;
+      -webkit-box-pack: center;
+      -webkit-box-align: center;
+      position: fixed;
+      top: 50%;
+      left:0;
+      right:0;
+      margin-top: -1rem;
+      z-index: 10000000;
+      padding:5px;
+      text-align:center;
+    }
+
+    .loadingbar3 {
+      width: 100%;
+      height: 100px;
+      display: none;
+      -webkit-box-pack: center;
+      -webkit-box-align: center;
+      position: fixed;
+      top: 50%;
+      left:0;
+      right:0;
+      margin-top: -1rem;
+      z-index: 10000000;
+      padding:5px;
+      text-align:center;
+    }
+
+    .loading3 {
+      width: 120px;
+      height: 80px;
+      opacity: 0.7;
+      font-size: 12px;
+      color: #fff;
+      background: #000;
+      text-align: center;
+      border-radius: 5px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-pack: center;
+      -webkit-box-align: center;
+      margin: 0px auto;
+    }
+
+    .wenan {
+      position: relative;
+      font-size: 14px;
+      padding: 0 0px;
+      color: #646464;
+      padding-top: 10px;
+    }
+
+    .tuijian {
+      border-radius: 5px;
+      border: 1px solid #fe3c48;
+      padding: 1px 5px 0px 5px;
+      color: #fe3c48;
+      font-size: 12px;
+      display: inline-block;
+      width: 50px;
+      margin-right: 5px;
+      text-align: center;
+      height: 20px;
+      line-height: 15px;
+    }
+
+    .goods-details-desc {
+      margin: .13rem .1rem;
+      background-color: #fafafa;
+      padding: .14rem .12rem;
+      border-radius: .03rem;
+    }
+  </style>
+  <style>
+    /*nb新底部*/
+
+    .nb-bmenu {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width:640px;
+      left:0px;
+      right:0px;
+      background: #fff;
+      z-index: 90000;
+      height: 45px;
+      line-height: 35px;
+      text-align: center;
+      font-size: 214px;
+      margin:0 auto;
+    }
+
+    .nb-bmenu img {
+      height: 18px;
+      width: 18px;
+    }
+
+    .nb-bmenu-fix {
+      bottom: 0px !important;
+      width: 100%;
+      background: #fff;
+      height: 74px;
+    }
+
+    .nb-bmenu .btn1 {
+      position: absolute;
+      background: #fff;
+      width: 13.3%;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .nb-bmenu .btn2 {
+      position: absolute;
+      left: 11%;
+      background: #fff;
+      width: 13.3%;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .nb-bmenu .btn3 {
+      position: absolute;
+      left: 22%;
+      background: #fff;
+      width: 13.3%;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .nb-bmenu .btn4 {
+      position: absolute;
+      left: 38%;
+      width: 30%;
+      background: -webkit-linear-gradient(left, #f7cb45, #f19b38);
+      padding: 0px;
+      color: #fff;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      font-size: 14px;
+      margin-top: 5px;
+      border-radius: 25px 0px 0px 25px;
+    }
+
+    .nb-bmenu .btn5 {
+      position: absolute;
+      left: 68%;
+      width: 30%;
+      background: -webkit-linear-gradient(left, #fe212c, #fe4953);
+      padding: 0px;
+      color: #fff;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      font-size: 14px;
+      margin-top: 5px;
+      border-radius: 0px 25px 25px 0px;
+    }
+
+    /*nb新底部*/
+  </style>
+  <script type="text/javascript" src="${basePath}/resources/supper/js/jquery.min.js"></script>
+  <script type="text/javascript" src="${basePath}/resources/supper/js/clipboard.min.js"></script>
+  <script src="//res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+  <script type="text/javascript">
+
+      if(navigator.appName == 'Microsoft Internet Explorer'){
+          if(navigator.userAgent.indexOf("MSIE 5.0")>0 || navigator.userAgent.indexOf("MSIE 6.0")>0 || navigator.userAgent.indexOf("MSIE 7.0")>0) {
+              alert('您使用的 IE 浏览器版本过低, 推荐使用 Chrome 浏览器或 IE8 及以上版本浏览器.');
+          }
+      }
+  </script>
+  <script>
+      (function() {
+          function GetRequest(name) {
+              var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+              var r = window.location.search.substr(1).match(reg);
+              var context = "";
+              if (r != null)
+                  context = r[2];
+              reg = null;
+              r = null;
+              return context == null || context == "" || context == "undefined" ? "" : context;
+          }
+          var updateBaseFontSize = function() {
+              var dWidth = document.documentElement.clientWidth;
+              var baseFontSize = dWidth * 100 / 750;
+              baseFontSize = baseFontSize>85.3333 ? 85.3333 : baseFontSize;
+              $('html').css('font-size',baseFontSize+'px');
+          };
+
+          window.addEventListener('resize', updateBaseFontSize);
+          updateBaseFontSize();
+      })();
+  </script>
+
+  <title></title>
+  <link rel="stylesheet" href="http://www.fqqfq.com/addons/nice_pdd/res/css/view.css">
+</head>
+<body>
+<div id="fixpic" style="display:none">
+</div>
+<div class="loadingbar3" style="display:none">
+  <div class='loading3'><img src='../addons/bsht_tbk/res/images/loading2.gif' style="width: 45px;height: 45px;"><br>合成中，请稍后<br></div>
+</div>
+
+<!-- 浮在轮播图上的其他用户兑换动画 -->
+<div class="fix_top nbfixmid"  id="duihuanListTransId" v-cloak>
+  <transition-group name="bounce" tag="div" class="fix_top_inner" style="display: none">
+    <div v-for="item in duihuanListTrans" v-bind:key="item" class="list-item">
+      <div class="fix_act">
+        <div class="fix_act_left">
+          {{item.taobao_nickname}}
+        </div>购买了这个商品
+        <div class="fix_act_right">
+          {{item.time}}
+        </div>
+      </div>
+    </div>
+  </transition-group>
+</div>
+
+<!-- 轮播banner -->
+
+<div class="swiper-container nbfixmid">
+  <div class="swiper-wrapper">
+
+    <div class="swiper-slide" id="pic_li0"><img class="lazy" data-original="https://t00img.yangkeduo.com/goods/images/2020-03-06/74aee6fbd50aa71cbd9cc223babb07f7.jpeg"/></div>
+
+    <div class="swiper-slide" id="pic_li1" style="display:none;"><img class="preloadbg"/></div>
+    <div class="swiper-slide" id="pic_li2" style="display:none;"><img class="preloadbg"/></div>
+    <div class="swiper-slide" id="pic_li3" style="display:none;"><img class="preloadbg"/></div>
+    <div class="swiper-slide" id="pic_li4" style="display:none;"><img class="preloadbg"/></div>
+    <div class="swiper-slide" id="pic_li5" style="display:none;"><img class="preloadbg"/></div>
+
+
+  </div>
+  <div class="swiper-pagination"></div>
+</div>
+
+<!---->
+<div class="hd_type hd_jhs">
+  <span class="join_txt">券后拼购</span>
+  <p class="join_type"><i style="font-size:16px" class="fee2t" id="zkPrice"></i><span style="padding-left:10px;" class="fee2">单买 </span><span style="" class="fee2" id="alonePrice"></span><span style="padding-left:10px;" class="fee2">原价 </span><span style="text-decoration:line-through;" class="fee1" id="actualPrice"></span></p>
+  <div class="outTime">
+    <span style="" class="fee1t">距结束仅剩</span>
+  <p style="" class="fee2t"><b style="width:auto;padding: 0px 3px;" id="hour"></b>:<b id="min"></b>:<b id="miao"></b>.<b style="width:auto;padding: 0px 3px;">1</b></p>
+</div>
+</div>
+<!---->
+<!-- bt st   -->
+<!-- bt end -->
+<div style="position:absolute;right:15px;top:15px;z-index:10001;">
+  <a href="./index.php?i=11&c=entry&shopid=0&v=1583639708&do=index&m=nice_pdd">
+
+    <img src="${basePath}/resources/images/rehome.png" style="width:35px;height:35px">
+  </a>
+</div>
+
+
+<div style="position:absolute;right:15px;top:105px;z-index:10001;">
+  <a href="http://www.fqqfq.com/app/index.php?c=entry&i=11&m=bsht_tbk&do=nbso&itemid=90907237643&keyword=富贵鸟纯棉春秋季女士运动休闲套装2019新款韩版长袖大码两件套潮&shopid=0&nbnice=2&pdd=1">
+    <img class="btndh" src="${basePath}/resources/images/reso.png" style="width:35px;height:35px">
+  </a>
+</div>
+
+<div style="position:absolute;right:15px;top:60px;z-index:10001;">
+  <a href="javascript:" class="nb-camera">
+    <img data-cfsrc="${basePath}/resources/images/repic.png" src="${basePath}/resources/images//repic.png" style="width:35px;height:35px">
+  </a>
+</div>
+
+<div style="position:fixed;left:15px;top:20px;z-index:10001;" onclick="javascript:history.back(-1);">
+  <div style="background:rgba(0,0,0,0.5);padding:5px 10px;color:#fff;border-radius:55px;font-size: 14px;line-height:19px;height:25px;">返回</div>
+</div>
+
+
+<div style="position:absolute;left:15px;top:6.66rem;z-index:10001;">
+  <div style="background:rgba(0,0,0,0.5);padding:5px 10px;color:#fff;border-radius:55px;font-size: 14px;line-height:19px;height:25px;"> 约奖：2.64元宝 </div>
+</div>
+<!-- 商品描述 -->
+<div style="background-color: #fff" class=" nbfixmid">
+  <div class="productintroduce">
+    <div class="productintroduce_title">
+      <p class="tmailouter" style="width:auto">
+        <img src="http://www.fqqfq.com/addons/nice_pdd/res/hbpic/pdd.jpg" style="width:0.33rem;height:0.33rem">
+      </p>
+      <span class="productintroducetitle">富贵鸟纯棉春秋季女士运动休闲套装2019新款韩版长袖大码两件套潮</span>
+    </div>
+    <div class="yuanjia" style="display:none">
+      原价&yen;178</div>
+    <div class="numbers">
+      <p class="left_numbers" style="display:none">
+        <img src="http://www.fqqfq.com/addons/nice_pdd/res/image/big_quan_hou-884cee73f1.png" alt="">
+
+        <span class="font30">&nbsp;&yen;</span>78.6</p>
+      <p class="right_numbers">已拼 7 件</p>
+    </div>
+
+    <a id="getCouponBtn" class="middle_quan ga" onclick="gopdd();">
+      <div class="middle_quan_left">
+        <p class="middle_quan_money" style="margin-top: .45rem;">32元优惠券</p>
+        <p class="middle_quan_usetime"></p>
+      </div>
+      <div class="middle_quan_right">
+        <div class="middle_quan_get">马上领券</div>
+      </div>
+      <div style="clear: both;"></div>
+    </a>
+
+
+    <div style="width:100%;padding:5px 5px 5px 2px;text-align: left;display:none" id="wenan">
+      <div class="tuijian">推荐语</div>
+      <span class="wenan" id="dsc"></span>
+    </div>
+
+  </div>
+</div>
+
+<!-- 店铺信息 -->
+<div id="dpinfo" class="promotion-mall-info-card-wrapper">
+
+</div>
+<!-- 店铺信息 -->
+
+<!-- 宝贝详情 -->
+<div class="productdetail nbfixmid">
+  <p class="productdetail-title">宝贝详情</p>
+  <div class="more_briefInfo">
+    <div id="briefInfo" style="height: auto;">
+
+    </div>
+    <div class="productdetail_nmore" id="expandMore">
+      <p class="more_btntext" id="btn">查看更多</p>
+    </div>
+  </div>
+</div>
+
+<!-- 相关推荐 -->
+<div class="recommend nbfixmid" id="quan" v-cloak v-if="quan.length>0">
+  <p class="productdetail-title">相关推荐</p>
+  <!-- 所有优惠券商品展示 -->
+  <div class="coupon_list">
+    <double-coupon v-for="item in quan" :item="item" ga-title="商品详情信息"></double-coupon>
+  </div>
+</div>
+<div class="marginB nbfixmid"></div>
+
+<!-- 底部购买 -->
+<div class="fixbuy nbfixmid" onclick="gopdd();" style="display:none">
+  <a style="display: none;" href="javascript:" class="fixbuy_shop_icon"></a>
+  <a id="buyBtn">
+    <div class="fixbuy_left ga" data-ga-event="商品详情页:点击:不领券购买">
+      <p>&yen;&nbsp;<span class="font38">146</span></p>
+
+      <p>单独购买</p>
+
+    </div>
+    <div class="fixbuy_right ga" data-ga-event="商品详情页:点击:领券购买">
+      <p>&yen;&nbsp;<span class="font38">78.6</span></p>
+
+      <p>领券拼购</p>
+
+    </div>
+  </a>
+</div>
+
+<div class="nb-bmenu" id="nb-menu">
+  <div class="btn1" style="width:auto;">
+    <a href="./index.php?i=11&c=entry&shopid=0&v=1583639708&do=index&m=nice_pdd" style="float:left;padding-left:0.2rem">
+      <img src="http://www.fqqfq.com/addons/nice_pdd/res//imgs/nbindex.png" style=""><span style="font-size:0.25rem;position: absolute;bottom: 0.06rem;width: 0.6rem;">首页</span>
+    </a>
+  </div>
+  <div class="btn2" style="width:auto;left:20%">
+    <a href="http://www.fqqfq.com/app/index.php?c=entry&i=11&m=bsht_tbk&do=nbso&itemid=90907237643&keyword=富贵鸟纯棉春秋季女士运动休闲套装2019新款韩版长袖大码两件套潮&shopid=0&nbnice=2&pdd=1">
+      <img src="http://www.fqqfq.com/addons/nice_pdd/res//imgs/nbso.png"><span style="font-size:0.25rem;position: absolute;bottom: 0.06rem;width: 0.6rem;">同款</span>
+    </a>
+  </div>
+
+  <div class="btn4 nb-camera" ><p style="position: absolute;display: block;text-align: center;margin: 0 auto;width: 100%;">告诉好友</p></div>
+
+
+
+  <!--div class="btn5" onclick="gopdd();">拼购￥78.6</div-->
+  <div class="btn5" onclick="gopdd();">领券拼购</div>
+</div>
+
+<!-- 引导用户在浏览器打开购买 -->
+<div class="product_mask" style="display: none;">
+  <div class="product_content">
+    <img src="http://www.fqqfq.com/addons/nice_pdd/res/image/directmask-59dece6754.png" alt="">
+  </div>
+  <div class="close"></div>
+</div>
+
+<!--购买弹窗-->
+<div id="buyAlert">
+  <buy-alert ref="buyAlert"></buy-alert>
+</div>
+<input type="hidden" id="itemId" value="90907237643">
+<input type="hidden" id="shopId" value="0">
+<input type="hidden" id="jumpurl" value="">
+<input type="hidden" id="dock" value="2">
+<div id="readmoban" style="position: fixed;top: -100000px;"></div>
+<script type="text/javascript" src="${basePath}/resources/js/fastclick.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/vue.min.js"></script>
+<script type="text/javascript" src="http://www.fqqfq.com/addons/nice_pdd/res/js/lib/axios.min.js"></script>
+<script type="text/javascript" src="http://www.fqqfq.com/addons/nice_pdd/res/js/lib/es6-promise.auto.min.js"></script>
+<script type="text/javascript" src="http://www.fqqfq.com/addons/nice_pdd/res/js/lib/swiper.jquery.min.js"></script>
+<script type="text/javascript" src="${basePath}/resources/supper/js/nbso_base.js?v=1583482444"></script>
+<link rel="stylesheet" href="${basePath}/resources/supper/css/qtz.css?v=1583482444">
+<a class="nbso_btn go_top" href="javascript:" style="position: fixed;right: 11px;background: url(http://www.fqqfq.com/addons/bsht_tbk/res//images/qtz_list_0.png) no-repeat center center;background-size: 100% auto;width: 35px;height: 35px;border-radius: 50%;bottom: 80pt;display:none;z-index:9995;" onclick="to_top();"></a>
+<script type="text/javascript">
+    function godp(obj){
+        var id = obj.id;
+        var showurl = "./index.php?i=11&c=entry&do=list_dp_show&m=nice_pdd";
+        var href = showurl + "&id=" + id;
+        window.location.href=href;
+    }
+
+
+    function gopdd(type){
+        var ckurl = $('#jumpurl').val();
+        if(ckurl){
+            if(!type){
+                window.location.href=ckurl;
+                return false;
+            }
+        }else{
+            $.ajax({
+                type: "post",
+                url: "${basePath}/small/goodDetailInfo",
+                dataType: "json",
+                data:{
+                    goodsId:"${goodsId}"
+                },
+                success: function (data) {
+                    var totle = 0;
+                    if(data.code == '1000'){
+                        totle = data.totle;
+                    }
+                    if(totle>0){
+                        data = data.data;
+                        $('#jumpurl').val(data.webUrl);
+                        if(data.etime){
+                            var timestamp = Date.parse(new Date());
+                            timestamp = timestamp / 1000;
+                            var timestamp2 = data.etime;
+                            var second = timestamp2 - timestamp;
+                            var day = 0;
+                            var hour = 0;
+                            var minute = 0;
+                            var miao = 0;
+                            minute = Math.floor(second / (60));
+                            if (parseInt(minute) > 60) {
+                                hour = parseInt(minute / 60);
+                                minute %= 60;
+                            }
+                            if (parseInt(hour) > 24) {
+                                day = parseInt(hour / 24);
+                                hour %= 24;
+                            }
+                            if(day>1 && day<30){
+                                hour = day+"天";
+                            }
+                            $('#hour').html(hour);
+                            $('#min').html(minute);
+                            $('#miao').html(miao);
+                            var t = null,
+                                a = function(e) {
+                                    var t = parseInt($(".outTime b").eq(e).html());
+                                    if (t > 0) {
+                                        if (3 != e) var t = t - 1 < 10 ? "0" + (t - 1) : t - 1;
+                                        else t -= 1;
+                                        $(".outTime b").eq(e).html(t)
+                                    } else {
+                                        if (! (e > 0)) return ! 1;
+                                        if (0 == a(e - 1)) return 3 == e ? $(".outTime b").eq(e).html(0) : $(".outTime b").eq(e).html("00"),
+                                            !1;
+                                        3 == e ? $(".outTime b").eq(e).html(9) : $(".outTime b").eq(e).html(59)
+                                    }
+                                };
+                            $(".hd_type").length > 0 && (t = setInterval(function() {
+                                    0 == a(3) && ($(".hd_type").remove(), clearInterval(t))
+                                },
+                                100));
+                        }
+
+                        if(data.info == '9527'){
+                            $('.join_txt').html('折后拼购');
+                            $('.fee2t').hide();
+                            $('.fee2').hide();
+                            $('.fee1').attr('style','text-decoration:none');
+                            $('.fee1t').html('优质折扣商品');
+                            $('.fee1t').attr('style','padding-top:13px;');
+                            $('.middle_quan_money').html('优惠券已过期');
+                            $('.middle_quan_get').html('立即拼购');
+                            $('.btn5').html('立即拼购');
+                        }else{
+                            if(typeof data.imgs != 'undefined'){
+                                if(data.imgs){
+                                    var piclen = data.imgs.length;
+                                    if(piclen>0){
+                                        $('#pic_li0').hide();
+                                        if(piclen>=5){
+                                            piclen = 5;
+                                        }
+                                        var smpics = data.imgs;
+
+                                        if(piclen==1){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li1').show();}
+                                        if(piclen==2){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li2 .preloadbg').attr('src',smpics[1]);$('#pic_li1').show();$('#pic_li2').show();}
+                                        if(piclen==3){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li2 .preloadbg').attr('src',smpics[1]);$('#pic_li3 .preloadbg').attr('src',smpics[2]);$('#pic_li1').show();$('#pic_li2').show();$('#pic_li3').show();}
+                                        if(piclen==4){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li2 .preloadbg').attr('src',smpics[1]);$('#pic_li3 .preloadbg').attr('src',smpics[2]);$('#pic_li4 .preloadbg').attr('src',smpics[3]);$('#pic_li1').show();$('#pic_li2').show();$('#pic_li3').show();$('#pic_li4').show();}
+                                        if(piclen==5){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li2 .preloadbg').attr('src',smpics[1]);$('#pic_li3 .preloadbg').attr('src',smpics[2]);$('#pic_li4 .preloadbg').attr('src',smpics[3]);$('#pic_li5 .preloadbg').attr('src',smpics[4]);$('#pic_li1').show();$('#pic_li2').show();$('#pic_li3').show();$('#pic_li4').show();$('#pic_li5').show();}
+
+
+                                        if(piclen>=1){
+
+                                            var fixpic = "";
+                                            for (var i = 0; i < piclen; i++) {
+                                                fixpic += '<div class="briefInfo_img"><img class="lazy" data-original="' + smpics[i] + '"/></div>';
+                                            }
+                                            $("#fixpic").html(fixpic);
+                                            //$("#briefInfo").html(fixpic);
+                                            $("#expandMore").click();
+                                            //Util.lazyload('lazy');
+                                        }
+//fix
+//pics
+                                        var mySwiper = new Swiper(".swiper-container", {
+                                            direction: "horizontal",
+                                            pagination: {
+                                                el: ".swiper-pagination"
+                                            }
+                                        });
+//pics
+
+                                    }
+                                }
+                            }
+                        }
+
+                        //dpinfo
+                        var merchant_type = data.merchantType;
+                        var tpname = "普通";
+                        if(typeof merchant_type != 'undefined'){
+                            var tp = merchant_type;
+                            if(tp==1){
+                                var tpname = "个人店";
+                            }
+                            if(tp==2){
+                                var tpname = "企业店";
+                            }
+                            if(tp==3){
+                                var tpname = "旗舰店";
+                            }
+                            if(tp==4){
+                                var tpname = "专卖店";
+                            }
+                            if(tp==5){
+                                var tpname = "专营店";
+                            }
+                            if(tp==6){
+                                var tpname = "普通店";
+                            }
+                            var lmname = '其他';
+                            var lmtxt = data.opt_name;
+                            if(lmtxt && lmtxt!=null && lmtxt!='null'){
+                                lmname = lmtxt;
+                            }
+                            var dptmp = '';
+                            dptmp = '<a onclick="godp(this);" id="'+data.mall_id+'"><div class="top-wrapper"><div class="store-info-wrapper"><p class="line-1"><span class="store-name">'+data.mall_name+'</span></p><p class="line-2 line-1">店铺类目：'+lmname+' <span class="store-type" style="float:right;">'+tpname+'</span></p><div class="line-3"><div class="score-wrapper"><div class="score-card"><p>描述相符</p><p id="avg_desc">'+data.desc_txt+'</p></div><div class="score-card"><p>服务态度</p><p id="avg_serv">'+data.serv_txt+'</p></div><div class="score-card"><p>物流服务</p><p id="avg_lgst">'+data.lgst_txt+'</p></div></div><div class="coupon-wrapper"><div class="coupon"><img src="http://www.fqqfq.com/addons/nice_pdd/res/images/qinfo_bak.png" alt=""><p class="title">全部</p><p class="name">商品</p></div></div></div></div></div></a>';
+                            $("#dpinfo").html(dptmp);
+
+                            if (data.detailPics.length > 0) {
+
+                                var type = 1;
+                                if (data.desc) {
+                                    $('#wenan').show();
+                                    $('#dsc').html(data.desc);
+                                }
+                                var pics = data.detailPics;
+                                var content = '';
+                                var len = pics.length;
+
+                                if (len > 0) {
+                                    for (var i = 0; i < len; i++) {
+                                        content += '<div class="briefInfo_img"><img class="lazy" data-original="' + pics[i] + '" src="' + pics[i] + '" style="opacity: 1;" /></div>';
+                                    }
+                                    $("#briefInfo").append(content);
+                                    //console.log(len);
+                                    $("#expandMore").click();
+                                }else{
+                                    //fix
+                                    var type = 3;
+                                    var content = $("#fixpic").html();;
+                                    if (content != '') {
+                                        $("#briefInfo").html(content);
+                                        $("#expandMore").click();
+                                    }
+
+                                }
+
+                            } else {
+                                //fix
+                                var type = 3;
+                                var content = $("#fixpic").html();;
+                                if (content != '') {
+                                    $("#briefInfo").html(content);
+                                    $("#expandMore").click();
+                                }
+                            }
+
+
+                        }
+
+                        $(document).attr("title",data.title);
+                        $(".productintroducetitle").html(data.title);
+                        $(".right_numbers").html("已拼 "+data.sales_tip+" 件");
+                        $("#zkPrice").html("¥"+data.zkPrice);
+                        $("#alonePrice").html("¥"+data.alonePrice);
+                        $("#actualPrice").html("¥"+data.actualPrice);
+                        $(".middle_quan_money").html(data.couponDiscount+"元优惠券");
+
+                        if(!type){
+                            window.location.href=data.weurl;
+                            return false;
+                        }
+
+                    }
+
+                }
+            });
+        }
+    }
+
+    $(function(){
+        gopdd(1);
+    });
+</script>
+<script type="text/javascript">
+    $(function(){
+
+        var iid = $("#itemId").val();
+        window.localStorage.setItem("top_iid", iid);
+
+
+        var $_share = {"title":"32\u5143\u5238|\u62fc\u8d2d78.6\u5143-\u5bcc\u8d35\u9e1f\u7eaf\u68c9\u6625\u79cb\u5b63\u5973\u58eb\u8fd0\u52a8\u4f11\u95f2\u5957\u88c52019\u65b0\u6b3e\u97e9\u7248\u957f\u8896\u5927\u7801\u4e24\u4ef6\u5957\u6f6e","desc":"\u5355\u4e70146\u5143|\u62fc\u8d2d78.6\u5143|\u5df2\u62fc7 \u4ef6\u4ef6","imgUrl":"https:\/\/t00img.yangkeduo.com\/goods\/images\/2020-03-06\/74aee6fbd50aa71cbd9cc223babb07f7.jpeg","link":"http:\/\/www.fqqfq.com\/app\/index.php?i=11&c=entry&spadmin=0&op=show&shopid=0&do=view&m=nice_pdd&id=90907237643&pic=https%3A%2F%2Ft00img.yangkeduo.com%2Fgoods%2Fimages%2F2020-03-06%2F74aee6fbd50aa71cbd9cc223babb07f7.jpeg&q=32&f1=178&f2t=78.6&sell=7&tit=%E5%AF%8C%E8%B4%B5%E9%B8%9F%E7%BA%AF%E6%A3%89%E6%98%A5%E7%A7%8B%E5%AD%A3%E5%A5%B3%E5%A3%AB%E8%BF%90%E5%8A%A8%E4%BC%91%E9%97%B2%E5%A5%97%E8%A3%852019%E6%96%B0%E6%AC%BE%E9%9F%A9%E7%89%88%E9%95%BF%E8%A2%96%E5%A4%A7%E7%A0%81%E4%B8%A4%E4%BB%B6%E5%A5%97%E6%BD%AE&fl=2.64&spfee=0&yj=15.72&qurl="};
+        if(typeof sharedata == 'undefined'){
+            sharedata = $_share;
+        } else {
+            sharedata['title'] = sharedata['title'] || $_share['title'];
+            sharedata['desc'] = sharedata['desc'] || $_share['desc'];
+            sharedata['link'] = sharedata['link'] || $_share['link'];
+            sharedata['imgUrl'] = sharedata['imgUrl'] || $_share['imgUrl'];
+        }
+        if(sharedata.imgUrl == ''){
+            var _share_img = $('body img:eq(0)').attr("src");
+            if(_share_img == ""){
+                sharedata['imgUrl'] = window.sysinfo.attachurl + 'images/global/wechat_share.png';
+            } else {
+                sharedata['imgUrl'] = util.tomedia(_share_img);
+            }
+        }
+        if(sharedata.desc == ''){
+            var _share_content = util.removeHTMLTag($('body').html());
+            if(typeof _share_content == 'string'){
+                sharedata.desc = _share_content.replace($_share['title'], '')
+            }
+        }
+        wx.ready(function () {
+            wx.onMenuShareAppMessage(sharedata);
+            wx.onMenuShareTimeline(sharedata);
+            wx.onMenuShareQQ(sharedata);
+            wx.onMenuShareWeibo(sharedata);
+            sharedata.success = function(){
+
+            }
+        });
+
+    });
+</script>
+<script>
+    function isIos() {
+        return browser.versions.ios || browser.versions.iPhone || browser.versions.iPad
+    }
+    var browser = {
+        versions: function() {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return {
+                trident: u.indexOf('Trident') > -1,
+                presto: u.indexOf('Presto') > -1,
+                webKit: u.indexOf('AppleWebKit') > -1,
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,
+                mobile: !! u.match(/AppleWebKit.*Mobile.*/),
+                ios: !! u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1 || u.indexOf("Adr"),
+                iPhone: u.indexOf('iPhone') > -1,
+                iPad: u.indexOf('iPad') > -1,
+                webApp: u.indexOf('Safari') == -1
+            }
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    };
+
+    $(".nb-camera").click(function(){
+
+        $('.loadingbar3').fadeIn(300);
+
+        var postsurl = "./index.php?i=11&c=entry&shopid=0&do=abc__hbpic&m=nice_pdd";
+        var odinfo = '';
+        $.ajax({
+            type:"POST",
+            url: postsurl,
+            dataType: 'json',
+            jsonp: 'callback',
+            data:{
+                iid:"90907237643",
+                odinfo:odinfo
+            },
+            success: function (dat) {
+                if (dat.status == 1) {
+                    $('#jumpurl').val(dat.url);
+
+                    if(dat.moban && dat.moban!=''){
+
+                        if (isIos()) {
+                            var content = dat.moban;
+                            //content = content.replace(/\<\/?(br|p){1}\s*\/?\s*\>/gim, "");
+                            //content = content.replace(/&nbsp;/gim,"");
+                        } else {
+                            var content = dat.moban;
+
+                        }
+
+                        $('#readmoban').html(content);
+                    }
+
+
+                    var picdiv = "<div id='allsharepic' class='sharepicw100' style='padding:0px'><div class='sharepicw100'><img id='startpic' src='" + dat.pic + "?v=2018' class='sharepicw100' style='max-width:100%;max-height:80vh'></div></div>";
+                    $(".imgData").attr("src", dat.pic + "?v=2018");
+                    layer.open({
+                        title:false,
+                        type: 1,
+                        closeBtn: 1,
+                        shadeClose: true,
+                        content: picdiv,
+                        shade: [0.8, '#000'],
+                        btn: ['复制文案', '说明'],
+                        yes: function(){
+                            //
+                            var clipboard = new Clipboard('.layui-layer-btn0', {
+                                target: function() {
+                                    return document.querySelector('#readmoban');
+                                }
+                            });
+                            clipboard.on('success', function(e) {
+                                $(".layui-layer-btn0").css("border-color","#68d548");
+                                $(".layui-layer-btn0").css("background-color","#68c151");
+                                $(".layui-layer-btn0").text("复制成功");
+                                setInterval(function(){
+                                    $(".layui-layer-btn0").css("border-color","#4898d5");
+                                    $(".layui-layer-btn0").css("background-color","#2e8ded");
+                                    $(".layui-layer-btn0").text("复制文案");
+                                },1500);
+                                e.clearSelection();
+                            });
+                            clipboard.on('error', function(e) {
+                                $(".layui-layer-btn0").css("border-color","#e20d0d");
+                                $(".layui-layer-btn0").css("background-color","#f31818");
+                                $(".layui-layer-btn0").text("复制失败");
+                                setInterval(function(){
+                                    $(".layui-layer-btn0").css("border-color","#4898d5");
+                                    $(".layui-layer-btn0").css("background-color","#2e8ded");
+                                    $(".layui-layer-btn0").text("复制文案");
+                                },1500);
+                            });
+                            //
+                        },
+                        btn2: function(){
+                            layer.msg('点击“复制文案”，长按图片“发送给好友”');
+                            return false;
+                        },
+                        success: function(index){
+
+                            var nbpic = $("#startpic").attr('src');
+                            var nbimg = '<img src="'+nbpic+'"><br>';
+                            var readmoban = $("#readmoban").html();
+                            var readmobanplus = nbimg + readmoban;
+                            $("#readmoban").html(readmobanplus);
+
+                        }
+                    });
+                    $('.layer-anim').css('position', 'fixed');
+                    $('.layer-anim').css('top', '10%');
+                    $('.layer-anim').css('left', '0');
+                    $('.layer-anim').css('right', '0');
+                    $('.layer-anim').css('width', '100%');
+                    $('.layer-anim').css('max-width', '100%');
+                    $('.layer-anim').css('margin', 'auto');
+                    $('.layer-anim').css('border-radius', '0px');
+
+                    var nblayermw = $('.swiper-slide').width();
+                    $('.layui-layer-shade').css('width', nblayermw);
+                    $('.layui-layer-shade').css('margin', '0 auto');
+                    $('.layui-layer-shade').css('left', '0px');
+                    $('.layui-layer-shade').css('right', '0px');
+                    $('.layui-layer').css('width', nblayermw * 0.8);
+                    $('.layui-layer').css('top', '10%');
+                }
+            },
+            complete: function (dat) {
+                $('.loadingbar3').fadeOut(300);
+            }
+
+
+        });
+
+    });
+</script>
+<script>
+    var ckua = navigator.userAgent.toLowerCase();if (ckua.match(/iphone/i) == "iphone"){if(/iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375)){console.log('X');$("#nb-menu").attr('style','padding-bottom:30px;background:#ffffff');}}
+    //$("#nb-menu").attr('style','background:#ffffff');
+</script>
+<script>
+    window.addEventListener("scroll", function (event) {
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+            $('.go_top').show();
+        }else{
+            $('.go_top').hide();
+        }
+    });
+
+    if(('standalone' in window.navigator)&&window.navigator.standalone){
+        var noddy,remotes=false;
+        document.addEventListener('click',function(event){
+            noddy=event.target;
+            while(noddy.nodeName!=='A'&&noddy.nodeName!=='HTML') noddy=noddy.parentNode;
+            if('href' in noddy&&noddy.href.indexOf('http')!==-1&&(noddy.href.indexOf(document.location.host)!==-1||remotes)){
+                event.preventDefault();
+                document.location.href=noddy.href;
+            }
+        },false);
+    }
+</script>
+</body>
+</html>

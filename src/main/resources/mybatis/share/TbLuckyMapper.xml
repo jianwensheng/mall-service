@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oruit.share.dao.TbLuckyMapper" >
+  <resultMap id="BaseResultMap" type="com.oruit.share.domain.TbLucky" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="good_id" property="goodId" jdbcType="BIGINT" />
+    <result column="gtitle" property="gtitle" jdbcType="VARCHAR" />
+    <result column="gdesc" property="gdesc" jdbcType="VARCHAR" />
+    <result column="main_pic" property="mainPic" jdbcType="VARCHAR" />
+    <result column="good_imgs" property="goodImgs" jdbcType="VARCHAR" />
+    <result column="detail_pic" property="detailPic" jdbcType="VARCHAR" />
+    <result column="original_price" property="originalPrice" jdbcType="DECIMAL" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="clique_number" property="cliqueNumber" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="cprice" property="cprice" jdbcType="DECIMAL" />
+    <result column="max_people" property="maxPeople" jdbcType="INTEGER" />
+    <result column="open_start_time" property="openStartTime" jdbcType="TIMESTAMP" />
+    <result column="open_end_time" property="openEndTime" jdbcType="TIMESTAMP" />
+    <result column="enabled" property="enabled" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, good_id, gtitle, gdesc, main_pic, good_imgs, detail_pic, original_price, stock, 
+    clique_number, status, cprice, max_people, open_start_time, open_end_time, enabled
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_lucky
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_lucky
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.oruit.share.domain.TbLucky" >
+    insert into tb_lucky (id, good_id, gtitle, 
+      gdesc, main_pic, good_imgs, 
+      detail_pic, original_price, stock, 
+      clique_number, status, cprice, 
+      max_people, open_start_time, open_end_time, 
+      enabled)
+    values (#{id,jdbcType=INTEGER}, #{goodId,jdbcType=BIGINT}, #{gtitle,jdbcType=VARCHAR}, 
+      #{gdesc,jdbcType=VARCHAR}, #{mainPic,jdbcType=VARCHAR}, #{goodImgs,jdbcType=VARCHAR}, 
+      #{detailPic,jdbcType=VARCHAR}, #{originalPrice,jdbcType=DECIMAL}, #{stock,jdbcType=INTEGER}, 
+      #{cliqueNumber,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{cprice,jdbcType=DECIMAL}, 
+      #{maxPeople,jdbcType=INTEGER}, #{openStartTime,jdbcType=TIMESTAMP}, #{openEndTime,jdbcType=TIMESTAMP}, 
+      #{enabled,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.oruit.share.domain.TbLucky" >
+    insert into tb_lucky
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodId != null" >
+        good_id,
+      </if>
+      <if test="gtitle != null" >
+        gtitle,
+      </if>
+      <if test="gdesc != null" >
+        gdesc,
+      </if>
+      <if test="mainPic != null" >
+        main_pic,
+      </if>
+      <if test="goodImgs != null" >
+        good_imgs,
+      </if>
+      <if test="detailPic != null" >
+        detail_pic,
+      </if>
+      <if test="originalPrice != null" >
+        original_price,
+      </if>
+      <if test="stock != null" >
+        stock,
+      </if>
+      <if test="cliqueNumber != null" >
+        clique_number,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="cprice != null" >
+        cprice,
+      </if>
+      <if test="maxPeople != null" >
+        max_people,
+      </if>
+      <if test="openStartTime != null" >
+        open_start_time,
+      </if>
+      <if test="openEndTime != null" >
+        open_end_time,
+      </if>
+      <if test="enabled != null" >
+        enabled,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null" >
+        #{goodId,jdbcType=BIGINT},
+      </if>
+      <if test="gtitle != null" >
+        #{gtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="gdesc != null" >
+        #{gdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="mainPic != null" >
+        #{mainPic,jdbcType=VARCHAR},
+      </if>
+      <if test="goodImgs != null" >
+        #{goodImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="detailPic != null" >
+        #{detailPic,jdbcType=VARCHAR},
+      </if>
+      <if test="originalPrice != null" >
+        #{originalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="cliqueNumber != null" >
+        #{cliqueNumber,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="cprice != null" >
+        #{cprice,jdbcType=DECIMAL},
+      </if>
+      <if test="maxPeople != null" >
+        #{maxPeople,jdbcType=INTEGER},
+      </if>
+      <if test="openStartTime != null" >
+        #{openStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openEndTime != null" >
+        #{openEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enabled != null" >
+        #{enabled,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oruit.share.domain.TbLucky" >
+    update tb_lucky
+    <set >
+      <if test="goodId != null" >
+        good_id = #{goodId,jdbcType=BIGINT},
+      </if>
+      <if test="gtitle != null" >
+        gtitle = #{gtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="gdesc != null" >
+        gdesc = #{gdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="mainPic != null" >
+        main_pic = #{mainPic,jdbcType=VARCHAR},
+      </if>
+      <if test="goodImgs != null" >
+        good_imgs = #{goodImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="detailPic != null" >
+        detail_pic = #{detailPic,jdbcType=VARCHAR},
+      </if>
+      <if test="originalPrice != null" >
+        original_price = #{originalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="cliqueNumber != null" >
+        clique_number = #{cliqueNumber,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="cprice != null" >
+        cprice = #{cprice,jdbcType=DECIMAL},
+      </if>
+      <if test="maxPeople != null" >
+        max_people = #{maxPeople,jdbcType=INTEGER},
+      </if>
+      <if test="openStartTime != null" >
+        open_start_time = #{openStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openEndTime != null" >
+        open_end_time = #{openEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enabled != null" >
+        enabled = #{enabled,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oruit.share.domain.TbLucky" >
+    update tb_lucky
+    set good_id = #{goodId,jdbcType=BIGINT},
+      gtitle = #{gtitle,jdbcType=VARCHAR},
+      gdesc = #{gdesc,jdbcType=VARCHAR},
+      main_pic = #{mainPic,jdbcType=VARCHAR},
+      good_imgs = #{goodImgs,jdbcType=VARCHAR},
+      detail_pic = #{detailPic,jdbcType=VARCHAR},
+      original_price = #{originalPrice,jdbcType=DECIMAL},
+      stock = #{stock,jdbcType=INTEGER},
+      clique_number = #{cliqueNumber,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      cprice = #{cprice,jdbcType=DECIMAL},
+      max_people = #{maxPeople,jdbcType=INTEGER},
+      open_start_time = #{openStartTime,jdbcType=TIMESTAMP},
+      open_end_time = #{openEndTime,jdbcType=TIMESTAMP},
+      enabled = #{enabled,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="queryTbLuckyList" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_lucky
+    where enabled = 1
+  </select>
+
+</mapper>

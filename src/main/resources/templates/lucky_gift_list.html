@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>优惠劵</title>
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<link href="${basePath}/resources/css/lucky_index.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<section class="aui-flexView" style="height:auto" id="navHead">
+	<header class="aui-navBar aui-navBar-fixed" id="nav-wrap">
+		<a href="javascript:history.back(-1);" class="aui-navBar-item">
+			<i class="icon icon-return"></i>
+		</a>
+		<div class="aui-center">
+			<span class="aui-center-title">拼团抽奖</span>
+		</div>
+		<a href="javascript:;" class="aui-navBar-item" data-ydui-actionsheet="{target:'#actionSheet',closeElement:'#cancel'}">
+			<i class="icon icon-share"></i>
+		</a>
+	</header>
+	<section class="aui-scrollView">
+		<div class="aui-ass-head">
+			<img src="${basePath}/resources/images/head.png" alt="">
+		</div>
+		<div class="m-slider" data-ydui-slider>
+			<div class="slider-wrapper">
+				<div class="slider-item">
+					<a href="javascript:;">
+						<img src="https://coupon-mall.oss-cn-hangzhou.aliyuncs.com/banner/yifenqian.jpg" alt="">
+					</a>
+				</div>
+			</div>
+			<div class="slider-pagination"></div>
+		</div>
+		<div class="aui-title-one">
+			<img src="https://coupon-mall.oss-cn-hangzhou.aliyuncs.com/banner/title.png" alt="">
+		</div>
+		<div class="aui-ass-link">
+				<#if tbLuckyList?? && (tbLuckyList?size>0)>
+					<#list tbLuckyList as tbLucky>
+						<a href="javascript:;" class="aui-flex">
+							<div class="aui-ass-img">
+								<img src="${tbLucky.mainPic!''}" alt="">
+							</div>
+							<div class="aui-flex-box">
+								<h2>${tbLucky.gtitle!''}</h2>
+								<p>${tbLucky.gdesc!''}</p>
+								<span><em>${tbLucky.maxPeople!''}人团</em></span>
+								<div class="aui-flex aui-flex-one">
+									<div class="aui-flex-box">
+										<h2><em><i>￥</i>${tbLucky.cprice!''}</em><font style="text-decoration:line-through;">原价:￥${tbLucky.originalPrice}</font></h2>
+									</div>
+									<div class="aui-button-get">
+										<#if tbLucky.status==1>
+											<button onclick="window.location.href='${basePath}/good/collage?id=${tbLucky.id!''}'">去开团</button>
+										</#if>
+										<#if tbLucky.status==2>
+											<button>即将开团</button>
+										</#if>
+										<#if tbLucky.status==4>
+											<button>即将开奖</button>
+										</#if>
+							</div>
+							</div>
+							</div>
+						</a>
+				</#list>
+			</#if>
+		</div>
+	</section>
+</section>
+</body>
+<div class="m-actionsheet" id="actionSheet">
+	<div class="aui-show-box">
+		<div class="aui-show-box-title aui-footer-flex">
+			<div class="b-line aui-coll-share-box">
+				<a href="javascript:;" class="aui-coll-share-item">
+					<div class="aui-coll-share-img">
+						<img src="${basePath}/resources/images/icon-wx.png" alt="">
+					</div>
+					<div class="aui-coll-share-text">微信好友</div>
+				</a>
+				<a href="javascript:;" class="aui-coll-share-item">
+					<div class="aui-coll-share-img">
+						<img src="${basePath}/resources/images/icon-pyq.png" alt="">
+					</div>
+					<div class="aui-coll-share-text">朋友圈</div>
+				</a>
+				<a href="javascript:;" class="aui-coll-share-item">
+					<div class="aui-coll-share-img">
+						<img src="${basePath}/resources/images/icon-qq.png" alt="">
+					</div>
+					<div class="aui-coll-share-text">QQ</div>
+				</a>
+				<a href="javascript:;" class="aui-coll-share-item">
+					<div class="aui-coll-share-img">
+						<img src="${basePath}/resources/images/icon-kj.png" alt="">
+					</div>
+					<div class="aui-coll-share-text">QQ空间</div>
+				</a>
+				<a href="javascript:;" class="aui-coll-share-item">
+					<div class="aui-coll-share-img">
+						<img src="${basePath}/resources/images/icon-txw.png" alt="">
+					</div>
+					<div class="aui-coll-share-text">腾讯微博</div>
+				</a>
+				<a href="javascript:;" class="aui-coll-share-item">
+					<div class="aui-coll-share-img">
+						<img src="${basePath}/resources/images/icon-wb.png" alt="">
+					</div>
+					<div class="aui-coll-share-text">新浪微博</div>
+				</a>
+			</div>
+			<div class="aui-coll-cancel">
+				<a href="javascript:;" id="cancel" class="">取消
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="${basePath}/resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/slider.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/layer.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var navHeight = $("#navHead").offset().top;
+        var navFix = $("#nav-wrap");
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > navHeight) {
+                navFix.addClass("aui-flex");
+            } else {
+                navFix.removeClass("aui-flex");
+            }
+        })
+    });
+
+    $(document).ready(function() {
+        $(".btn-slide").click(function() {
+            $("#show").slideToggle();
+        });
+    });
+</script>
+</html>

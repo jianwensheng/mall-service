@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>产品详情</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+  <link rel="stylesheet" href="${basePath}/resources/css/weui.min.css">
+  <link rel="stylesheet" href="${basePath}/resources/css/jquery-weui.css">
+  <link rel="stylesheet" href="${basePath}/resources/css/classify-style.css">
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="weui-content">
+  <!--产品详情-->
+  <div class="weui-tab">
+    <div class="weui-navbar" style="position:fixed; top:0; left:0; right:0; height:44px;">
+      <a class="weui-navbar__item proinfo-tab-tit weui-bar__item--on" href="#tab1">商品</a>
+      <a class="weui-navbar__item proinfo-tab-tit" href="#tab2">详情</a>
+    </div>
+    <div class="weui-tab__bd proinfo-tab-con">
+      <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+        <!--主图轮播-->
+        <div class="swiper-container swiper-zhutu">
+          <div class="swiper-wrapper">
+            <#if goodImgs?? && (goodImgs?size>0)>
+            <#list goodImgs as imgs>
+            <div class="swiper-slide"><img src="${imgs!''}" /></div>
+          </#list>
+        </#if>
+      </div>
+      <div class="swiper-pagination swiper-zhutu-pagination"></div>
+    </div>
+    <div class="wy-media-box-nomg weui-media-box_text">
+      <h4 class="wy-media-box__title">${good.title!''}</h4>
+      <div class="wy-pro-pri mg-tb-5">¥<em class="num font-20">${good.originalPrice!''}</em>
+        <div class="promotion-message clear">
+          <i class="yhq"><span class="label-text">${good.couponPrice!''}元券</span></i>
+          <span class="promotion-item-text">券后价:${good.actualPrice!''}</span>
+        </div>
+      </div>
+      <p class="weui-media-box__desc">${good.desc!''}</p>
+    </div>
+
+    <div class="puKouling" id="puKouling">
+      <div class="puInnerBox">
+        <div class="puBody">
+          <h2>
+            <em>长按框内 <u class="p3">&gt;</u> 全选 <u class="p3">&gt;</u> 复制</em>
+          </h2>
+          <form name="puKoulingForm" id="puKoulingForm">
+            <textarea class="inputArea" id="word" style="display:block; height:58px;">一键复制淘口令: ${coupon.tpwd!''} ,打开 [淘宝APP] 即可领取优惠劵!</textarea>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="wy-media-box2 weui-media-box_text">
+
+    </div>
+      </div>
+    <div id="tab2" class="weui-tab__bd-item ">
+      <div class="pro-detail">
+        <img src="${good.marketingMainPic!''}" />
+        <#if detailPics?? && (detailPics?size>0)>
+            <#list detailPics as detailPic>
+                  <img src="${detailPic!''}" />
+            </#list>
+        </#if>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<span id="tophovertree" title="返回顶部"></span>
+<div class="weui-tabbar wy-foot-menu">
+  <a href="javascript:;" class="weui-tabbar__item yellow-color open-popup" data-target="#join_cart">
+    <p class="promotion-foot-menu-label" onclick="javascript:history.back(-1);">返回</p>
+  </a>
+  <a href="javascript:;" class="weui-tabbar__item red-color open-popup" data-target="#selcet_sku">
+    <p class="promotion-foot-menu-label" onclick="copy();">一键复制淘口令</p>
+  </a>
+  <a href="javascript:;" class="weui-tabbar__item orange-color open-popup" data-target="#join_cart">
+    <p class="promotion-foot-menu-label" onclick="javascript:history.back(-1);">分享好物</p>
+  </a>
+</div>
+
+
+<script src="${basePath}/resources/js/jquery-2.1.4.js"></script>
+<script src="${basePath}/resources/js/fastclick.js"></script>
+<script>
+    $(function() {
+        FastClick.attach(document.body);
+    });
+</script>
+<script src="${basePath}/resources/js/jquery-weui.js"></script>
+<script src="${basePath}/resources/js/swiper.js"></script>
+<script>
+    $(".swiper-zhutu").swiper({
+        loop: true,
+        paginationType:'fraction',
+        autoplay:5000
+    });
+</script>
+<script>
+    $(function(){
+        $(".promotion-sku li").click(function(){
+            $(this).addClass("active").siblings("li").removeClass("active");
+        })
+    })
+</script>
+<script>
+    $(document).on("open", ".weui-popup-modal", function() {
+        console.log("open popup");
+    }).on("close", ".weui-popup-modal", function() {
+        console.log("close popup");
+    });
+</script>
+<script>
+    $(function (){initTopHoverTree("tophov"+"ertree",30,10,10); })
+</script>
+<script>
+    function initTopHoverTree(hvtid, times, right, bottom) {
+        $("#" + hvtid).css("right", right).css("bottmo", bottom);
+        $("#" + hvtid).on("click", function () { goTopHovetree(times); })
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 268) {
+                $("#" + hvtid).fadeIn(100);
+            }
+            else {
+                $("#" + hvtid).fadeOut(100);
+            }
+        });
+    }
+    //返回顶部动画
+    //goTop(500);//500ms内滚回顶部
+    function goTopHovetree(times) {
+        if (!!!times) {
+            $(window).scrollTop(0);
+            return;
+        }
+        var sh = $('body').scrollTop();//移动总距离
+        var inter = 13.333;//ms,每次移动间隔时间
+        var forCount = Math.ceil(times / inter);//移动次数
+        var stepL = Math.ceil(sh / forCount);//移动步长
+        var timeId = null;
+        function aniHovertree() {
+            !!timeId && clearTimeout(timeId);
+            timeId = null;
+            //console.log($('body').scrollTop());
+            if ($('body').scrollTop() <= 0 || forCount <= 0) {
+                $('body').scrollTop(0);
+                return;
+            }
+            forCount--;
+            sh -= stepL;
+            $('body').scrollTop(sh);
+            timeId = setTimeout(function () { aniHovertree(); }, inter);
+        }
+        aniHovertree();
+    }
+
+    function copy(){
+        var Url2=document.getElementById("word");
+        Url2.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        alert("已复制好，可贴粘。");
+    }
+</script>
+</body>
+</html>

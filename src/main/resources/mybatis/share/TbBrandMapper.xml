@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oruit.share.dao.TbBrandMapper" >
+  <resultMap id="BaseResultMap" type="com.oruit.share.domain.TbBrand" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="brand_id" property="brandId" jdbcType="BIGINT" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="brand_logo" property="brandLogo" jdbcType="VARCHAR" />
+    <result column="brand_english" property="brandEnglish" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="seller_id" property="sellerId" jdbcType="INTEGER" />
+    <result column="brand_score" property="brandScore" jdbcType="DECIMAL" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="establish_time" property="establishTime" jdbcType="VARCHAR" />
+    <result column="belong" property="belong" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="consumer" property="consumer" jdbcType="VARCHAR" />
+    <result column="label" property="label" jdbcType="VARCHAR" />
+    <result column="simple_label" property="simpleLabel" jdbcType="VARCHAR" />
+    <result column="cids" property="cids" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, brand_id, brand_name, brand_logo, brand_english, name, seller_id, brand_score, 
+    location, establish_time, belong, position, consumer, label, simple_label, cids
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_brand
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_brand
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.oruit.share.domain.TbBrand" >
+    insert into tb_brand (id, brand_id, brand_name, 
+      brand_logo, brand_english, name, 
+      seller_id, brand_score, location, 
+      establish_time, belong, position, 
+      consumer, label, simple_label, 
+      cids)
+    values (#{id,jdbcType=BIGINT}, #{brandId,jdbcType=BIGINT}, #{brandName,jdbcType=VARCHAR}, 
+      #{brandLogo,jdbcType=VARCHAR}, #{brandEnglish,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{sellerId,jdbcType=INTEGER}, #{brandScore,jdbcType=DECIMAL}, #{location,jdbcType=VARCHAR}, 
+      #{establishTime,jdbcType=VARCHAR}, #{belong,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, 
+      #{consumer,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, #{simpleLabel,jdbcType=VARCHAR}, 
+      #{cids,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.oruit.share.domain.TbBrand" >
+    insert into tb_brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+      <if test="brandLogo != null" >
+        brand_logo,
+      </if>
+      <if test="brandEnglish != null" >
+        brand_english,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sellerId != null" >
+        seller_id,
+      </if>
+      <if test="brandScore != null" >
+        brand_score,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+      <if test="establishTime != null" >
+        establish_time,
+      </if>
+      <if test="belong != null" >
+        belong,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="consumer != null" >
+        consumer,
+      </if>
+      <if test="label != null" >
+        label,
+      </if>
+      <if test="simpleLabel != null" >
+        simple_label,
+      </if>
+      <if test="cids != null" >
+        cids,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandLogo != null" >
+        #{brandLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="brandEnglish != null" >
+        #{brandEnglish,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null" >
+        #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="brandScore != null" >
+        #{brandScore,jdbcType=DECIMAL},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="establishTime != null" >
+        #{establishTime,jdbcType=VARCHAR},
+      </if>
+      <if test="belong != null" >
+        #{belong,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="consumer != null" >
+        #{consumer,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null" >
+        #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleLabel != null" >
+        #{simpleLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="cids != null" >
+        #{cids,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oruit.share.domain.TbBrand" >
+    update tb_brand
+    <set >
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandLogo != null" >
+        brand_logo = #{brandLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="brandEnglish != null" >
+        brand_english = #{brandEnglish,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null" >
+        seller_id = #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="brandScore != null" >
+        brand_score = #{brandScore,jdbcType=DECIMAL},
+      </if>
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="establishTime != null" >
+        establish_time = #{establishTime,jdbcType=VARCHAR},
+      </if>
+      <if test="belong != null" >
+        belong = #{belong,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="consumer != null" >
+        consumer = #{consumer,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null" >
+        label = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleLabel != null" >
+        simple_label = #{simpleLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="cids != null" >
+        cids = #{cids,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oruit.share.domain.TbBrand" >
+    update tb_brand
+    set brand_id = #{brandId,jdbcType=BIGINT},
+      brand_name = #{brandName,jdbcType=VARCHAR},
+      brand_logo = #{brandLogo,jdbcType=VARCHAR},
+      brand_english = #{brandEnglish,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      seller_id = #{sellerId,jdbcType=INTEGER},
+      brand_score = #{brandScore,jdbcType=DECIMAL},
+      location = #{location,jdbcType=VARCHAR},
+      establish_time = #{establishTime,jdbcType=VARCHAR},
+      belong = #{belong,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      consumer = #{consumer,jdbcType=VARCHAR},
+      label = #{label,jdbcType=VARCHAR},
+      simple_label = #{simpleLabel,jdbcType=VARCHAR},
+      cids = #{cids,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="queryTbBrandList" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_brand
+    where cids = #{cid}
+    limit ${pageIndex},${pageSize}
+  </select>
+
+  <select id="queryTbBrandTopList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_brand
+    where brand_score = '5.0' order by rand() limit 0,10
+  </select>
+
+  <select id="selectByBrandId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_brand
+    where brand_id = #{brandId,jdbcType=BIGINT}
+  </select>
+
+</mapper>

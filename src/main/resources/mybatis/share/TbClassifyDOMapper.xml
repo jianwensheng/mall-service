@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oruit.share.dao.TbClassifyDOMapper" >
+  <resultMap id="BaseResultMap" type="com.oruit.share.domain.TbClassifyDO" >
+    <id column="classify_id" property="classifyId" jdbcType="INTEGER" />
+    <result column="classify_name" property="classifyName" jdbcType="VARCHAR" />
+    <result column="classify_img" property="classifyImg" jdbcType="VARCHAR" />
+    <result column="classify_url" property="classifyUrl" jdbcType="VARCHAR" />
+    <result column="disable" property="disable" jdbcType="INTEGER" />
+    <result column="level_id" property="levelId" jdbcType="INTEGER" />
+    <result column="class_order" property="classOrder" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    classify_id, classify_name,classify_img, classify_url, disable,class_order,level_id, create_time, update_time
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_classify
+    where classify_id = #{classifyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_classify
+    where classify_id = #{classifyId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.oruit.share.domain.TbClassifyDO" useGeneratedKeys="true" keyProperty="classifyId" >
+    insert into tb_classify (classify_img, classify_url, disable, 
+      create_time, update_time)
+    values (#{classifyImg,jdbcType=VARCHAR}, #{classifyUrl,jdbcType=VARCHAR}, #{disable,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.oruit.share.domain.TbClassifyDO" useGeneratedKeys="true" keyProperty="classifyId" >
+    insert into tb_classify
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="classifyImg != null" >
+        classify_img,
+      </if>
+      <if test="classifyUrl != null" >
+        classify_url,
+      </if>
+      <if test="disable != null" >
+        disable,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="classifyImg != null" >
+        #{classifyImg,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyUrl != null" >
+        #{classifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="disable != null" >
+        #{disable,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.oruit.share.domain.TbClassifyDO" >
+    update tb_classify
+    <set >
+      <if test="classifyImg != null" >
+        classify_img = #{classifyImg,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyUrl != null" >
+        classify_url = #{classifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="disable != null" >
+        disable = #{disable,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where classify_id = #{classifyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oruit.share.domain.TbClassifyDO" >
+    update tb_classify
+    set classify_img = #{classifyImg,jdbcType=VARCHAR},
+      classify_url = #{classifyUrl,jdbcType=VARCHAR},
+      disable = #{disable,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where classify_id = #{classifyId,jdbcType=INTEGER}
+  </update>
+
+  <select id="queryTbClassify" resultType="com.oruit.share.domain.TbClassifyDO" >
+    select <include refid="Base_Column_List" /> from tb_classify
+    where disable = 1 and level_id = #{levelId,jdbcType=INTEGER}
+    order by class_order asc
+  </select>
+</mapper>

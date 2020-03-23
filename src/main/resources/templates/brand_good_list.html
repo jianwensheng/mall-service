@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>优惠劵</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <link href="${basePath}/resources/css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/resources/css/brand.css"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/resources/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/resources/css/theme.css">
+</head>
+<style>
+    .goods-container {
+        background-color: #fff;
+        border-top: 1px solid #ebebeb;
+        border-radius: 8px;
+        margin: 0 10px 10px;
+        padding: 10px 5px 10px;
+    }
+
+    .goods-square-item {
+        width: 38%;
+        margin-left: 16px;
+        margin-right: 14px;
+        margin-top: 5px;
+        font-size: 14px;
+        background-color: #fff;
+        display: inline-block;
+    }
+</style>
+
+<body>
+<div class="backgroundWrapper">
+    <header class="brand_details_header">
+        <div class="title">
+            <a  href="javascript:history.back(-1)" class="iconfont icon-zuojiantou"></a>
+            品牌详情
+        </div>
+    </header>
+    <div style="height: 81px"></div>
+    <div class="layout brand_details">
+        <div class="brand_info">
+            <div class="logo">
+                <img src="${brand.brandLogo!''}" alt="">
+            </div>
+            <div class="brand_name text-center">${brand.brandName!''}</div>
+            <div class="brand_wenan text-center">
+                <span>${brand.simpleLabel!''}</span>
+            </div>
+            <div class="brand_rest text-center">
+                <span class="fans">评分：${brand.brandScore!''}</span>
+                <span>发源地：${brand.location!''}</span></div>
+            <div class="brand_msg">
+                <span class="brand_msg_span">
+                    ${brand.label!''}
+                </span>
+            </div>
+            <div class="brand_more text-center">
+                <span class="more">查看更多</span>
+                <span class="put">收起</span>
+                <i class="iconfont icon-xia"></i>
+            </div>
+            <input type="hidden" id="brandId" name="brandId">
+            <input type="hidden" id="is_top" name="is_top" value="0">
+        </div>
+        <div id="goodList" class="goods-list goods-container"/>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="${basePath}/resources/js/jquery.min.js"></script>
+<script src="${basePath}/resources/js/more.js"></script>
+<script type="text/javascript">
+    var pageIndex = 1;
+    var pageSize = 10;
+    searchGoods('${brand.brandId}', pageIndex, pageSize);
+    function searchGoods(brandId, pageNo, pageSize) {
+        $("#brandId").val(brandId)
+        $('.loadingbar3').fadeIn(300);
+        $.ajax({
+            type: "post", //使用post方法访问后台
+            dataType: "json", //返回json格式的数据
+            url: "${basePath}/good/brandGoodsList", //要访问的后台地址
+            data: "brandId=" + brandId + "&pageNo=" + pageNo + "&pageSize=" + pageSize,// 你的formid
+            success: function (obj) {//msg为返回的数据，在这里做数据绑定
+                if (obj != "") {
+                    if (obj.code == "1000") {
+                        var goodList = obj.data.goodList;
+                        var goodHtml="";
+                        if(goodList.length<10){
+                            $("#is_top").val(1);
+                        }else{
+                            $("#is_top").val(0);
+                        }
+                        for(var i=0;i<goodList.length;i++){
+                            var good = goodList[i];
+                            goodHtml+="<div onclick=\"goodDetail("+good.goodsId+");\" class=\"goods-square-item\"  >\n" +
+                                "<div class=\"goods-img\">\n" +
+                                "<img lazyLoad=\"\" src=\""+good.mainPic+"\"></img>\n" +
+                                "</div>\n" +
+                                "<div class=\"goods-text\">\n" +
+                                "<div class=\"goods_detail\">\n" +
+                                "<div class=\"goods-title\">"+good.title+"</div>\n" +
+                                "<div class=\"goods-text__price\">\n" +
+                                "<label>券后:"+good.actualPrice+" </label>\n" +
+                                "</div>\n" +
+                                "<div class=\"goods-text-extra\">\n" +
+                                "<label class=\"good-comment-rate\">描述分: "+good.actualPrice+"</label>\n" +
+                                "<label class=\"sale-amount\">销量 "+good.monthSales+"</label>\n" +
+                                "</div>\n" +
+                                "</div>\n" +
+                                "</div>\n" +
+                                "</div>";
+                        }
+                        if(pageNo==1){
+                            $("#goodList").html(goodHtml);
+                        }else{
+                            $("#goodList").append(goodHtml);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // 自定义事件
+    function ajax_function() {
+        var is_top = $("#is_top").val();
+        if(is_top==0) {
+            pageIndex++;
+            var brandId = $("#brandId").val();
+            searchGoods(brandId, pageIndex, 10);
+        }
+    }
+
+    function goodDetail(goodsId){
+        //window.location.href = "${basePath}/good/privilege?goodsId="+goodsId;
+        window.location.href = "${basePath}/good/good_supper_detail?itemId="+goodsId+"&type=1";
+    }
+</script>
+</html>

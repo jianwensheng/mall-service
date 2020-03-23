@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>优惠劵</title>
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<link href="${basePath}/resources/css/style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/base.css"/>
+	<link rel="stylesheet" type="text/privilegecss" href="${basePath}/resources/css/x_index.css"/>
+	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/search_m.css">
+</head>
+<body>
+<style>
+	.tab-nav-item {
+		height: 40px;
+		line-height: 40px;
+		position: relative;
+		text-align: center;
+		color: #585858;
+		font-size: 0.9rem;
+		display: block;
+		float: left;
+		width: 25%;
+	}
+	.header{
+		height: 44px;
+		line-height: 44px;
+		width: 40px;
+		background: #f75a26;
+		text-align: center;
+		position: relative;
+		z-index: 999;
+		padding-top: 0;
+	}
+	.header a.fl, .header_weixin a.fl, .header a.fl_h, .header a:nth-child(1) {
+		float: left;
+		width: 40px;
+		height: 44px;
+	}
+</style>
+<section class="">
+	<header class="aui-navBar aui-navBar-fixed">
+		<div class="header">
+			<a class="fl" href="javascript:history.back(-1)"><i class="b_1"></i></a>
+		</div>
+		<div class="aui-center">
+			<div class="aui-show-search">
+				<i class="icon icon-search"></i>
+				<input id="search" type="text" value="${goodsName!''}" placeholder="搜索商品">
+				<i class="icon icon-search"></i>
+				<i class="icon icon-search-btn">搜索</i>
+			</div>
+		</div>
+	</header>
+	<section class="aui-scrollView">
+		<div class="divHeight"></div>
+		<div class="aui-tab" data-ydui-tab>
+			<ul class="tab-nav">
+				<li class="tab-nav-item tab-active" onclick="searchGoods(0,'${goodsName}',1)">
+					<a href="javascript:;">
+						<span>人气</span>
+					</a>
+				</li>
+				<li class="tab-nav-item" onclick="searchGoods(1,'${goodsName}',3)">
+					<a href="javascript:;">
+						<span>销量</span>
+					</a>
+				</li>
+				<li class="tab-nav-item" onclick="searchGoods(2,'${goodsName}',5)">
+					<a href="javascript:;">
+						<span>价格降序</span>
+					</a>
+				</li>
+				<li class="tab-nav-item" onclick="searchGoods(3,'${goodsName}',6)">
+					  <span>优惠券</span>
+				</li>
+				<!--默认为0，0-综合排序，1-商品上架时间从高到低，2-销量从高到低，3-领券量从高到低，4-佣金比例从高到低，5-价格（券后价）从高到低，6-价格（券后价）从低到高-->
+			</ul>
+			<input type="hidden" id="index"/>
+			<div class="tab-panel">
+				<div id="goodsInfo0" class="tab-panel-item tab-active"></div>
+				<div id="goodsInfo1" class="tab-panel-item"></div>
+				<div id="goodsInfo2" class="tab-panel-item"></div>
+				<div id="goodsInfo3" class="tab-panel-item"></div>
+			</div>
+		</div>
+
+	</section>
+</section>
+</body>
+<script type="text/javascript" src="${basePath}/resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/slider.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/tab.js"></script>
+<script src="${basePath}/resources/js/zepto-byothers.min.js"></script>
+<script src="${basePath}/resources/js/search_index.js"></script>
+<script src="${basePath}/resources/js/more.js"></script>
+<script type="text/javascript">
+    var pageIndex = 1;
+
+	searchGoods(0,'${goodsName}',pageIndex);
+
+    function searchGoods(index,goodsName,pageNo) {
+        $("#index").val(index);
+        $.ajax({
+            type: "post", //使用post方法访问后台
+            dataType: "json", //返回json格式的数据
+            url: "${basePath}/good/goodSearchList", //要访问的后台地址
+            data: "goodsName="+goodsName+"&pageNo="+pageNo,// 你的formid
+            success: function(obj){//msg为返回的数据，在这里做数据绑定
+                if(obj!=""){
+                    if (typeof obj === 'string') {
+                        obj = JSON.parse(obj);
+                    }
+                    if (obj.code == "1000"){
+                        var goodsStr = "";
+                        var goodsInfo = obj.data;
+                        for(var i=0;i<goodsInfo.length;i++){
+                            var goodInfo = goodsInfo[i];
+                            goodsStr += "<a href=\"javascript:goodDetail('"+goodInfo.item_id+"');\" class=\"aui-flex b-line\">"+
+								"<div class=\"aui-ser-img\">" +
+                                "<img src=\""+goodInfo.pict_url+"\" alt=\"\">" +
+                                "</div>" +
+                                "<div class=\"aui-flex-box\">" +
+                                "<h2>"+goodInfo.title+"</h2>" +
+                                "<span>月销 "+goodInfo.volume+"</span>" +
+                                "<h3><em>"+goodInfo.coupon_amount+"元劵</em> <i>"+(goodInfo.zk_final_price)+"</i></h3>" +
+                                "<h4><em>券后:￥"+(goodInfo.zk_final_price-goodInfo.coupon_amount)+"</em> <i>已领 <font color='red'>"+goodInfo.tk_total_sales+"</font></i></h4>" +
+                                "</div></a>";
+						}
+
+                        $("#goodsInfo"+index).html(($("#goodsInfo"+index)).html()+goodsStr);
+                    } else{
+                        alert(obj.msg);
+                    }
+
+                }else{
+                    alert("添加失败");
+                }
+            }
+        });
+    }
+
+    function goodDetail(goodsId){
+        window.location.href = "${basePath}/good/privilege?goodsId="+goodsId;
+	}
+
+    // 自定义事件
+    function ajax_function() {
+        var index = $("#index").val();
+        pageIndex++;
+        searchGoods(index,'${goodsName}',pageIndex);
+    }
+
+</script>
+</html>

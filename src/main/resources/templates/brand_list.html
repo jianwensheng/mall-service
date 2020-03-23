@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>优惠劵</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <link href="${basePath}/resources/css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/resources/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/resources/css/brand.css"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/resources/css/common.css"/>
+    <link rel="stylesheet" href="${basePath}/resources/supper/css/nbso_base.css?v=1583482444">
+    <link rel="stylesheet" type="text/css" href="${basePath}/resources/css/theme.css">
+</head>
+<style>
+    input, li, ol, p, textarea, ul {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+    .list1>ul>li {
+        background: #fff;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+    }
+    a, a:hover {
+        text-decoration: none;
+    }
+</style>
+<body>
+<!--
+默认为0，0-综合排序，1-商品上架时间从高到低，2-销量从高到低，3-领券量从高到低，4-佣金比例从高到低，5-价格（券后价）从高到低，6-价格（券后价）从低到高 -->
+<section>
+    <header class="header" style="position: relative;">
+        <a class="fl" href="javascript:history.back(-1)"><i class="b_1"></i></a><a href="javascript:;">品牌库</a>
+    </header>
+    <section class="aui-scrollView">
+        <div class="aui-tab" data-ydui-tab>
+            <ul class="tab-nav">
+                <li class="tab-nav-item tab-active" onclick="searchGoods(0,'1',1,0)">
+                    <a href="javascript:;">
+                        <span>精选</span>
+                    </a>
+                </li>
+
+                <#if classifyList?? && (classifyList?size>0)>
+                    <#list classifyList as classifyInfo>
+                        <li class="tab-nav-item" onclick="searchGoods(${classifyInfo.cid!''},1,3)">
+                            <a href="javascript:;">
+                                <span>${classifyInfo.cname!''}</span>
+                            </a>
+                        </li>
+                    </#list>
+                </#if>
+
+        <!--默认为0，0-综合排序，1-商品上架时间从高到低，2-销量从高到低，3-领券量从高到低，4-佣金比例从高到低，5-价格（券后价）从高到低，6-价格（券后价）从低到高-->
+        </ul>
+        <input type="hidden" id="goods_cid" name="goods_cid">
+        <input type="hidden" id="is_top" name="is_top" value="0">
+        <div class="list2">
+            <ul class="list_ul"/>
+        </div>
+        </div>
+
+    </section>
+
+</section>
+</body>
+<div class="loadingbar3" style="display:none">
+    <div class='loading3'><img src='${basePath}/resources/images/loading.gif' style="width: 45px;height: 45px;"><br>加载中，请稍后<br></div>
+</div>
+<script type="text/javascript" src="${basePath}/resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/slider.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/tab.js"></script>
+<script src="${basePath}/resources/js/search_index.js"></script>
+<script src="${basePath}/resources/js/more.js"></script>
+<script type="text/javascript">
+    var pageIndex = 1;
+    var pageSize = 3;
+    searchGoods('0', pageIndex, pageSize);
+
+    function searchGoods(cid, pageNo, pageSize) {
+        $("#goods_cid").val(cid);
+        $('.loadingbar3').fadeIn(300);
+        $.ajax({
+            type: "post", //使用post方法访问后台
+            dataType: "json", //返回json格式的数据
+            url: "${basePath}/good/brandList", //要访问的后台地址
+            data: "cid=" + cid + "&pageNo=" + pageNo+"&pageSize="+pageSize,// 你的formid
+            success: function (obj) {//msg为返回的数据，在这里做数据绑定
+                if (obj != "") {
+                    if (obj.code == "1000") {
+                          var brandList = obj.data.tbBrandList;
+                          var html = "";
+                          if(brandList.length<10){
+                              $("#is_top").val(1);
+                          }else{
+                              $("#is_top").val(0);
+                          }
+                          for(var i=0;i<brandList.length;i++){
+
+                              html +="  <li>\n" +
+                              "                    <div class=\"list2_brand_info\"><a data-dtk-satc=\"{desc:'美食_来伊份_2',name:'CmsWapBrandFloorEvent'}\"\n" +
+                              "                                                     href=\"${basePath}/good/brandGoodsDetail?brandId="+brandList[i].brandId+"\">\n" +
+                              "                        <div class=\"logo\"><img ui-lazyload=\"\"\n" +
+                              "                                               src='"+brandList[i].brandLogo+"'" +
+                              "                                               data-original=\""+brandList[i].brandLogo+"\""+
+                              "                                               alt=\"\" isload=\"true\"\n" +
+                              "                                               style=\"background: rgb(245, 245, 245); display: block;\"></div>\n" +
+                              "                        <div class=\"info\"><h4 class=\"title text-ellipsis\">"+brandList[i].brandName+"</h4>\n" +
+                              "                            <p class=\"msg \">"+brandList[i].simpleLabel+"</p><span class=\"out\">更多" +
+                                  "<i class=\"iconfont icon-youjiantou\"></i></span></div>\n" +
+                              "                    </a></div>\n" +
+                              "                    <div class=\"list2_brand_product row-s\">\n" +
+                              "                        <ul>\n" ;
+
+                              var goodsList = brandList[i].goodsList;
+                              for(j=0;j<goodsList.length;j++){
+                                  var good = goodsList[j];
+
+                                  html+= "                            <li class=\"col-12-4\"><a\n" +
+                                  "                                    data-dtk-satc=\"{desc:'美食_来伊份_2',name:'CmsWapBrandFloorEvent',gid:'25083905'}\"\n" +
+                                  "                                    href=\"?r=p/d&amp;id="+good.goodsId+"\">\n" +
+                                  "                                <div class=\"brand_hot_product\">\n" +
+                                  "                                    <div class=\"cent\">\n" +
+                                  "                                        <div class=\"img ui-act-label\">\n" +
+                                  "                                            <div class=\"imgArea\"><img ui-lazyload=\"\"\n" +
+                                  "                                                                      src=\""+good.mainPic+"\"\n" +
+                                  "                                                                      data-original=\"\"+good.mainPic+\"\"\n" +
+                                  "                                                                      isload=\"true\"\n" +
+                                  "                                                                      style=\"background: rgb(245, 245, 245); display: inline;\">\n" +
+                                  "                                                <div class=\"imgTag\">"+parseFloat(good.discounts)*100+"折</div>\n" +
+                                  "                                            </div>\n" +
+                                  "                                        </div>\n" +
+                                  "                                        <div class=\"textArea\">\n" +
+                                  "                                            <div class=\"price\">\n" +
+                                  "                                                <div class=\"priceTag\">¥</div>\n" +
+                                  "                                                <div class=\"currentPrice\">"+good.actualPrice+"</div>\n" +
+                                  "                                                <div class=\"prePrice\">￥"+good.originalPrice+"</div>\n" +
+                                  "                                            </div>\n" +
+                                  "                                            <div class=\"tag\">" +
+                                  "                                                <div class=\"merchantTag\">券</div>\n" +
+                                  "                                                <div class=\"merchantTag\">"+good.couponPrice+"元</div>\n" +
+                                  "                                            </div>\n" +
+                                  "                                        </div>\n" +
+                                  "                                    </div>\n" +
+                                  "                                </div>\n" +
+                                  "                            </a></li>\n" ;
+                              }
+
+
+                              html+= "                        </ul>\n" +
+                              "                    </div>\n" +
+                              "                </li>";
+
+                          }
+
+                                if(pageNo==1){
+                            $(".list_ul").html(html);
+                        }else{
+                            $(".list_ul").append(html);
+                        }
+
+                    }
+                }
+            },
+            complete: function (dat) {
+                $('.loadingbar3').fadeOut(300);
+            }
+        });
+    }
+
+
+    // 自定义事件
+    function ajax_function() {
+        var is_top = $("#is_top").val();
+        if(is_top==0){
+            pageIndex++;
+            var goods_cid = $("#goods_cid").val();
+            searchGoods(goods_cid, pageIndex, 10);
+        }
+    }
+
+
+</script>
+</html>

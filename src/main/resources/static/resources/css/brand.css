@@ -1,0 +1,1112 @@
+.brand_header .nav, .brand_header .title {
+    color: #fff;
+    text-align: center;
+    overflow: hidden
+}
+
+.brand_details .brand_info .logo, .list1_brand_title .logo, .list2 .list2_brand_info a .logo {
+    box-shadow: 0 3px 8px -2px rgba(94, 107, 121, .2)
+}
+
+@font-face {
+    font-family: AliHYAiHei;
+    src: url(fonts/AliHYAiHei.ttf?v=2020-03-09)
+}
+
+.yahei {
+    font-family: Arial, Helvetica, sans-serif, "Microsoft YaHei"
+}
+
+.brand_header .nav .swiper-slide, .brand_header .title, .top_info .recommend_info span {
+    font-family: PingFangSC
+}
+
+.brand_header {
+    width: 100%;
+    position: fixed;
+    z-index: 99;
+    height: 90px;
+    background: url(images/header_max_bg.png?v=2020-03-09) no-repeat;
+    background-size: 100%
+}
+
+.brand_header .title {
+    line-height: 35px;
+    font-weight: 400;
+    font-size: 18px;
+    padding: 5px 10px
+}
+
+.brand_header a {
+    position: absolute;
+    zoom: 1;
+    left: 10px;
+    font-size: 18px;
+    z-index: 99;
+    font-weight: 500
+}
+
+.brand_header .nav {
+    height: 45px;
+    line-height: 45px
+}
+
+.brand_header .nav .swiper-wrapper {
+    display: flex
+}
+
+.brand_header .nav .swiper-slide {
+    padding: 0 17px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, .6);
+    line-height: 45px;
+    width: auto
+}
+
+.brand_header .nav .swiper-slide.active {
+    color: #fff
+}
+
+.brand_header .nav .swiper-slide.active span:after {
+    width: 70%
+}
+
+.brand_header .nav .swiper-slide span {
+    display: inline-block
+}
+
+.brand_header .nav .swiper-slide span:after {
+    height: 2px;
+    border-radius: 1px;
+    content: '';
+    overflow: hidden;
+    width: 0;
+    background: #fff;
+    display: block;
+    position: relative;
+    z-index: 1;
+    zoom: 1;
+    bottom: 7px;
+    margin: auto;
+    transition: all .3s
+}
+
+.brand {
+    background: url(images/header_max_bg.png?v=2020-03-09) no-repeat;
+    background-size: 100% auto;
+    padding-top: 89px
+}
+
+.top_info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 13px
+}
+
+.top_info .recommend_info {
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid #fff;
+    margin: 5px auto 0;
+    padding: 0 10px;
+    display: none
+}
+
+.list1 .list1_brand_info .triangle, .list2 .list2_brand_info a .triangle {
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #fff;
+    zoom: 1
+}
+
+.top_info .recommend_info span {
+    font-size: 11px;
+    font-weight: 400;
+    color: #fff;
+    line-height: 20px
+}
+
+.top_info h3 {
+    height: 27px;
+    font-size: 20px;
+    color: #fff;
+    line-height: 27px;
+    margin-bottom: 2px;
+    margin-top: 10px;
+    font-family: AliHYAiHei
+}
+
+.top_info > span {
+    height: 12px;
+    font-size: 12px;
+    display: block;
+    font-weight: 400;
+    color: #fff;
+    line-height: 12px
+}
+
+.list1 {
+    margin: 0 10px
+}
+
+.list1 > ul > li {
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 5px
+}
+
+.list1 .list1_brand_info {
+    height: 100px;
+    border-radius: 10px;
+    padding: 10px 16px 18px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+    zoom: 1;
+    background-size: 100%;
+    margin: 0 10px;
+    background-color: #B9D3F0
+}
+
+.list1 .list1_brand_info > a {
+    height: 105px;
+    border-radius: 10px 10px 0 0;
+    display: flex
+}
+
+.list1 .list1_brand_info .info {
+    color: #fff;
+    font-family: PingFangSC
+}
+
+.list1 .list1_brand_info .info .title {
+    height: 27px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 27px;
+    margin-bottom: 8px;
+    width: 100%;
+    display: inline-block
+}
+
+.list1 .list1_brand_info .info .msg {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 12px;
+    height: 12px;
+    margin-bottom: 8px
+}
+
+.list1 .list1_brand_info .info .msg > span:nth-child(1):after {
+    display: inline-block;
+    width: 1px;
+    height: 10px;
+    background: #fff;
+    content: '';
+    margin: 0 10px
+}
+
+.list1 .list1_brand_info .info .out {
+    height: 12px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #fff;
+    line-height: 12px
+}
+
+.list1 .list1_brand_info .info .out i {
+    font-size: 8px;
+    margin-left: 5px
+}
+
+.list1 .list1_brand_info .focus {
+    font-size: 10px;
+    font-weight: 400;
+    color: #fff;
+    line-height: 19px;
+    position: absolute;
+    z-index: 1;
+    zoom: 1;
+    right: 0;
+    bottom: 0;
+    height: 19px;
+    background: linear-gradient(276deg, #ff1e2f 0, #e51698 100%);
+    border-radius: 10px 10px 10px 0;
+    padding: 0 8px
+}
+
+.list1 .list1_brand_info .triangle {
+    position: absolute;
+    z-index: 99;
+    width: 0;
+    height: 0;
+    bottom: 0;
+    left: 24px
+}
+
+.list1 .list1_brand_product {
+    min-height: 150px;
+    background: #fff;
+    border-radius: 0 0 10px 10px;
+    position: relative;
+    z-index: 1;
+    zoom: 1;
+    overflow: hidden;
+    padding: 10px 10px 5px;
+    box-sizing: border-box
+}
+
+.list1 .swiper-brand-pagination {
+    bottom: 0 !important;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    zoom: 1
+}
+
+.list1 .swiper-brand-pagination .swiper-pagination-bullet {
+    width: 3px;
+    height: 3px;
+    background: #000;
+    border-radius: 8px;
+    transition: all .4s ease 0s;
+    margin: 0 2.5px !important
+}
+
+.board, .list2 li {
+    border-radius: 10px
+}
+
+.list1 .swiper-brand-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
+    background: rgba(0, 0, 0, .8);
+    width: 9px
+}
+
+.brand_sell h3:after, .brand_sell h3:before {
+    height: 25px;
+    width: 25px;
+    content: ""
+}
+
+.brand_sell {
+    margin-bottom: 10px
+}
+
+.brand_sell h3 {
+    height: 25px;
+    font-size: 18px;
+    font-family: PingFangSC;
+    display: flex;
+    justify-content: center;
+    font-weight: 400;
+    color: #333;
+    line-height: 25px;
+    margin-bottom: 3px
+}
+
+.board p, .brand_sell p {
+    font-size: 12px;
+    font-weight: 400;
+    font-family: PingFangSC
+}
+
+.brand_sell h3:after {
+    background: url(images/hot-after.png?v=2020-03-09) center center no-repeat;
+    background-size: 25px 19px;
+    margin-left: 4px
+}
+
+.brand_sell h3:before {
+    background: url(images/hot-before.png?v=2020-03-09) center center no-repeat;
+    background-size: 25px 19px;
+    margin-right: 4px
+}
+
+.brand_sell p {
+    height: 12px;
+    color: #9b9b9b;
+    line-height: 12px
+}
+
+.board {
+    height: 33px;
+    background: #fff;
+    margin: 0 10px 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+    padding: 0 30px
+}
+
+.board p {
+    height: 17px;
+    color: #FF3978;
+    line-height: 17px
+}
+
+.board p span {
+    width: 23px;
+    height: 23px;
+    background: no-repeat;
+    background-size: 100% auto;
+    display: inline-block;
+    overflow: hidden;
+    line-height: 555px;
+    float: left;
+    top: -3px;
+    margin-right: 2px;
+    position: relative;
+    z-index: 0
+}
+
+.board p:nth-child(1) span {
+    background-image: url(images/brand_tab01.png?v=2020-03-09)
+}
+
+.board p:nth-child(2) span {
+    background-image: url(images/brand_tab02.png?v=2020-03-09)
+}
+
+.board p:nth-child(3) span {
+    background-image: url(images/brand_tab03.png?v=2020-03-09)
+}
+
+.list2 {
+    margin: 10px 10px
+}
+
+.list2 li {
+    margin-bottom: 10px
+}
+
+.list2 .list2_brand_info a {
+    padding: 17px 11px 19px;
+    background: #Fff;
+    display: flex;
+    position: relative;
+    border-radius: 10px 10px 0 0
+}
+
+.list2 .list2_brand_info a .logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 2px;
+    margin-right: 9px;
+    display: flex;
+    align-items: center
+}
+
+.list2 .list2_brand_info a .logo img {
+    width: 100%;
+    background: #fff !important
+}
+
+.list2 .list2_brand_info a .info {
+    color: #333;
+    font-family: PingFangSC
+}
+
+.list2 .list2_brand_info a .info .title {
+    height: 27px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 27px;
+    margin-bottom: 3px;
+    max-width: 135px;
+    display: inline-block
+}
+
+.list2 .list2_brand_info a .info .bubble {
+    padding: 0 3px 0 8px;
+    height: 16px;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 16px;
+    position: relative;
+    z-index: 1;
+    zoom: 1;
+    left: 3px;
+    top: -2px;
+    background: url(images/bubble.png?v=2020-03-09) no-repeat;
+    background-size: 21px 100%;
+    text-align: center;
+    display: inline-block
+}
+
+.list2 .list2_brand_info a .info .bubble span {
+    background-color: #F44;
+    border-radius: 4px;
+    padding: 0 6px 0 2px;
+    color: #fff;
+    text-align: center;
+    display: inline-block;
+    height: 16px;
+    line-height: 16px
+}
+
+.list2 .list2_brand_info a .info .msg {
+    font-size: 12px;
+    font-weight: 400;
+    color: #F44;
+    line-height: 12px;
+    height: 12px;
+    margin-bottom: 8px
+}
+
+.list2 .list2_brand_info a .info .msg > span:nth-child(1):after {
+    display: inline-block;
+    width: 1px;
+    height: 10px;
+    background: #F44;
+    content: '';
+    margin: 0 10px
+}
+
+.list2 .list2_brand_info a .out {
+    font-size: 12px;
+    font-weight: 400;
+    color: #9B9B9B;
+    line-height: 12px;
+    display: inline;
+    position: absolute;
+    z-index: 1;
+    zoom: 1;
+    right: 11px;
+    top: 24px
+}
+
+.list2 .list2_brand_info a .out i {
+    font-size: 8px;
+    margin-left: 5px
+}
+
+.list2 .list2_brand_info a .triangle {
+    position: absolute;
+    z-index: 99;
+    width: 0;
+    height: 0;
+    bottom: 0;
+    left: 24px
+}
+
+.list2 .list2_brand_product {
+    background: #fff;
+    border-radius: 0 0 10px 10px;
+    padding: 0 8px
+}
+
+.list2 .list2_brand_product li {
+    position: relative;
+    z-index: 1;
+    zoom: 1
+}
+
+.list2 .list2_brand_product .label {
+    height: 15px;
+    border-radius: 8px;
+    padding: 0 5px;
+    font-size: 10px;
+    font-weight: 400;
+    color: #fff;
+    line-height: 15px;
+    position: absolute;
+    zoom: 1;
+    right: 3px;
+    top: 3px;
+    z-index: 99
+}
+
+.list2 .list2_brand_product .label1 {
+    background: linear-gradient(57deg, #e440f9 0, #c51ef1 100%)
+}
+
+.list2 .list2_brand_product .label2 {
+    background: linear-gradient(57deg, #40cff9 0, #1ea3f1 100%)
+}
+
+.list1_brand_title {
+    padding: 0 10px;
+    height: 55px;
+    display: flex;
+    align-items: center
+}
+
+.list1_brand_title .logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    margin-right: 8px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff
+}
+
+.list1_brand_title .logo img {
+    width: 100%
+}
+
+.list1_brand_title h4 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    line-height: 22px;
+    font-family: PingFangSC-Medium
+}
+
+.list1_brand_title h4 .bubble, .list1_brand_title h4 .bubble span {
+    height: 16px;
+    line-height: 16px;
+    display: inline-block;
+    text-align: center
+}
+
+.list1_brand_title h4 .bubble {
+    padding: 0 3px 0 8px;
+    font-size: 10px;
+    font-weight: 400;
+    position: relative;
+    z-index: 1;
+    zoom: 1;
+    left: 3px;
+    top: -2px;
+    background: url(images/bubble.png?v=2020-03-09) no-repeat;
+    background-size: 21px 100%
+}
+
+.list1_brand_title h4 .bubble span {
+    background-color: #F44;
+    border-radius: 4px;
+    padding: 0 6px 0 2px;
+    color: #fff
+}
+
+.list1_brand_title .timer {
+    float: right;
+    height: 20px;
+    position: absolute;
+    right: 20px;
+    font-size: 10px;
+    font-weight: 400;
+    color: #333;
+    line-height: 20px
+}
+
+.list1_brand_title .timer .count_down {
+    font-size: 11px;
+    font-weight: 500;
+    color: #F44;
+    line-height: 12px;
+    display: inline-block
+}
+
+.list1_brand_title .timer .count_down span {
+    width: 18px;
+    height: 20px;
+    background: rgba(255, 140, 140, .14);
+    display: inline-block;
+    border-radius: 2px;
+    line-height: 20px;
+    text-align: center;
+    margin: 0 1px
+}
+
+.jiaobiao {
+    width: 18px;
+    height: 13px;
+    margin-right: 4px
+}
+
+.jiaobiao img {
+    width: 100%;
+    height: 100%
+}
+
+.pra_out {
+    height: 14px;
+    font-size: 10px;
+    font-weight: 400;
+    color: #666;
+    line-height: 14px;
+    margin-top: 4px
+}
+
+.brand_details_header .title, .header_pr .title {
+    line-height: 45px;
+    overflow: hidden;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+    zoom: 1
+}
+
+.brand_details, .brand_details_header {
+    margin: auto;
+    width: 100%;
+    max-width: 750px;
+    box-sizing: border-box
+}
+
+body {
+    background: #F5F5F5
+}
+
+.backgroundWrapper {
+    background: #f6f6f6
+}
+
+.header_pr {
+    display: none
+}
+
+.header_pr .title {
+    height: 45px;
+    font-size: 18px;
+    position: relative;
+    z-index: 1
+}
+
+.header_pr a {
+    position: absolute;
+    zoom: 1;
+    left: -2px !important;
+    font-size: 16px !important;
+    z-index: 99
+}
+
+.brand_details_header {
+    height: 210px;
+    background: linear-gradient(180deg, #aaa 0, #f6f6f6 100%);
+    padding: 0 10px 50px;
+    position: absolute;
+    top: 0;
+    left: 0
+}
+
+.brand_details_header .title {
+    height: 45px;
+    font-size: 18px;
+    color: #fff;
+    position: relative;
+    z-index: 1
+}
+
+.brand_details_header .title a {
+    position: absolute;
+    z-index: 1;
+    zoom: 1;
+    left: 0
+}
+
+.brand_details {
+    overflow: inherit !important;
+    zoom: 1;
+    z-index: 99;
+    position: relative
+}
+
+.brand_details .brand_info {
+    background: #fff;
+    border-radius: 8px;
+    padding: 0 11px 17px;
+    overflow: hidden;
+    margin: 0 10px 10px
+}
+
+.brand_details .brand_info > div {
+    margin: auto
+}
+
+.brand_details .brand_info .logo {
+    width: 70px;
+    height: 70px;
+    border-radius: 4px;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1;
+    zoom: 1;
+    top: -27px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff
+}
+
+.brand_details .brand_info .logo img {
+    width: 100%
+}
+
+.brand_details .brand_info .brand_name {
+    margin-top: 53px;
+    height: 24px;
+    font-size: 17px;
+    font-family: PingFangSC;
+    font-weight: 500;
+    color: #333;
+    line-height: 24px
+}
+
+.brand_details .brand_info .brand_wenan {
+    padding: 0 5px;
+    box-sizing: border-box;
+    height: 16px;
+    margin-top: 5px;
+    font-size: 10px;
+    font-family: PingFangSC;
+    font-weight: 400;
+    color: #666;
+    line-height: 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap
+}
+
+.brand_details .brand_info .brand_wenan span {
+    background: rgba(0, 0, 0, .05);
+    margin: auto;
+    display: inline-block;
+    padding: 0 5px;
+    border-radius: 10px;
+    height: 16px
+}
+
+.brand_details .brand_info .brand_rest {
+    height: 17px;
+    font-size: 12px;
+    font-family: PingFangSC;
+    font-weight: 300;
+    color: #333;
+    line-height: 17px;
+    margin-top: 11px;
+    display: flex;
+    justify-content: center
+}
+
+.brand_details .brand_info .brand_rest .fans {
+    overflow: hidden;
+    display: flex;
+    align-items: center
+}
+
+.brand_details .brand_info .brand_rest .fans:after {
+    display: inline-block;
+    width: 1px;
+    height: 11px;
+    background: rgba(51, 51, 51, .5);
+    content: '';
+    margin: 0 5px
+}
+
+.brand_details .brand_info .brand_label, .brand_details .brand_info .brand_msg {
+    margin-top: 15px;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+    overflow: hidden;
+    font-family: PingFangSC
+}
+
+.brand_details .brand_info .brand_label {
+    height: 17px;
+    color: #fe3a33;
+    padding: 0 5px
+}
+
+.brand_details .brand_info .brand_label span {
+    overflow: hidden
+}
+
+.brand_details .brand_info .brand_msg {
+    color: #666;
+    text-indent: 2rem;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2
+}
+
+.brand_details .brand_info .brand_more {
+    width: 70px;
+    height: 17px;
+    font-size: 12px;
+    font-family: PingFangSC;
+    font-weight: 400;
+    color: #9b9b9b;
+    line-height: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.brand_details .brand_info .brand_more .put, .brand_details .brand_info.active .brand_more .more {
+    display: none
+}
+
+.brand_details .brand_info .brand_more i {
+    margin-left: 2px;
+    font-size: 10px;
+    transition: all .5s
+}
+
+.brand_details .brand_info.active .brand_msg {
+    -webkit-line-clamp: 1000
+}
+
+.brand_details .brand_info.active .brand_more i {
+    transform: rotate(180deg)
+}
+
+.brand_details .brand_info.active .brand_more .put {
+    display: inline-block
+}
+
+.brand_product {
+    background: 0 0;
+    position: relative;
+    height: auto;
+    margin: 0;
+    padding: 0
+}
+
+.loading_text {
+    text-align: center;
+    height: 40px;
+    line-height: 40px
+}
+
+.goods-new li .cent {
+    margin: 0 5px 10px 10px
+}
+
+.goods-new li:nth-child(2n) .cent {
+    margin: 0 10px 10px 5px
+}
+
+.brand_hot {
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px 8.5px 7.5px 10px;
+    overflow: hidden;
+    margin: 10px
+}
+
+.brand__hot_title_detail {
+    margin-bottom: 24px;
+    text-align: center
+}
+
+.brand__hot_title_detail h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    line-height: 21px;
+    position: relative;
+    display: inline
+}
+
+.brand__hot_title_detail h3:before {
+    width: 50%;
+    height: 2px;
+    background: #000;
+    opacity: .54;
+    content: "";
+    position: absolute;
+    left: 25%;
+    bottom: -8px
+}
+
+.brand_hot_product {
+    position: relative;
+    padding: 0 2.5px
+}
+
+.brand_hot_product .cent {
+    position: relative
+}
+
+.brand_hot_product .cent .imgArea {
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px
+}
+
+.brand_hot_product .cent .imgArea img {
+    width: 100%;
+    background: #fff !important
+}
+
+.brand_hot_product .cent .imgArea .imgTag {
+    width: 31px;
+    height: 14px;
+    background: linear-gradient(153deg, #fad961 0, #f76b1c 100%);
+    border-radius: 7px 7px 7px 0;
+    font-size: 10px;
+    font-weight: 400;
+    color: #fff;
+    text-align: center;
+    position: absolute;
+    bottom: 3px;
+    right: 3px
+}
+
+.brand_hot_product .cent .textArea {
+    padding: 6px 0 0 4px
+}
+
+.brand_hot_product .cent .textArea .price {
+    margin-bottom: 4px;
+    display: flex;
+    align-items: baseline
+}
+
+.brand_hot_product .cent .textArea .price .priceTag {
+    font-size: 14px;
+    font-weight: 400;
+    color: #ff3b32;
+    line-height: 14px;
+    margin-right: 2.5px
+}
+
+.brand_hot_product .cent .textArea .price .feeStrTag {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 14px;
+    margin-right: 2.5px
+}
+
+
+.brand_hot_product .cent .textArea .price .currentPrice {
+    font-size: 16px;
+    font-weight: 500;
+    color: #ff3b32;
+    line-height: 17px;
+    margin-right: 9px
+}
+
+.brand_hot_product .cent .textArea .price .prePrice {
+    font-size: 11px;
+    font-weight: 400;
+    color: #aaa;
+    line-height: 12px;
+    text-decoration: line-through
+}
+
+.brand_hot_product .cent .textArea .tag {
+    display: flex;
+    overflow: hidden;
+    min-height: 13px
+}
+
+.brand_hot_product .cent .textArea .tag .quanTag {
+    height: 13px;
+    background: #fe3a33;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: 400;
+    color: #fff;
+    line-height: 13px;
+    text-align: center;
+    padding: 0 5px;
+    margin-right: 5px
+}
+
+.brand_hot_product .cent .textArea .tag .merchantTag {
+    /*box-sizing: border-box;
+    border-radius: 3px;
+    opacity: .7;
+    border: 1px solid #fe3a33;
+    font-size: 10px;
+    font-family: PingFangSC;
+    font-weight: 400;
+    color: #fe3a33;
+    text-align: center;
+    padding: 0 5px;
+    word-break: keep-all;
+    display: inline-block;
+    height: 15px;
+    line-height: 13px;
+    margin-left: 5px;*/
+    box-sizing: border-box;
+    border-radius: 3px;
+    opacity: .7;
+    border: 1px solid #fe3a33;
+    font-size: 10px;
+    font-family: PingFangSC;
+    font-weight: 400;
+    color: #fff;
+    text-align: center;
+    padding: 0 5px;
+    word-break: keep-all;
+    display: inline-block;
+    height: 15px;
+    line-height: 13px;
+    margin-right: 5px;
+    background: #fe3a33;
+
+}
+
+
+.brand_hot_product .cent .textArea .tag .saleTag {
+    font-size: 10px;
+    font-family: PingFangSC;
+    font-weight: 400;
+    text-align: center;
+    padding: 0 5px;
+    word-break: keep-all;
+    display: inline-block;
+    height: 15px;
+    line-height: 13px;
+    margin-left: 5px;
+    position: absolute;
+    right: 2px;
+}
+
+.brand_hot_product .cent .label {
+    height: 15px;
+    border-radius: 8px;
+    padding: 0 5px;
+    font-size: 10px;
+    font-weight: 400;
+    color: #fff;
+    line-height: 15px;
+    position: absolute;
+    zoom: 1;
+    right: 3px;
+    top: 3px;
+    z-index: 99
+}
+
+.brand_hot_product .cent .label1 {
+    background: linear-gradient(57deg, #e440f9 0, #c51ef1 100%)
+}
+
+.brand_hot_product .cent .label2 {
+    background: linear-gradient(57deg, #40cff9 0, #1ea3f1 100%)
+}
+
+.brand_hot_product .sell_dear {
+    height: 15px;
+    background: rgba(245, 166, 35, .2);
+    border-radius: 3px;
+    padding: 0 6px;
+    font-size: 11px;
+    color: #F57523;
+    overflow: hidden;
+    font-family: PingFangSC;
+    font-weight: 400;
+    line-height: 15px;
+    display: inline-block;
+    margin-top: 5px
+}

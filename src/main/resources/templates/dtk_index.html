@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>水滴淘淘券</title>
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<link href="./resources/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<style>
+	.aui-center {
+		-webkit-box-ordinal-group: 3;
+		-webkit-order: 2;
+		-ms-flex-order: 2;
+		order: 2;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-pack: center;
+		-webkit-justify-content: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		-ms-flex-align: center;
+		align-items: center;
+		height: 44px;
+		width: 90%;
+		margin-left: 5%;
+	}
+
+	.divHeight {
+		width: 100%;
+		height: 10px;
+		background: #f5f5f5;
+		position: relative;
+		overflow: hidden;
+	}
+</style>
+<section class="">
+	<header class="aui-navBar aui-navBar-fixed">
+		<div class="aui-center">
+			<div class="aui-show-search">
+				<i class="icon icon-search"></i>
+				<input id="search" type="text" onclick="queryGoods()" placeholder="搜索商品">
+			</div>
+		</div>
+	</header>
+	<section class="aui-scrollView">
+		<div class="m-slider" data-ydui-slider>
+			<div id="bannerList"class="slider-wrapper">
+				<#if tbBannerList?? && (tbBannerList?size>0)>
+					<#list tbBannerList as tbBanner>
+						<div class="slider-item">
+							<a href="javascript:window.location.href='${basePath}/good/themeList?themeId=${tbBanner.bannerId!''}';">
+								<img src="${tbBanner.bannerImg!''}" alt="">
+							</a>
+						</div>
+					</#list>
+				</#if>
+			</div>
+			<div class="slider-pagination"></div>
+		</div>
+		<div class="aui-palace aui-palace-one ">
+			<#if tbClassifyDOList?? && (tbClassifyDOList?size>0)>
+				<#list tbClassifyDOList as tbClassify>
+					<a href="javascript:window.location.href='${tbClassify.classifyUrl!''}';" class="aui-palace-grid">
+						<div class="aui-palace-grid-icon">
+							<img src="${tbClassify.classifyImg!''}" alt="">
+						</div>
+						<div class="aui-palace-grid-text">
+							<h2>${tbClassify.classifyName!''}</h2>
+						</div>
+					</a>
+				</#list>
+	        </#if>
+		</div>
+		<div class="aui-flex">
+			<div class="aui-flex-box">
+				<img src="${basePath}/resources/images/ad-001.png" alt="">
+			</div>
+		</div>
+		<div class="divHeight"></div>
+		<div class="aui-tab" data-ydui-tab>
+			<ul class="tab-nav">
+				<li class="tab-nav-item tab-active" onclick="initGoods(0,-1,1)">
+					<a href="javascript:;">
+						<span>精选</span>
+					</a>
+				</li>
+					<#if classifyList?? && (classifyList?size>0)>
+					<#list classifyList as classifyInfo>
+						<li class="tab-nav-item" onclick="initGoods(${classifyInfo.order},${classifyInfo.cid!''},1)">
+							<a href="javascript:;">
+								<span>${classifyInfo.cname!''}</span>
+							</a>
+						</li>
+					</#list>
+				</#if>
+				<li class="tab-nav-item">
+					<a href="${basePath}/classify">
+						<span>更多</span>
+					</a>
+				</li>
+			</ul>
+		    <input type="hidden" id="num" name="num">
+		    <input type="hidden" id="goods_cid" name="goods_cid">
+			<div class="tab-panel">
+				<div id="goodsInfo0" class="tab-panel-item tab-active"></div>
+				<div id="goodsInfo1" class="tab-panel-item"></div>
+				<div id="goodsInfo2" class="tab-panel-item"></div>
+				<div id="goodsInfo3" class="tab-panel-item"></div>
+				<div id="goodsInfo4" class="tab-panel-item"></div>
+				<div id="goodsInfo5" class="tab-panel-item"></div>
+			</div>
+		</div>
+
+	</section>
+		<footer class="aui-footer aui-footer-fixed">
+			<a href="javascript:;" class="aui-tabBar-item aui-tabBar-item-active">
+							<span class="aui-tabBar-item-icon">
+								<i class="icon icon-loan"></i>
+							</span>
+				<span class="aui-tabBar-item-text">首页</span>
+			</a>
+			<a href="/classify" class="aui-tabBar-item ">
+							<span class="aui-tabBar-item-icon">
+								<i class="icon icon-credit"></i>
+							</span>
+				<span class="aui-tabBar-item-text">分类</span>
+			</a>
+			<a href="/good/seckill" class="aui-tabBar-item ">
+                    <span class="aui-tabBar-item-icon">
+                        <i class="icon icon-ions"></i>
+                    </span>
+				<span class="aui-tabBar-item-text">咚咚抢</span>
+			</a>
+		 	<a href="${basePath}/mine" class="aui-tabBar-item ">
+							<span class="aui-tabBar-item-icon">
+								<i class="icon icon-me"></i>
+							</span>
+				<span class="aui-tabBar-item-text">我的</span>
+			</a>
+		</footer>
+</section>
+</body>
+<script type="text/javascript" src="./resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="./resources/js/slider.js"></script>
+<script type="text/javascript" src="./resources/js/tab.js"></script>
+<script src="${basePath}/resources/js/more.js"></script>
+<script type="text/javascript">
+
+    var pageIndex = 1;
+
+    initApGoods(0,-1,pageIndex);
+
+    function initApGoods(index,cid,pageNo) {
+        $("#num").val(index);
+        $("#goods_cid").val(cid);
+        $.ajax({
+            type: "post", //使用post方法访问后台
+            dataType: "json", //返回json格式的数据
+            url: "${basePath}/good/goodApList", //要访问的后台地址
+            data: "cid="+cid+"&pageNo="+pageNo,// 你的formid
+            success: function(obj){//msg为返回的数据，在这里做数据绑定
+                if(obj!=""){
+                    if (typeof obj === 'string') {
+                        obj = JSON.parse(obj);
+                    }
+                    if (obj.code == "1000"){
+                        var goodsStr = "";
+                        var goodsInfo= "";
+                        if (typeof obj.data === 'string') {
+                            goodsInfo = JSON.parse(obj.data);
+                        }else{
+                            goodsInfo = obj.data;
+						}
+                        for(var i=0;i<goodsInfo.length;i++){
+                            var goodInfo = goodsInfo[i];
+                            goodsStr += "<a href=\"javascript:goodDetail("+goodInfo.goodsId+");\" class=\"aui-flex b-line\">"+
+                                "<div class=\"aui-ser-img\">" +
+                                "<img src=\""+goodInfo.mainPic+"\" alt=\"\">" +
+                                "</div>" +
+                                "<div class=\"aui-flex-box\">" +
+                                "<h2>"+goodInfo.title+"</h2>" +
+                                "<span>月销 "+goodInfo.monthSales+"</span>" +
+                                "<h3><em>"+goodInfo.couponPrice+"元劵</em><em style='background-color: #f50; color: #fff; position: relative;'>返利 "+goodInfo.commission+"元</em><i>原价 "+goodInfo.originalPrice+"</i></h3>" +
+                                "<h4><em>到手价￥"+goodInfo.actualPrice+"</em> <i>已领 <font color='red'>"+goodInfo.couponReceiveNum+"</font></i></h4>" +
+                                "</div></a>";
+                        }
+
+                        $("#goodsInfo"+index).append(goodsStr);
+                    } else{
+                        alert(obj.msg);
+                    }
+
+                }else{
+                    alert("添加失败");
+                }
+            }
+        });
+    }
+
+    function initGoods(index,cid,pageNo) {
+        $("#num").val(index);
+        $("#goods_cid").val(cid);
+        $.ajax({
+            type: "post", //使用post方法访问后台
+            dataType: "json", //返回json格式的数据
+            url: "${basePath}/good/goodList", //要访问的后台地址
+            data: "cid="+cid+"&pageNo="+pageNo,// 你的formid
+            success: function(obj){//msg为返回的数据，在这里做数据绑定
+                if(obj!=""){
+                    if (typeof obj === 'string') {
+                        obj = JSON.parse(obj);
+                    }
+                    if (obj.code == "1000"){
+                        var goodsStr = "";
+                        var goodsInfo= "";
+                        if (typeof obj.data === 'string') {
+                            goodsInfo = JSON.parse(obj.data);
+                        }else{
+                            goodsInfo = obj.data;
+                        }
+                        for(var i=0;i<goodsInfo.length;i++){
+                            var goodInfo = goodsInfo[i];
+                            goodsStr += "<a href=\"javascript:goodDetail("+goodInfo.goodsId+");\" class=\"aui-flex b-line\">"+
+								"<div class=\"aui-ser-img\">" +
+                                "<img src=\""+goodInfo.mainPic+"\" alt=\"\">" +
+                                "</div>" +
+                                "<div class=\"aui-flex-box\">" +
+                                "<h2>"+goodInfo.desc+"</h2>" +
+                                "<span>月销 "+goodInfo.monthSales+"</span>" +
+                                "<h3><em>"+goodInfo.couponPrice+"元劵</em><em style='background-color: #f50; color: #fff; position: relative;'>返利"+goodInfo.commission+"元</em><i>原价 "+goodInfo.originalPrice+"</i></h3>" +
+                                "<h4><em>到手价￥"+goodInfo.actualPrice+"</em> <i>已领 <font color='red'>"+goodInfo.couponReceiveNum+"</font></i></h4>" +
+                                "</div></a>";
+						}
+
+                        $("#goodsInfo"+index).append(goodsStr);
+                    } else{
+                        alert(obj.msg);
+                    }
+
+                }else{
+                    alert("添加失败");
+                }
+            }
+        });
+    }
+
+    $(window).scroll(function(){
+        if($(window).width()<420){
+            if(400<$(window).scrollTop()){
+                $(".tab-nav").addClass("fixed");
+            }else{
+                $(".tab-nav").removeClass("fixed");
+            }
+        }else if(420<$(window).width() && $(window).width()<450){
+            if(110<$(window).scrollTop()){
+                $(".tab-nav").addClass("fixed");
+            }else{
+                $(".tab-nav").removeClass("fixed");
+            }
+        }else{
+            if(420<$(window).scrollTop()){
+                $(".tab-nav").addClass("fixed");
+            }else{
+                $(".tab-nav").removeClass("fixed");
+            }
+        }
+    });
+
+    function goodDetail(goodsId){
+        //window.location.href = "${basePath}/good/privilege?goodsId="+goodsId;
+        window.location.href = "${basePath}/good/good_supper_detail?itemId="+goodsId+"&type=1";
+    }
+
+	function queryGoods(){
+        window.location.href = "${basePath}/good/goodSupperSearch";
+	}
+
+    // 自定义事件
+    function ajax_function() {
+        pageIndex++;
+        var num = $("#num").val();
+        var goods_cid = $("#goods_cid").val();
+        if(num==0){
+            initApGoods(num,goods_cid,pageIndex);
+		}else{
+            initGoods(num,goods_cid,pageIndex);
+		}
+    }
+</script>
+</html>
