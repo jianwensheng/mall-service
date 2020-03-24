@@ -211,11 +211,11 @@ public class GoodsRqCodeUtil {
 
             g.setFont(new Font("Microsoft YaHei", Font.PLAIN, 36));
             g.setColor(Color.gray);
-            g.drawString("花得值", 110, y);
+            g.drawString("水滴券", 110, y);
 
             g.setFont(new Font("Microsoft YaHei", Font.PLAIN, 25));
             g.setColor(Color.gray);
-            g.drawString("—— 淘宝、天猫、京东...优惠专享APP", 225, y-5);
+            g.drawString("—— 淘宝、天猫、京东...优惠专享", 225, y-5);
             y+=10;
 
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);						// 消除画图锯齿
