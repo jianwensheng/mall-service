@@ -404,6 +404,10 @@ public class GoodControler {
         JSONObject json = otherService.getThemeGoodsList(Long.parseLong(themeId));
         if (json.get("code").equals("1000")) {
             JSONArray goodList = JSONObject.parseObject(json.get("data").toString(), JSONArray.class);
+            goodList.forEach(good->{
+                JSONObject obj = (JSONObject) good;
+                obj.put("goods_id",obj.getString("goods_id"));
+            });
             model.addAttribute("goodList", goodList);
         }
         return "theme_goods_list";

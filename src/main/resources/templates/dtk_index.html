@@ -8,7 +8,7 @@
 	<meta content="yes" name="apple-mobile-web-app-capable" />
 	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
 	<meta content="telephone=no" name="format-detection" />
-	<link href="./resources/css/style.css" rel="stylesheet" type="text/css" />
+	<link href="${basePath}/resources/css/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <style>
@@ -122,19 +122,19 @@
 
 	</section>
 		<footer class="aui-footer aui-footer-fixed">
-			<a href="javascript:;" class="aui-tabBar-item aui-tabBar-item-active">
+			<a href="${basePath}/index" class="aui-tabBar-item aui-tabBar-item-active">
 							<span class="aui-tabBar-item-icon">
 								<i class="icon icon-loan"></i>
 							</span>
 				<span class="aui-tabBar-item-text">首页</span>
 			</a>
-			<a href="/classify" class="aui-tabBar-item ">
+			<a href="${basePath}/classify" class="aui-tabBar-item ">
 							<span class="aui-tabBar-item-icon">
 								<i class="icon icon-credit"></i>
 							</span>
 				<span class="aui-tabBar-item-text">分类</span>
 			</a>
-			<a href="/good/seckill" class="aui-tabBar-item ">
+			<a href="${basePath}/good/seckill" class="aui-tabBar-item ">
                     <span class="aui-tabBar-item-icon">
                         <i class="icon icon-ions"></i>
                     </span>
@@ -149,9 +149,9 @@
 		</footer>
 </section>
 </body>
-<script type="text/javascript" src="./resources/js/jquery.min.js"></script>
-<script type="text/javascript" src="./resources/js/slider.js"></script>
-<script type="text/javascript" src="./resources/js/tab.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/slider.js"></script>
+<script type="text/javascript" src="${basePath}/resources/js/tab.js"></script>
 <script src="${basePath}/resources/js/more.js"></script>
 <script type="text/javascript">
 
@@ -276,7 +276,6 @@
     });
 
     function goodDetail(goodsId){
-        //window.location.href = "${basePath}/good/privilege?goodsId="+goodsId;
         window.location.href = "${basePath}/good/good_supper_detail?itemId="+goodsId+"&type=1";
     }
 

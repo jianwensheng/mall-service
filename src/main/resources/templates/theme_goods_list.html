@@ -27,6 +27,9 @@
 		float: left;
 		width: 25%;
 	}
+	div, th, td {
+		font-size: 13px;
+	}
 </style>
 <section class="">
 	<header class="header" style="position: relative;"><a class="fl" href="javascript:history.back(-1)"><i class="b_1"></i></a><a href="javascript:;">商品列表</a></header>
@@ -59,7 +62,7 @@
 			<div class="goods-list goods-container">
 				<#if goodList?? && (goodList?size>0)>
 				  <#list goodList as good>
-						<div  class="goods-square-item"  >
+						<div  class="goods-square-item" onclick="location.href='${basePath}/good/good_supper_detail?itemId=${good.goods_id}&type=2'" >
 							<view class="goods-img">
 								<img lazyLoad="" src="${good.goods_thumbnail_url!''}"></img>
 							</view>

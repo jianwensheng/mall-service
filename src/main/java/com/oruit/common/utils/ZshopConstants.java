@@ -14,6 +14,15 @@ public class ZshopConstants {
     public static String MOBILE_HOST;
 
     public static  class UploadFilesConstants{
-        public  static String STATICFILESTEMPPATH = "D:/images/";
+
+        public static Boolean getIsWindowSystem(){
+            String name = System.getProperties().getProperty("os.name");
+            if(name.toLowerCase().contains("windows")){
+                return true;
+            }
+            return false;
+        }
+
+        public  static String STATICFILESTEMPPATH = getIsWindowSystem()?"D:/images/":"/opt/java/file";
     }
 }
