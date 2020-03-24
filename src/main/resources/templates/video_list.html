@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="水滴淘淘券">
+    <meta name="description" content="水滴淘淘券">
+    <meta name="author" content="lay-aui, a-ui.com">
+    <title>水滴淘淘券--视频</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <link type="text/css" rel="stylesheet" href="${basePath}/resources/themes/css/base.css">
+    <link type="text/css" rel="stylesheet" href="${basePath}/resources/themes/css/icon.css">
+    <link type="text/css" rel="stylesheet" href="${basePath}/resources/themes/css/home.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="iTunesArtwork@2x.png" sizes="114x114" rel="apple-touch-icon-precomposed">
+
+</head>
+<style>
+    .aui-scrollView {
+        width: 100%;
+        height: 100%;
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        position: relative;
+        margin-top: 0;
+        padding-bottom: 0px;
+    }
+</style>
+<body>
+
+
+<section class="aui-flexView aui-flexView-address">
+    <header class="aui-navBar aui-navBar-fixed b-line">
+        <a href="javascript:history.back(-1)" class="aui-navBar-item">
+            <i class="icon icon-return"></i>
+        </a>
+        <div class="aui-center">
+            <span class="aui-center-title">视频</span>
+        </div>
+    </header>
+    <section class="aui-scrollView">
+        <iframe src="${videoUrl!''}" width="100%" height="120%" style="border: medium none;margin-top:-140px;display:block;" />
+    </section>
+</section>
+
+<!-- 删除地址 弹窗 提示   通用弹窗 ene -->
+
+<script type="text/javascript" src="${basePath}/resources/themes/js/jquery.min.js"></script>
+<script type="text/javascript" src="${basePath}/resources/themes/js/slider.js"></script>
+<script type="text/javascript" src="${basePath}/resources/themes/js/tab.js"></script>
+
+</body>
+</html>

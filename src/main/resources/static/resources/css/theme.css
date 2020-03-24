@@ -39,7 +39,7 @@
 	white-space: nowrap;
 	padding-bottom: 8px;
 }
-.goods-square-item .goods-text__price {
+.goods-square-item .goods-text_price {
     line-height: 15px;
 	color: #ff464e;
 	font-size: 15px;

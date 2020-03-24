@@ -69,9 +69,9 @@
 							<div class="goods-text">
 								<div class="goods_detail">
 									<div class="goods-title">${good.goods_name!''}</div>
-									<div class="goods-text__price">
+									<div class="goods-text_price">
 										<label>拼团价: ${good.min_group_price!''}~${good.min_normal_price!''}</label>
-										<!--<label class="goods-text__del">11</label>-->
+										<label class="goods-text__del">11</label>
 									</div>
 									<div class="goods-text-extra">
 										<label class="good-comment-rate">描述分: ${good.desc_txt!''}</label>
@@ -80,6 +80,27 @@
 								</div>
 							</div>
 						</div>
+
+				<!--<div class="goods-square-item" onclick='window.location.href="${basePath}/good/good_supper_detail?itemId=${good.goods_id}&type=2"'>
+					<view class="goods-img">
+						<img lazyLoad="" src="${good.goods_thumbnail_url!''}" />
+					</view>
+					<div class="goods-text">
+						<div class="goods_detail">
+							<div class="goods-title">${good.title!''}</div>
+							<div class="goods-text_price">
+								<div class="merchantTag">${good.qfee!''}元</div>
+								<label class="good-quan">券后: <font style='font-size: 15px'>${good.itemfee2!''}</font></label>
+								<label class="good-price">${good.itemfee!''}</label>
+								</div>
+							<div class="goods-text-extra">
+								<label class="good-fanli">返利: <font style='color:#ff464e;'>${good.fanli!''}</font></label>
+								<label class="sale-amount">销量 ${good.sales_tip!''}</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>-->
 				  </#list>
 				</#if>
 			</div>
@@ -115,7 +136,7 @@
                         var goodsInfo = JSON.parse(obj.data);
                         for(var i=0;i<goodsInfo.length;i++){
                             var goodInfo = goodsInfo[i];
-                            goodsStr += "<a href=\"javascript:goodDetail("+goodInfo.goodsId+",'"+goodInfo.mainPic+"');\" class=\"aui-flex b-line\">"+
+                         /*   goodsStr += "<a href=\"javascript:goodDetail("+goodInfo.goodsId+",'"+goodInfo.mainPic+"');\" class=\"aui-flex b-line\">"+
 								"<div class=\"aui-ser-img\">" +
                                 "<img src=\""+goodInfo.mainPic+"\" alt=\"\">" +
                                 "</div>" +
@@ -124,7 +145,27 @@
                                 "<span>月销 "+goodInfo.monthSales+"</span>" +
                                 "<h3><em>"+goodInfo.couponPrice+"元劵</em> <i>原价 "+goodInfo.originalPrice+"</i></h3>" +
                                 "<h4><em>到手价￥"+goodInfo.actualPrice+"</em> <i>再返1.88元</i></h4>" +
-                                "</div></a>";
+                                "</div></a>";*/
+
+                            goodsStr +="<div class=\"goods-square-item\" onclick='window.location.href=\"${basePath}/good/good_supper_detail?itemId="+goodInfo.goods_id+"&type=2\"'>" +
+                                "<view class=\"goods-img\">" +
+                                "<img lazyLoad=\"\" src=\""+goodInfo.pic+"\"></img>" +
+                                "</view>" +
+                                "<div class=\"goods-text\">" +
+                                "<div class=\"goods_detail\">" +
+                                "<div class=\"goods-title\">"+goodInfo.title+"</div>" +
+                                "<div class=\"goods-text_price\">" +
+                                "<div class=\"merchantTag\">"+goodInfo.qfee+"元</div>" +
+                                "<label class=\"good-quan\">券后: <font style='font-size: 15px'>"+goodInfo.itemfee2+"</font></label>" +
+                                "<label class=\"good-price\">"+goodInfo.itemfee+"</label>" +
+                                "</div>" +
+                                "<div class=\"goods-text-extra\">" +
+                                "<label class=\"good-fanli\">返利: <font style='color:#ff464e;'>"+goodInfo.fanli+"</font></label>" +
+                                "<label class=\"sale-amount\">销量 "+goodInfo.itemmsell+"</label>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>";
 						}
 
                         $("#goodsInfo"+index).html(goodsStr);

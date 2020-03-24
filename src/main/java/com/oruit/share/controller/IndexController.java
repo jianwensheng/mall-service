@@ -70,4 +70,12 @@ public class IndexController {
     public String mine(HttpServletRequest request, Model model) {
         return "mine";
     }
+
+    @RequestMapping("/video")
+    public String video(HttpServletRequest request, Model model) {
+        model.addAttribute("videoUrl","https://m.baidu.com/sf/vsearch?pd=xsp&word=%E6%90%9E%E7%AC%91%E8%A7%86%E9%A2%91&tn=vsearch&sa=vs_ala_xsp_4660_n_1&lid=10137342229833437883&ms=1&atn=index");
+        return "video_list";
+    }
+
+
 }
