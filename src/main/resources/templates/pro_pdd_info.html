@@ -310,10 +310,21 @@
       border-radius: 0px 25px 25px 0px;
     }
 
+    .p_com{
+      background:rgba(0,0,0,0.5);
+      padding:5px 10px;
+      color:#fff;
+      border-radius:55px;
+      font-size: 14px;
+      line-height:19px;
+      height:25px;
+    }
+
     /*nb新底部*/
   </style>
   <script type="text/javascript" src="${basePath}/resources/supper/js/jquery.min.js"></script>
   <script type="text/javascript" src="${basePath}/resources/supper/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="${basePath}/resources/supper/js/layer.js"></script>
   <script src="//res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
   <script type="text/javascript">
 
@@ -354,9 +365,8 @@
 <div id="fixpic" style="display:none">
 </div>
 <div class="loadingbar3" style="display:none">
-  <div class='loading3'><img src='../addons/bsht_tbk/res/images/loading2.gif' style="width: 45px;height: 45px;"><br>合成中，请稍后<br></div>
+  <div class='loading3'><img src='${basePath}/resources/images/loading.gif' style="width: 45px;height: 45px;"><br>加载中，请稍后<br></div>
 </div>
-
 <!-- 浮在轮播图上的其他用户兑换动画 -->
 <div class="fix_top nbfixmid"  id="duihuanListTransId" v-cloak>
   <transition-group name="bounce" tag="div" class="fix_top_inner" style="display: none">
@@ -429,7 +439,7 @@
 
 
 <div style="position:absolute;left:15px;top:6.66rem;z-index:10001;">
-  <div style="background:rgba(0,0,0,0.5);padding:5px 10px;color:#fff;border-radius:55px;font-size: 14px;line-height:19px;height:25px;"> 约奖：2.64元宝 </div>
+  <div class="p_com"></div>
 </div>
 <!-- 商品描述 -->
 <div style="background-color: #fff" class=" nbfixmid">
@@ -438,16 +448,16 @@
       <p class="tmailouter" style="width:auto">
         <img src="http://www.fqqfq.com/addons/nice_pdd/res/hbpic/pdd.jpg" style="width:0.33rem;height:0.33rem">
       </p>
-      <span class="productintroducetitle">富贵鸟纯棉春秋季女士运动休闲套装2019新款韩版长袖大码两件套潮</span>
+      <span class="productintroducetitle"></span>
     </div>
     <div class="yuanjia" style="display:none">
-      原价&yen;178</div>
+      原价&yen;</div>
     <div class="numbers">
       <p class="left_numbers" style="display:none">
         <img src="http://www.fqqfq.com/addons/nice_pdd/res/image/big_quan_hou-884cee73f1.png" alt="">
 
-        <span class="font30">&nbsp;&yen;</span>78.6</p>
-      <p class="right_numbers">已拼 7 件</p>
+        <span class="font30">&nbsp;&yen;</span></p>
+      <p class="right_numbers">已拼  件</p>
     </div>
 
     <a id="getCouponBtn" class="middle_quan ga" onclick="gopdd();">
@@ -466,6 +476,12 @@
       <div class="tuijian">推荐语</div>
       <span class="wenan" id="dsc"></span>
     </div>
+
+    <input type="hidden" id="title" name="title"/>
+    <input type="hidden" id="zk_price" name="zk_price"/>
+    <input type="hidden" id="actual_price" name="actualPrice"/>
+    <input type="hidden" id="coupon_discount" name="coupon_discount"/>
+    <input type="hidden" id="mainPic" name="mainPic"/>
 
   </div>
 </div>
@@ -530,7 +546,7 @@
     </a>
   </div>
 
-  <div class="btn4 nb-camera" ><p style="position: absolute;display: block;text-align: center;margin: 0 auto;width: 100%;">告诉好友</p></div>
+  <div class="btn4 nb-camera" ><p style="position: absolute;display: block;text-align: center;margin: 0 auto;width: 100%;">分享好友</p></div>
 
 
 
@@ -637,58 +653,54 @@
                                     0 == a(3) && ($(".hd_type").remove(), clearInterval(t))
                                 },
                                 100));
+                        }else{
+                            $(".outTime").hide();
+                            $("#getCouponBtn").hide();
                         }
 
-                        if(data.info == '9527'){
+                        if(data.couponDiscount == 0){
                             $('.join_txt').html('折后拼购');
-                            $('.fee2t').hide();
-                            $('.fee2').hide();
-                            $('.fee1').attr('style','text-decoration:none');
-                            $('.fee1t').html('优质折扣商品');
-                            $('.fee1t').attr('style','padding-top:13px;');
-                            $('.middle_quan_money').html('优惠券已过期');
                             $('.middle_quan_get').html('立即拼购');
                             $('.btn5').html('立即拼购');
-                        }else{
-                            if(typeof data.imgs != 'undefined'){
-                                if(data.imgs){
-                                    var piclen = data.imgs.length;
-                                    if(piclen>0){
-                                        $('#pic_li0').hide();
-                                        if(piclen>=5){
-                                            piclen = 5;
-                                        }
-                                        var smpics = data.imgs;
+                        }
 
-                                        if(piclen==1){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li1').show();}
-                                        if(piclen==2){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li2 .preloadbg').attr('src',smpics[1]);$('#pic_li1').show();$('#pic_li2').show();}
-                                        if(piclen==3){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li2 .preloadbg').attr('src',smpics[1]);$('#pic_li3 .preloadbg').attr('src',smpics[2]);$('#pic_li1').show();$('#pic_li2').show();$('#pic_li3').show();}
-                                        if(piclen==4){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li2 .preloadbg').attr('src',smpics[1]);$('#pic_li3 .preloadbg').attr('src',smpics[2]);$('#pic_li4 .preloadbg').attr('src',smpics[3]);$('#pic_li1').show();$('#pic_li2').show();$('#pic_li3').show();$('#pic_li4').show();}
-                                        if(piclen==5){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li2 .preloadbg').attr('src',smpics[1]);$('#pic_li3 .preloadbg').attr('src',smpics[2]);$('#pic_li4 .preloadbg').attr('src',smpics[3]);$('#pic_li5 .preloadbg').attr('src',smpics[4]);$('#pic_li1').show();$('#pic_li2').show();$('#pic_li3').show();$('#pic_li4').show();$('#pic_li5').show();}
-
-
-                                        if(piclen>=1){
-
-                                            var fixpic = "";
-                                            for (var i = 0; i < piclen; i++) {
-                                                fixpic += '<div class="briefInfo_img"><img class="lazy" data-original="' + smpics[i] + '"/></div>';
-                                            }
-                                            $("#fixpic").html(fixpic);
-                                            //$("#briefInfo").html(fixpic);
-                                            $("#expandMore").click();
-                                            //Util.lazyload('lazy');
-                                        }
-//fix
-//pics
-                                        var mySwiper = new Swiper(".swiper-container", {
-                                            direction: "horizontal",
-                                            pagination: {
-                                                el: ".swiper-pagination"
-                                            }
-                                        });
-//pics
-
+                        if(typeof data.imgs != 'undefined'){
+                            if(data.imgs){
+                                var piclen = data.imgs.length;
+                                if(piclen>0){
+                                    $('#pic_li0').hide();
+                                    if(piclen>=5){
+                                        piclen = 5;
                                     }
+                                    var smpics = data.imgs;
+
+                                    if(piclen==1){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li1').show();}
+                                    if(piclen==2){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li2 .preloadbg').attr('src',smpics[1]);$('#pic_li1').show();$('#pic_li2').show();}
+                                    if(piclen==3){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li2 .preloadbg').attr('src',smpics[1]);$('#pic_li3 .preloadbg').attr('src',smpics[2]);$('#pic_li1').show();$('#pic_li2').show();$('#pic_li3').show();}
+                                    if(piclen==4){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li2 .preloadbg').attr('src',smpics[1]);$('#pic_li3 .preloadbg').attr('src',smpics[2]);$('#pic_li4 .preloadbg').attr('src',smpics[3]);$('#pic_li1').show();$('#pic_li2').show();$('#pic_li3').show();$('#pic_li4').show();}
+                                    if(piclen==5){$('#pic_li1 .preloadbg').attr('src',smpics[0]);$('#pic_li2 .preloadbg').attr('src',smpics[1]);$('#pic_li3 .preloadbg').attr('src',smpics[2]);$('#pic_li4 .preloadbg').attr('src',smpics[3]);$('#pic_li5 .preloadbg').attr('src',smpics[4]);$('#pic_li1').show();$('#pic_li2').show();$('#pic_li3').show();$('#pic_li4').show();$('#pic_li5').show();}
+
+
+                                    if(piclen>=1){
+
+                                        var fixpic = "";
+                                        for (var i = 0; i < piclen; i++) {
+                                            fixpic += '<div class="briefInfo_img"><img class="lazy" data-original="' + smpics[i] + '"/></div>';
+                                        }
+                                        $("#fixpic").html(fixpic);
+                                        //$("#briefInfo").html(fixpic);
+                                        $("#expandMore").click();
+                                        //Util.lazyload('lazy');
+                                    }
+
+                                    var mySwiper = new Swiper(".swiper-container", {
+                                        direction: "horizontal",
+                                        pagination: {
+                                            el: ".swiper-pagination"
+                                        }
+                                    });
+
+
                                 }
                             }
                         }
@@ -741,7 +753,6 @@
                                         content += '<div class="briefInfo_img"><img class="lazy" data-original="' + pics[i] + '" src="' + pics[i] + '" style="opacity: 1;" /></div>';
                                     }
                                     $("#briefInfo").append(content);
-                                    //console.log(len);
                                     $("#expandMore").click();
                                 }else{
                                     //fix
@@ -774,6 +785,13 @@
                         $("#alonePrice").html("¥"+data.alonePrice);
                         $("#actualPrice").html("¥"+data.actualPrice);
                         $(".middle_quan_money").html(data.couponDiscount+"元优惠券");
+                        $(".p_com").html("返佣 "+data.commission+"元");
+
+                        $("#title").val(data.title);
+                        $("#zk_price").val(data.zkPrice);
+                        $("#actual_price").val(data.actualPrice);
+                        $("#coupon_discount").val(data.couponDiscount);
+                        $("#mainPic").val(data.mainPic);
 
                         if(!type){
                             window.location.href=data.weurl;
@@ -860,9 +878,14 @@
     $(".nb-camera").click(function(){
 
         $('.loadingbar3').fadeIn(300);
+        var postsurl = "${basePath}/small/loadGoodImgsUrl";
 
-        var postsurl = "./index.php?i=11&c=entry&shopid=0&do=abc__hbpic&m=nice_pdd";
-        var odinfo = '';
+        var title = $("#title").val();
+        var zk_price = $("#zk_price").val();
+        var actual_price = $("#actual_price").val();
+        var coupon_discount = $("#coupon_discount").val();
+        var mainPic = $("#mainPic").val();
+
         $.ajax({
             type:"POST",
             url: postsurl,
@@ -870,29 +893,23 @@
             jsonp: 'callback',
             data:{
                 iid:"90907237643",
-                odinfo:odinfo
+                url:"www.baidu.com",
+                title:title,
+                price:zk_price,
+                couponPrice:coupon_discount,
+                orgPrice:actual_price,
+                goodsId:"${goodsId}",
+                actid:"509d834b405741e795e3cd3979c152d7",
+                picUrl:mainPic,
+                hasCoupon:"true",
+                from:"pdd"
             },
             success: function (dat) {
-                if (dat.status == 1) {
+                if (dat.code=='1000') {
+                    var data = dat.data;
                     $('#jumpurl').val(dat.url);
-
-                    if(dat.moban && dat.moban!=''){
-
-                        if (isIos()) {
-                            var content = dat.moban;
-                            //content = content.replace(/\<\/?(br|p){1}\s*\/?\s*\>/gim, "");
-                            //content = content.replace(/&nbsp;/gim,"");
-                        } else {
-                            var content = dat.moban;
-
-                        }
-
-                        $('#readmoban').html(content);
-                    }
-
-
-                    var picdiv = "<div id='allsharepic' class='sharepicw100' style='padding:0px'><div class='sharepicw100'><img id='startpic' src='" + dat.pic + "?v=2018' class='sharepicw100' style='max-width:100%;max-height:80vh'></div></div>";
-                    $(".imgData").attr("src", dat.pic + "?v=2018");
+                    var picdiv = "<div id='allsharepic' class='sharepicw100' style='padding:0px'><div class='sharepicw100'><img id='startpic' src='" + data.picUrl + "?v=2018' class='sharepicw100' style='max-width:100%;max-height:80vh'></div></div>";
+                    $(".imgData").attr("src", data.picUrl + "?v=2018");
                     layer.open({
                         title:false,
                         type: 1,

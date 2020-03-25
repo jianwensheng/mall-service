@@ -218,6 +218,9 @@ public class GoodControler {
                 String couponEndTime = goodsDetail.getString("couponEndTime");
                 Double couponReceiveNum = goodsDetail.getDouble("couponReceiveNum");
                 Double couponTotalNum = goodsDetail.getDouble("couponTotalNum");
+                Double commissionRate = goodsDetail.getDouble("commissionRate");
+                Double actualPrice = goodsDetail.getDouble("actualPrice");
+                Double rate = commissionRate/100;
                 if(StringUtils.isNotEmpty(couponStartTime)){
                     goodsDetail.put("couponStartTime", sdf.format(sdf.parse(couponStartTime)));
                 }
@@ -227,6 +230,9 @@ public class GoodControler {
                 if(couponTotalNum>couponReceiveNum){
                     goodsDetail.put("margin", ((couponTotalNum - couponReceiveNum) / couponTotalNum) * 100);//券剩余量,单位%
                 }
+
+                goodsDetail.put("prize",MethodUtil.calculateProfit(rate*actualPrice));
+
                 model.addAttribute("good", goodsDetail);
             }
 
@@ -404,10 +410,6 @@ public class GoodControler {
         JSONObject json = otherService.getThemeGoodsList(Long.parseLong(themeId));
         if (json.get("code").equals("1000")) {
             JSONArray goodList = JSONObject.parseObject(json.get("data").toString(), JSONArray.class);
-            goodList.forEach(good->{
-                JSONObject obj = (JSONObject) good;
-                obj.put("goods_id",obj.getString("goods_id"));
-            });
             model.addAttribute("goodList", goodList);
         }
         return "theme_goods_list";

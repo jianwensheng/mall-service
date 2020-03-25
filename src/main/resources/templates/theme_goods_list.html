@@ -30,77 +30,95 @@
 	div, th, td {
 		font-size: 13px;
 	}
+
+	.goods-text_price .merchantTag {
+		box-sizing: border-box;
+		border-radius: 3px;
+		opacity: .7;
+		border: 1px solid #fe3a33;
+		font-size: 10px;
+		font-family: PingFangSC;
+		font-weight: 400;
+		color: #fff;
+		text-align: center;
+		padding: 0 5px;
+		word-break: keep-all;
+		display: inline-block;
+		height: 15px;
+		line-height: 13px;
+		margin-right: 5px;
+		background: #fe3a33;
+	}
+
+	.goods-text_price .merchantTag2 {
+		box-sizing: border-box;
+		border-radius: 3px;
+		opacity: .7;
+		font-size: 10px;
+		font-family: PingFangSC;
+		font-weight: 400;
+		color: #fff;
+		text-align: center;
+		padding: 0 5px;
+		word-break: keep-all;
+		display: inline-block;
+		height: 15px;
+		line-height: 13px;
+		margin-right: 5px;
+	}
+
+	.goods-text-extra .good-quan{
+		position: absolute;
+		color: #fe3a33;
+	}
+
+	.goods-text-extra {
+		height: 30px;
+		border-top: 1px dashed #fff;
+		flex-direction: row;
+		align-items: center;
+		position: relative;
+		font-size: 8px;
+	}
+
+	.goods-img .cover {
+		background-color: rgba(0,0,0,0.6);
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		color: #fff;
+		text-align: center;
+		line-height: 20px;
+		font-size: 13px;
+		width: 100%;
+	}
+
 </style>
 <section class="">
 	<header class="header" style="position: relative;"><a class="fl" href="javascript:history.back(-1)"><i class="b_1"></i></a><a href="javascript:;">商品列表</a></header>
 	<section class="aui-scrollView">
-		<!--<div class="divHeight"></div>-->
 		<div class="aui-tab" data-ydui-tab>
-			<ul class="tab-nav">
-				<li class="tab-nav-item tab-active">
-					<a href="javascript:;">
-						<span>综合排序</span>
-					</a>
-				</li>
-				<li class="tab-nav-item" >
-					<a href="javascript:;">
-						<span>销量</span>
-					</a>
-				</li>
-				<li class="tab-nav-item" >
-					<a href="javascript:;">
-						<span>价格降序</span>
-					</a>
-				</li>
-				<li class="tab-nav-item"  >
-					<a href="javascript:;">
-						<span>价格升序</span>
-					</a>
-				</li>
-				<!--默认为0，0-综合排序，1-商品上架时间从高到低，2-销量从高到低，3-领券量从高到低，4-佣金比例从高到低，5-价格（券后价）从高到低，6-价格（券后价）从低到高-->
-			</ul>
 			<div class="goods-list goods-container">
 				<#if goodList?? && (goodList?size>0)>
 				  <#list goodList as good>
 						<div  class="goods-square-item" onclick="location.href='${basePath}/good/good_supper_detail?itemId=${good.goods_id}&type=2'" >
-							<view class="goods-img">
+							<div class="goods-img">
 								<img lazyLoad="" src="${good.goods_thumbnail_url!''}"></img>
-							</view>
+								<div class="cover">返利 ${good.commission!''}元</div>
+							</div>
 							<div class="goods-text">
 								<div class="goods_detail">
 									<div class="goods-title">${good.goods_name!''}</div>
 									<div class="goods-text_price">
-										<label>拼团价: ${good.min_group_price!''}~${good.min_normal_price!''}</label>
-										<label class="goods-text__del">11</label>
+										<#if good.qfee!=0><div class="merchantTag">${good.qfee!''}元</div><#else><div class="merchantTag2"></div></#if>
 									</div>
 									<div class="goods-text-extra">
-										<label class="good-comment-rate">描述分: ${good.desc_txt!''}</label>
+										<label class="good-quan"><#if good.qfee!=0>券后: </#if><font style='font-size: 16px'>¥${good.min_group_price!''}</font></label>
 										<label class="sale-amount">销量 ${good.sales_tip!''}</label>
 									</div>
 								</div>
 							</div>
 						</div>
-
-				<!--<div class="goods-square-item" onclick='window.location.href="${basePath}/good/good_supper_detail?itemId=${good.goods_id}&type=2"'>
-					<view class="goods-img">
-						<img lazyLoad="" src="${good.goods_thumbnail_url!''}" />
-					</view>
-					<div class="goods-text">
-						<div class="goods_detail">
-							<div class="goods-title">${good.title!''}</div>
-							<div class="goods-text_price">
-								<div class="merchantTag">${good.qfee!''}元</div>
-								<label class="good-quan">券后: <font style='font-size: 15px'>${good.itemfee2!''}</font></label>
-								<label class="good-price">${good.itemfee!''}</label>
-								</div>
-							<div class="goods-text-extra">
-								<label class="good-fanli">返利: <font style='color:#ff464e;'>${good.fanli!''}</font></label>
-								<label class="sale-amount">销量 ${good.sales_tip!''}</label>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>-->
 				  </#list>
 				</#if>
 			</div>
@@ -116,73 +134,8 @@
 <script src="${basePath}/resources/js/search_index.js"></script>
 <script src="${basePath}/resources/js/more.js"></script>
 <script type="text/javascript">
-    var pageIndex = 1;
-
-
-    function searchGoods(index,goodsName,pageNo) {
-
-        $.ajax({
-            type: "post", //使用post方法访问后台
-            dataType: "json", //返回json格式的数据
-            url: "${basePath}/good/goodSearchList", //要访问的后台地址
-            data: "goodsName="+goodsName+"&pageNo="+pageNo,// 你的formid
-            success: function(obj){//msg为返回的数据，在这里做数据绑定
-                if(obj!=""){
-                    if (typeof obj === 'string') {
-                        obj = JSON.parse(obj);
-                    }
-                    if (obj.code == "1000"){
-                        var goodsStr = "";
-                        var goodsInfo = JSON.parse(obj.data);
-                        for(var i=0;i<goodsInfo.length;i++){
-                            var goodInfo = goodsInfo[i];
-                         /*   goodsStr += "<a href=\"javascript:goodDetail("+goodInfo.goodsId+",'"+goodInfo.mainPic+"');\" class=\"aui-flex b-line\">"+
-								"<div class=\"aui-ser-img\">" +
-                                "<img src=\""+goodInfo.mainPic+"\" alt=\"\">" +
-                                "</div>" +
-                                "<div class=\"aui-flex-box\">" +
-                                "<h2>"+goodInfo.desc+"</h2>" +
-                                "<span>月销 "+goodInfo.monthSales+"</span>" +
-                                "<h3><em>"+goodInfo.couponPrice+"元劵</em> <i>原价 "+goodInfo.originalPrice+"</i></h3>" +
-                                "<h4><em>到手价￥"+goodInfo.actualPrice+"</em> <i>再返1.88元</i></h4>" +
-                                "</div></a>";*/
-
-                            goodsStr +="<div class=\"goods-square-item\" onclick='window.location.href=\"${basePath}/good/good_supper_detail?itemId="+goodInfo.goods_id+"&type=2\"'>" +
-                                "<view class=\"goods-img\">" +
-                                "<img lazyLoad=\"\" src=\""+goodInfo.pic+"\"></img>" +
-                                "</view>" +
-                                "<div class=\"goods-text\">" +
-                                "<div class=\"goods_detail\">" +
-                                "<div class=\"goods-title\">"+goodInfo.title+"</div>" +
-                                "<div class=\"goods-text_price\">" +
-                                "<div class=\"merchantTag\">"+goodInfo.qfee+"元</div>" +
-                                "<label class=\"good-quan\">券后: <font style='font-size: 15px'>"+goodInfo.itemfee2+"</font></label>" +
-                                "<label class=\"good-price\">"+goodInfo.itemfee+"</label>" +
-                                "</div>" +
-                                "<div class=\"goods-text-extra\">" +
-                                "<label class=\"good-fanli\">返利: <font style='color:#ff464e;'>"+goodInfo.fanli+"</font></label>" +
-                                "<label class=\"sale-amount\">销量 "+goodInfo.itemmsell+"</label>" +
-                                "</div>" +
-                                "</div>" +
-                                "</div>" +
-                                "</div>";
-						}
-
-                        $("#goodsInfo"+index).html(goodsStr);
-                    } else{
-                        alert(obj.msg);
-                    }
-
-                }else{
-                    alert("添加失败");
-                }
-            }
-        });
-    }
-
     function goodDetail(goodsId){
         window.location.href = "${basePath}/good/privilege?goodsId="+goodsId;
 	}
-
 </script>
 </html>

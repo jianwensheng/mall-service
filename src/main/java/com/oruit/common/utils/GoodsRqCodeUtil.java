@@ -91,27 +91,13 @@ public class GoodsRqCodeUtil {
             g.drawImage(couponImg.getScaledInstance(730, 158, Image.SCALE_SMOOTH), 10, y+10, 730, 158, null);
             y+=75;
 
-            Double price = -1.0;
-            Double rebatePrice = 0.0;
-            try{
-                rebatePrice =  (Double.valueOf(vo.getCommission()) * 0.33);
-                price = Double.valueOf(vo.getPrice()) - rebatePrice;
-                price = new BigDecimal(price).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                rebatePrice = new BigDecimal(rebatePrice).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            }catch(Exception e){
-                log.error("计算到手价失败", e);
-            }
 
             String couponPrice = vo.getCouponPrice() == null ? "0" : vo.getCouponPrice();
-            String info =vo.getHasCoupon() ? "领" + couponPrice + "元券，下单返"+rebatePrice.toString() + "元" :  "下单返"+rebatePrice.toString() + "元";
+            String info = vo.getHasCoupon() ?  couponPrice + "元券":"";
 
             g.setFont(new Font("Microsoft YaHei", Font.BOLD, 30));
             g.setColor(new Color(255, 255, 255));
-            g.drawString(info , vo.getHasCoupon() ? 40 : 110, y+15);
-
-            g.setFont(new Font("Microsoft YaHei", Font.PLAIN, 28));
-            g.setColor(new Color(255, 255, 255));
-            g.drawString("超值好物，买就返现" , 90, y+65);
+            g.drawString(info , 110, y+15);
 
             String btnTitle ="长按获取";
             g.setColor(new Color(255, 255, 255));
@@ -131,7 +117,7 @@ public class GoodsRqCodeUtil {
             y+=25;
 
             // 写入平台图片
-            g.drawImage(platImage.getScaledInstance(52, 28, Image.SCALE_SMOOTH), 15, y+7, 52, 28, null);
+            g.drawImage(platImage.getScaledInstance(52, 40, Image.SCALE_SMOOTH), 15, y+2, 52, 40, null);
             y+=30;
 
             // 写入商品名
@@ -192,6 +178,8 @@ public class GoodsRqCodeUtil {
             g.setColor(Color.red);
             g.drawString("¥" , 125, y+45);
 
+            Double price = Double.parseDouble(vo.getPrice());
+
             // 到手价金额
             g.setFont(new Font("Microsoft YaHei", Font.BOLD, 60));
             g.setColor(Color.red);
@@ -207,7 +195,7 @@ public class GoodsRqCodeUtil {
             g.setColor(new Color(89, 89, 89));
             g.drawString("¥" + vo.getOrgPrice() , 415, y+45);
 
-            y+=110;
+           /* y+=110;
 
             g.setFont(new Font("Microsoft YaHei", Font.PLAIN, 36));
             g.setColor(Color.gray);
@@ -216,7 +204,7 @@ public class GoodsRqCodeUtil {
             g.setFont(new Font("Microsoft YaHei", Font.PLAIN, 25));
             g.setColor(Color.gray);
             g.drawString("—— 淘宝、天猫、京东...优惠专享", 225, y-5);
-            y+=10;
+            y+=10;*/
 
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);						// 消除画图锯齿
             g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);	// 消除文字锯齿

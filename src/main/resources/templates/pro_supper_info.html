@@ -44,11 +44,6 @@
     .goodsdetail img{margin-top: 0px;}
   </style>
   <title>${good.title!''}</title>
-  <SCRIPT language=javascript>
-      <!--
-      //window.onerror=function(){return true;}
-      // -->
-  </SCRIPT>
   <script>
       var uuid = '0';
       var deviceWidth = document.documentElement.clientWidth;
@@ -652,8 +647,8 @@
       <img src="${basePath}/resources/images/mal.png" style="border-radius: 3px;vertical-align: middle;margin-bottom: 1px;width:16px;height:16px;margin-right:3px;display:none" id="istm">
       <img src="${basePath}/resources/images/logo_tb.png" style="border-radius: 3px;vertical-align: middle;margin-bottom: 1px;width:16px;height:16px;margin-right:3px;display:none" id="istb">${good.title!''}</div>
     <div class="goodsprice">
-      <span class="baseprice"><em class="detailfanzi">佣金</em><em class="detailfanmoney">12.58元宝</em></span>		    </div>
-    <a class="goodscollection addfav" data-id="609370213819" href="javascript:;" id="isfav" style="bottom: 33px;">收藏</a>
+      <span class="baseprice"><em class="detailfanzi">返佣</em><em class="detailfanmoney">${good.prize!'0'}元</em></span>		    </div>
+    <a class="goodscollection addfav" data-id="${good.goodsId!''}" href="javascript:;" id="isfav" style="bottom: 33px;">收藏</a>
   </div>
   <style>
     .progress {
@@ -1535,7 +1530,7 @@
     <div class="nbnav nb-btn1"><a href="${basePath}/index"><img src="${basePath}/resources/images/show_home.png" style="height:16px">&nbsp;首页</a></div>
     <!--div class="nbnav nb-btn2" onclick="wxkf()"><i class="iconfont icon-uc" style="font-size:12px"></i>&nbsp;客服</div-->
 
-    <div class="nbnav nb-btn2 nb-camera nbuid"><img src="${basePath}/resources/images/show_share.png" style="height:16px" class="btndh">&nbsp;乐享</div>
+    <div class="nbnav nb-btn2 nb-camera nbuid"><img src="${basePath}/resources/images/show_share.png" style="height:16px" class="btndh">&nbsp;分享</div>
 
 
     <div class="nbnav2 nb-btn3" data-clipboard-text="nbtbk"><a href="javascript:" onclick="openjump();">浏览器打开</a></div>
@@ -1549,7 +1544,7 @@
 
 
     <a href="javascript:;" data-bk="http://img.alicdn.com/imgextra/i3/2206868146929/O1CN01RdIVld213Wuox7Hy7_!!2206868146929.jpg_250x250.jpg" data-id="" id="609370213819" data-id="609370213819" class="goodsget" style="color: #ffffff;font-size: 12px;font-weight:normal;letter-spacing: 0px;" data-clipboard-action="copy" data-clipboard-target="#readtkl">
-      <div class="nbnav2 nb-btn4">点击购买</div>
+      <div class="nbnav2 nb-btn4">复制口令</div>
     </a>
 
 
@@ -2442,9 +2437,9 @@
                 sell:postsell,
                 title:"${good.dtitle!''}",
                 wenan:"${good.desc!''}",
-                commission:"30",
-                price:"269.9",
+                price:"${good.actualPrice!''}",
                 couponPrice:"${good.couponPrice!''}",
+                orgPrice:"${good.originalPrice!''}",
                 goodsId:"${good.goodsId}",
                 actid:"509d834b405741e795e3cd3979c152d7",
                 istm:istm,
@@ -2786,7 +2781,7 @@
             $('.addfav').html('收藏');
 
 
-            var url = "./index.php?i=11&c=entry&itempic=http%3A%2F%2Fimg.alicdn.com%2Fimgextra%2Fi3%2F2206868146929%2FO1CN01RdIVld213Wuox7Hy7_%21%212206868146929.jpg&itemtitle=%E9%AB%98%E6%A1%A3%E7%B2%BE%E5%93%81%E8%95%BE%E4%B8%9D%E7%BE%8E%E8%83%8C%E5%86%85%E8%A1%A3%E5%A5%B3%E6%97%A0%E9%92%A2%E5%9C%88%E5%B0%8F%E8%83%B8%E8%81%9A%E6%8B%A2%E6%96%87%E8%83%B82019%E6%96%B0%E6%AC%BE%E5%A5%B3%E5%A3%AB%E8%83%B8%E7%BD%A9%E5%A5%97%E8%A3%85&itemid=609370213819&act=fav&itemfee=269.9&itemfee2=69.9&itemfee3=200&itemmsell=71971&type=2&actid=509d834b405741e795e3cd3979c152d7&type2url=aHR0cDovL3d3dy5mcXFmcS5jb20vYXBwL2luZGV4LnBocD9pPTExJmM9ZW50cnkmZG89c2hvd19hcGkmbT1id3d0bHdfV1c1T2IyUkdPVEJaYlhNOV81NjQ1MzMmaWlkPTYwOTM3MDIxMzgxOSZhY3RpZD01MDlkODM0YjQwNTc0MWU3OTVlM2NkMzk3OWMxNTJkNyZ5aj0yMC45NyZ0aXQ9NmF1WTVxR2o1N0tfYjVaT0I2SldfYjVMaWQ1NzZPNklPTTVZYUY2S0dqNWFXejVwZWc2WktpNVp5STViQ1A2SU80NklHYTVvdWk1cGFINklPNE1qQXhPZWFXc09hc3Z1V2xzX2JXanFfYmlEdU9lOXFlV2xsX2JpamhRX2NfYyZ3ZW5hbj00NENRNmF1WTU2dXY1Wk9CNkxTbzQ0Q1I2WWVINTVTbzZMX2JiNVlfYmo1TGlkNVlXSjU3R3o2YXVZNloyaTVwYVo3N3lNNTR1czU0bTU2Sk9kNWE2ZDU1X2J6NVpDSzVaMmc3N3lNNVpDTzZJT002SldfYjVMaWQ2WldDNTZtNjVvQ241b1NmNkxfYjM1THE2NDRDQzZJR2E1b3VpNlppeTVMaUw1WjZDTE9TX2JwX2JhVXR1V0pyX2JTNXN5em10N0ZXNktfYng1b09SNDRDQzVhU241NG1NNVlHYTViZWxMT1M0aXVldGllaTBxT21Ial9iX2I4ak9XOXNPYVl2dW1ybU9pMHRlYXdsT2kwcU9PQWd1UzlvT1M3anVhY3F1UzlrX2JtcWpPaV9haF9iZWFoT21ybU9haG9fYldHaGVpaG95enBnSUhrdXJMbGo0c3M2WmU2NWFfYkdMT19iOGdlbUFuX2JXNnB1YUtvdV9iOGdlYUppX2JhRm91YVhvT19iOGdlV2xzd19jX2MmcGljPWh0dHA6Ly9pbWcuYWxpY2RuLmNvbS9pbWdleHRyYS9pMy8yMjA2ODY4MTQ2OTI5L08xQ04wMVJkSVZsZDIxM1d1b3g3SHk3XyEhMjIwNjg2ODE0NjkyOS5qcGcmZmVlMT0yNjkuOSZmZWUyPTY5LjkmcWZlZT0yMDAmZmw9MTIuNTgmc2hvcGZsPSZpc2R4PSZtYWlqaWFfaWQ9JnNob3BpZD0wJmlzbmI9MSZpc25pY2U9MiZzdHlwZT01JnNob3B5dWppPTAmaGRrPSZhY3RpZD01MDlkODM0YjQwNTc0MWU3OTVlM2NkMzk3OWMxNTJkNyZ2aWQ9JnFfeWw9JnFfemw9JnFjaWQ9&do=fav_ajax&m=bsht_tbk";
+            var url = " ./index.php?i=11&c=entry&itempic=http%3A%2F%2Fimg.alicdn.com%2Fimgextra%2Fi3%2F2206868146929%2FO1CN01RdIVld213Wuox7Hy7_%21%212206868146929.jpg&itemtitle=%E9%AB%98%E6%A1%A3%E7%B2%BE%E5%93%81%E8%95%BE%E4%B8%9D%E7%BE%8E%E8%83%8C%E5%86%85%E8%A1%A3%E5%A5%B3%E6%97%A0%E9%92%A2%E5%9C%88%E5%B0%8F%E8%83%B8%E8%81%9A%E6%8B%A2%E6%96%87%E8%83%B82019%E6%96%B0%E6%AC%BE%E5%A5%B3%E5%A3%AB%E8%83%B8%E7%BD%A9%E5%A5%97%E8%A3%85&itemid=609370213819&act=fav&itemfee=269.9&itemfee2=69.9&itemfee3=200&itemmsell=71971&type=2&actid=509d834b405741e795e3cd3979c152d7&type2url=aHR0cDovL3d3dy5mcXFmcS5jb20vYXBwL2luZGV4LnBocD9pPTExJmM9ZW50cnkmZG89c2hvd19hcGkmbT1id3d0bHdfV1c1T2IyUkdPVEJaYlhNOV81NjQ1MzMmaWlkPTYwOTM3MDIxMzgxOSZhY3RpZD01MDlkODM0YjQwNTc0MWU3OTVlM2NkMzk3OWMxNTJkNyZ5aj0yMC45NyZ0aXQ9NmF1WTVxR2o1N0tfYjVaT0I2SldfYjVMaWQ1NzZPNklPTTVZYUY2S0dqNWFXejVwZWc2WktpNVp5STViQ1A2SU80NklHYTVvdWk1cGFINklPNE1qQXhPZWFXc09hc3Z1V2xzX2JXanFfYmlEdU9lOXFlV2xsX2JpamhRX2NfYyZ3ZW5hbj00NENRNmF1WTU2dXY1Wk9CNkxTbzQ0Q1I2WWVINTVTbzZMX2JiNVlfYmo1TGlkNVlXSjU3R3o2YXVZNloyaTVwYVo3N3lNNTR1czU0bTU2Sk9kNWE2ZDU1X2J6NVpDSzVaMmc3N3lNNVpDTzZJT002SldfYjVMaWQ2WldDNTZtNjVvQ241b1NmNkxfYjM1THE2NDRDQzZJR2E1b3VpNlppeTVMaUw1WjZDTE9TX2JwX2JhVXR1V0pyX2JTNXN5em10N0ZXNktfYng1b09SNDRDQzVhU241NG1NNVlHYTViZWxMT1M0aXVldGllaTBxT21Ial9iX2I4ak9XOXNPYVl2dW1ybU9pMHRlYXdsT2kwcU9PQWd1UzlvT1M3anVhY3F1UzlrX2JtcWpPaV9haF9iZWFoT21ybU9haG9fYldHaGVpaG95enBnSUhrdXJMbGo0c3M2WmU2NWFfYkdMT19iOGdlbUFuX2JXNnB1YUtvdV9iOGdlYUppX2JhRm91YVhvT19iOGdlV2xzd19jX2MmcGljPWh0dHA6Ly9pbWcuYWxpY2RuLmNvbS9pbWdleHRyYS9pMy8yMjA2ODY4MTQ2OTI5L08xQ04wMVJkSVZsZDIxM1d1b3g3SHk3XyEhMjIwNjg2ODE0NjkyOS5qcGcmZmVlMT0yNjkuOSZmZWUyPTY5LjkmcWZlZT0yMDAmZmw9MTIuNTgmc2hvcGZsPSZpc2R4PSZtYWlqaWFfaWQ9JnNob3BpZD0wJmlzbmI9MSZpc25pY2U9MiZzdHlwZT01JnNob3B5dWppPTAmaGRrPSZhY3RpZD01MDlkODM0YjQwNTc0MWU3OTVlM2NkMzk3OWMxNTJkNyZ2aWQ9JnFfeWw9JnFfemw9JnFjaWQ9&do=fav_ajax&m=bsht_tbk";
             $.post(url, function(dat){
                 dat = eval('('+dat+')');
 

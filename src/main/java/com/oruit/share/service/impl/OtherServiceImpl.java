@@ -145,8 +145,23 @@ public class OtherServiceImpl implements OtherService {
                 JSONArray jsonArray = JSONObject.parseObject(((JSONObject)jsonObject.get("theme_list_get_response")).get("goods_list").toString(),JSONArray.class);
                 for(int i=0;i<jsonArray.size();i++){
                     JSONObject jsonObj = (JSONObject) jsonArray.get(i);
-                    jsonObj.put("min_group_price",Integer.parseInt(jsonObj.get("min_group_price").toString())/100);
-                    jsonObj.put("min_normal_price",Integer.parseInt(jsonObj.get("min_normal_price").toString())/100);
+                    Double min_group_price = Double.parseDouble(MethodUtil.calculateProfit(jsonObj.getDoubleValue("min_group_price")/100));
+
+                    Integer coupon_discount = jsonObj.getInteger("coupon_discount");
+                    jsonObj.put("goods_id",jsonObj.getString("goods_id"));
+
+                    if(coupon_discount>0){
+                        jsonObj.put("qfee",coupon_discount/100);
+                        min_group_price = min_group_price - (coupon_discount/100);
+                    }else{
+                        jsonObj.put("qfee",0);
+                    }
+                    jsonObj.put("min_group_price",min_group_price);
+                    //佣金
+                    Double rate = jsonObj.getDouble("promotion_rate")/1000;
+                    Double comm = rate*min_group_price;
+                    jsonObj.put("commission",MethodUtil.calculateProfit(comm));
+
                 }
                 RedisUtil.setByTime(theme_goods_key, jsonArray.toJSONString(),MethodUtil.hour_expires);
                 return JsonDealUtil.getSuccJSONObject("0|操作成功", String.valueOf(jsonArray.size()), jsonArray);
@@ -263,35 +278,47 @@ public class OtherServiceImpl implements OtherService {
                 String min_group_price = jsonObj.get("min_group_price").toString();
                 String min_normal_price = jsonObj.get("min_normal_price").toString();
 
+                Double promotion_rate = jsonObj.getDoubleValue("promotion_rate");
+                Double rate = promotion_rate/1000;
+
                 Double itemfee2 = 0.0;
                 Double itemfee1 = 0.0;
                 Double itemfee3 = 0.0;
+                DecimalFormat df = new DecimalFormat("#.00");
                 if(StringUtils.isNotEmpty(coupon_discount) && Integer.parseInt(coupon_discount)>0){
-                    DecimalFormat df = new DecimalFormat("#.00");
                     itemfee2 = (Double.valueOf(min_group_price) - Double.valueOf(coupon_discount))/100;
                     itemfee1 = (Double.valueOf(min_normal_price) - Double.valueOf(coupon_discount))/100;
                     itemfee3 = Double.valueOf(min_normal_price)/100;
-                    BigDecimal value = new BigDecimal(df.format(itemfee2));
-                    BigDecimal value2 = new BigDecimal(df.format(itemfee1));
-                    BigDecimal value3 = new BigDecimal(df.format(itemfee3));
-                    BigDecimal noZeros = value.stripTrailingZeros();
-                    BigDecimal noZeros2 = value2.stripTrailingZeros();
-                    BigDecimal noZeros3 = value3.stripTrailingZeros();
-                    jsonObj.put("alonePrice",noZeros2);
-                    jsonObj.put("zkPrice",noZeros);
-                    jsonObj.put("actualPrice",noZeros3);
+
+                }else{
+                    itemfee2 = (Double.valueOf(min_group_price))/100;
+                    itemfee1 = (Double.valueOf(min_normal_price))/100;
+                    itemfee3 = Double.valueOf(min_normal_price)/100;
                 }
+
+                BigDecimal value = new BigDecimal(df.format(itemfee2));
+                BigDecimal value2 = new BigDecimal(df.format(itemfee1));
+                BigDecimal value3 = new BigDecimal(df.format(itemfee3));
+                BigDecimal noZeros = value.stripTrailingZeros();
+                BigDecimal noZeros2 = value2.stripTrailingZeros();
+                BigDecimal noZeros3 = value3.stripTrailingZeros();
+                jsonObj.put("alonePrice",noZeros2);
+                jsonObj.put("zkPrice",noZeros);
+                jsonObj.put("actualPrice",noZeros3);
+                jsonObj.put("commission",MethodUtil.calculateProfit(rate*noZeros.doubleValue()));
 
                 jsonObj.put("etime",jsonObj.get("coupon_end_time"));
                 jsonObj.put("couponDiscount",Integer.parseInt(jsonObj.get("coupon_discount").toString())/100);
 
-              //  jsonObj.put("yhjurl", RequestUtils.getBasePath(request)+"/good/good_supper_detail?itemId="+goods_id+"&type=2");//type  1--淘宝 2.拼多多
+
+
                 jsonObj.remove("goods_name");
                 jsonObj.remove("goods_gallery_urls");
                 jsonObj.remove("goods_id");
                 jsonObj.remove("goods_desc");
                 jsonObj.remove("goods_image_url");
                 jsonObj.remove("coupon_discount");
+                jsonObj.remove("promotion_rate");
 
                 String webUrl = getPddGoodsPromotionUrl(goodId);
                 String mall_id = jsonObj.get("mall_id").toString();
