@@ -5,13 +5,14 @@ import lombok.Data;
 @Data
 public class TextMessage {
 
-    private String content;
+    private String Content;
 
-    private String toUserName;
+    private String ToUserName;
 
-    private String fromUserName;
+    private String FromUserName;
 
-    private String createTime;
+    private String CreateTime;
 
-    private String msgType;
+    private String MsgType;
+
 }
