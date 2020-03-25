@@ -34,7 +34,7 @@ public class WeixinController {
     WeixinService weixinService;
 
     @RequestMapping(value="/check",method = {RequestMethod.GET, RequestMethod.POST})
-    public void check(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String check(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 将请求、响应的编码均设置为UTF-8（防止中文乱码）
         request.setCharacterEncoding("UTF-8");  //微信服务器POST消息时用的是UTF-8编码，在接收时也要用同样的编码，否则中文会乱码；
         response.setCharacterEncoding("UTF-8"); //在响应消息（回复消息给用户）时，也将编码方式设置为UTF-8，原理同上；
@@ -57,6 +57,7 @@ public class WeixinController {
                     out.write(respMessage);
                     log.info("The request completed successfully");
                     log.info("to weixin server "+respMessage);
+                    return respMessage;
                 } catch (Exception e) {
                     log.error("Failed to convert the message from weixin!");
                 }
@@ -67,6 +68,8 @@ public class WeixinController {
             out.close();
             out = null;
         }
+
+       return null;
     }
 
     /**
