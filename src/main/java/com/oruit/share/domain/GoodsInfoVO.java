@@ -22,4 +22,19 @@ public class GoodsInfoVO {
     private String orgPrice;
 
     private Boolean hasCoupon;
+
+    @Override
+    public String toString() {
+        return "GoodsInfoVO{" +
+                "goodsId='" + goodsId + '\'' +
+                ", title='" + title + '\'' +
+                ", picUrl='" + picUrl + '\'' +
+                ", from='" + from + '\'' +
+                ", commission='" + commission + '\'' +
+                ", price='" + price + '\'' +
+                ", couponPrice='" + couponPrice + '\'' +
+                ", orgPrice='" + orgPrice + '\'' +
+                ", hasCoupon=" + hasCoupon +
+                '}';
+    }
 }
