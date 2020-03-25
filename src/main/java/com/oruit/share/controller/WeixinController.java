@@ -34,7 +34,6 @@ public class WeixinController {
     WeixinService weixinService;
 
     @RequestMapping(value="/check",method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
     public void check(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 将请求、响应的编码均设置为UTF-8（防止中文乱码）
         request.setCharacterEncoding("UTF-8");  //微信服务器POST消息时用的是UTF-8编码，在接收时也要用同样的编码，否则中文会乱码；
