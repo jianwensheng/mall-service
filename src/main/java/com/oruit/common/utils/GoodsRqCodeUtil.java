@@ -27,6 +27,7 @@ public class GoodsRqCodeUtil {
 
 
     public static void drawCouponPosterImage(String host, Long userId, GoodsInfoVO vo, String filePath,String imageName)  {
+        log.info("打印图片内容:"+vo.toString());
         try {
             String pngString = vo.getPicUrl().substring(vo.getPicUrl().length() - 3);
             String savePath = ZshopConstants.UploadFilesConstants.STATICFILESTEMPPATH;
@@ -172,6 +173,7 @@ public class GoodsRqCodeUtil {
             g.setFont(new Font("Microsoft YaHei", Font.BOLD, 25));
             g.setColor(Color.white);
             g.drawString("到手价" , 23, y+38);
+
 
             // 到手价人民币图标
             g.setFont(new Font("Microsoft YaHei", Font.PLAIN, 36));
