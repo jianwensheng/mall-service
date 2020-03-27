@@ -1,8 +1,6 @@
 package com.oruit.share.service.impl;
 
-import com.oruit.share.domain.TbUser;
 import com.oruit.share.service.WeixinService;
-import com.oruit.weixin.WxUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,11 +20,6 @@ public class WeixinServiceImpl implements WeixinService {
 
     @Value("${weixin.token}")
     private String token;
-
-    public TbUser getUser(String code) {
-        TbUser user = WxUtils.open_id(code, this.appId, this.appSecret);
-        return user;
-    }
 
     @Override
     public boolean checkSignature(String signature, String timestamp, String nonce) {

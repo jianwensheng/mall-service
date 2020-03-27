@@ -6,6 +6,8 @@ import com.oruit.share.domain.TbBannerDO;
 import com.oruit.share.domain.TbClassifyDO;
 import com.oruit.share.service.GoodsService;
 import com.oruit.share.service.TaobaoService;
+import com.oruit.weixin.WxUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Slf4j
 @Controller
 public class IndexController {
 
@@ -28,7 +33,6 @@ public class IndexController {
 
     @RequestMapping("/index")
     public String index(HttpServletRequest request,Model model) {
-        //微信授权
 
         JSONObject obj = goodsService.getGoodClassify(request);
         if(obj.get("code").equals("1000")){

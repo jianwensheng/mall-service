@@ -244,4 +244,12 @@
       wechat = #{wechat,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="queryUser" resultMap="BaseResultMap" parameterType="com.oruit.share.domain.TbUser" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

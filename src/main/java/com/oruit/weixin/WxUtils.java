@@ -6,13 +6,14 @@ import com.oruit.common.utils.StringUtils;
 import com.oruit.share.domain.TbUser;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 public class WxUtils {
 
-    public static TbUser open_id(String code, String appId, String appSecret) {
+    public static TbUser oppenIdInfo(String code, String appId, String appSecret,HttpSession session) {
         String token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appId + "&secret=" + appSecret + "&code=" + code + "&grant_type=authorization_code";
 
         String result = HttpUtils.doGet(token_url);
@@ -25,6 +26,8 @@ public class WxUtils {
                 user.setOpenId(userMap.get("openid"));
                 user.setCode(code);
                 user.setAccessToken(userMap.get("access_token"));
+                session.setAttribute("open_id", user.getOpenId());
+                weixinUserInfo(user);
                 return user;
             } catch (Exception e) {
                 log.error("解析微信返回信息異常", e.getMessage());
@@ -57,4 +60,6 @@ public class WxUtils {
                 log.error("解析微信返回信息異常", e);
             }
     }
+
+
 }
