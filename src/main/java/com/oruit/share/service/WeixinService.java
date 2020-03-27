@@ -4,8 +4,8 @@ import com.oruit.share.domain.TbUser;
 
 public interface WeixinService {
 
-    public TbUser getUser(String code);
+     TbUser getUser(String code);
 
-    public boolean checkSignature(String signature, String timestamp, String nonce);
+     boolean checkSignature(String signature, String timestamp, String nonce);
 
 }

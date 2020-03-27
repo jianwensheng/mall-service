@@ -12,41 +12,74 @@
 	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/base.css"/>
 	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/x_index.css"/>
 	<link rel="stylesheet" type="text/css" href="${basePath}/resources/css/search_m.css">
+	<link rel="stylesheet" href="${basePath}/resources/css/mescroll.min.css">
+	<script src="${basePath}/resources/js/mescroll.min.js" charset="utf-8"></script>
+	<script src="https://cdn.bootcss.com/store2/2.7.0/store2.min.js"></script>
 </head>
 <body>
+<style>
+	.mescroll{
+		position: fixed;
+		top: 0px;
+		bottom: 0;
+		height: auto; /*如设置bottom:50px,则需height:auto才能生效*/
+	}
+
+	.tab-nav{
+		height: 40px;
+		line-height: 40px;
+		display: block;
+		position: fixed;
+		background: #fff;
+		z-index: 9999;
+		width: 100%;
+		margin: 0 auto;
+		white-space: nowrap;
+		overflow: auto;
+		top: 44px;
+	}
+
+	.tab-panel {
+		position: relative;
+		overflow: hidden;
+		top: 80px;
+	}
+</style>
  <!--
  默认为0，0-综合排序，1-商品上架时间从高到低，2-销量从高到低，3-领券量从高到低，4-佣金比例从高到低，5-价格（券后价）从高到低，6-价格（券后价）从低到高 -->
 <section class="">
 	<header class="header" style="position: relative;"><a class="fl" href="javascript:history.back(-1)"><i class="b_1"></i></a><a href="javascript:;">商品列表</a></header>
 	<section class="aui-scrollView">
+		<div id="mescroll" class="mescroll">
+			<div>
 		<div class="aui-tab" data-ydui-tab>
 			<ul class="tab-nav">
-				<li class="tab-nav-item tab-active" onclick="searchGoods(0,'${subcid}',1,0)">
+				<li class="tab-nav-item tab-active" i="0" id="className0">
 					<a href="javascript:;">
 						<span>综合排序</span>
 					</a>
 				</li>
-				<li class="tab-nav-item" onclick="searchGoods(1,'${subcid}',2,1)">
+				<li class="tab-nav-item" i="1" id="className1">
 					<a href="javascript:;">
 						<span>上架时间</span>
 					</a>
 				</li>
-				<li class="tab-nav-item" onclick="searchGoods(2,'${subcid}',3,2)">
+				<li class="tab-nav-item" i="2" id="className2">
 					<a href="javascript:;">
 						<span>销量</span>
 					</a>
 				</li>
-				<li class="tab-nav-item" onclick="searchGoods(3,'${subcid}',4,3)">
+				<li class="tab-nav-item" i="3" id="className3">
 					<a href="javascript:;">
 						<span>领券量</span>
 					</a>
 				</li>
-				<li class="tab-nav-item" onclick="searchGoods(4,'${subcid}',5,5)">
+				<li class="tab-nav-item" i="4" id="className4">
 					<a href="javascript:;">
 						<span>价格降序</span>
 					</a>
 				</li>
-				<li class="tab-nav-item" onclick="searchGoods(5,'${subcid}',6,6)">
+				<li class="tab-nav-item" i="5" id="className5">
 					<a href="javascript:;">
 						<span>价格升序</span>
 					</a>
@@ -64,7 +97,8 @@
 				<div id="goodsInfo5" class="tab-panel-item"></div>
 			</div>
 		</div>
-
+			</div>
+		</div>
 	</section>
 
 </section>
@@ -74,65 +108,163 @@
 <script type="text/javascript" src="${basePath}/resources/js/tab.js"></script>
 <script src="${basePath}/resources/js/zepto-byothers.min.js"></script>
 <script src="${basePath}/resources/js/search_index.js"></script>
-<script src="${basePath}/resources/js/more.js"></script>
 <script type="text/javascript">
-    var pageIndex = 1;
-    var sort = 0;
-	searchGoods(0,'${subcid}',pageIndex,sort);
 
-    function searchGoods(index,subcid,pageNo,sort) {
-        $("#num").val(index);
-        $("#goods_subcid").val(subcid);
+    var mescroll = new MeScroll("mescroll", {
+        down: {
+            auto: false
+        },
+        up: {
+            callback: upCallback,
+            htmlNodata: '<p class="upwarp-nodata">-- END --</p>',
+            noMoreSize: 5,
+            toTop: {
+                //回到顶部按钮
+                src: "${basePath}/resources/supper/images/qtz_list_0.png", //图片路径,默认null,支持网络图
+                offset: 1000 //列表滚动1000px才显示回到顶部按钮
+            },
+            empty: {
+                //列表第一页无任何数据时,显示的空提示布局; 需配置warpId才显示
+                warpId:	"tab", //父布局的id (1.3.5版本支持传入dom元素)
+                icon: "${basePath}/resources/images/ddq-nolist.png", //图标,默认null,支持网络图
+                tip: "暂无相关数据~" //提示
+            },
+            lazyLoad: {
+                use: true, // 是否开启懒加载,默认false
+                attr: 'imgurl' // 标签中网络图的属性名 : <img imgurl='网络图  src='占位图''/>
+            }
+        }
+    });
+
+    if(store.session('good_data')){
+        var data = store.session('good_data');
+        mescroll.endBySize(data.data.length % 10 == 0 ? 10 : data.data.length % 10, data.totle);
+        $('#goodsInfo'+sort).append(setListData(data));
+        $("#className0").removeClass("tab-nav-item tab-active");
+        $("#className0").addClass("tab-nav-item");
+        var sort = store.session('sort');
+        if(sort!='undefined' && sort!=null){
+            $("#className"+sort).addClass("tab-nav-item tab-active");
+        }
+        mescroll.scrollTo(store.session('good_scrollTop'), 0);
+    }
+
+    /*初始化菜单*/
+    var sort=0;//综合
+    var index = $("#index").val();
+    $(".tab-nav li").click(function(){
+        var i=$(this).attr("i");
+        var k=$(this).attr("k");
+        if(sort!=i) {
+            //更改列表条件
+            sort=i;
+            //重置列表数据
+            store.session('good_data',null);
+            store.session('good_scrollTop',null);
+            mescroll.resetUpScroll();
+        }
+    });
+
+
+    function goodDetail(goodsId){
+        store.session('scrollTop', $('#mescroll').scrollTop());
+        window.location.href = "${basePath}/good/good_supper_detail?itemId="+goodsId+"&type=1";
+    }
+
+    var flag = false;
+    //上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10
+    function upCallback(page) {
+        var pageSize = page.size; // 页长, 默认每页10条
+        var pageNum = page.num; // 页码, 默认从1开始 如何修改从0开始 ?
+        if(1==pageNum&& !flag){
+            flag = true;
+        }else if(1==pageNum&& flag){
+            pageNum = pageNum+1;
+            mescroll.setPageNum(pageNum+1);
+            flag = false;
+        }
+        var data = store.session('good_data');
+        if (data) {
+            pageNum = data.data.length % 10 == 0 ? data.data.length / 10 : data.data.length % 10;
+            pageNum = pageNum+1;
+            mescroll.setPageNum(pageNum);
+        }else{
+            pageNum = 1;
+            mescroll.setPageNum(pageNum);
+        }
+
+        store.session('subcid',${subcid!''});
+        store.session('sort',sort);
+
+        var postUrl = "${basePath}/good/goodByClassfyList?subcid=${subcid!''}&pageNo="+pageNum+"&sort="+sort;
+
         $.ajax({
-            type: "post", //使用post方法访问后台
-            dataType: "json", //返回json格式的数据
-            url: "${basePath}/good/goodByClassfyList", //要访问的后台地址
-            data: "subcid="+subcid+"&pageNo="+pageNo+"&sort="+sort,// 你的formid
-            success: function(obj){//msg为返回的数据，在这里做数据绑定
-                if(obj!=""){
-                    if (typeof obj === 'string') {
-                        obj = JSON.parse(obj);
-                    }
-                    if (obj.code == "1000"){
-                        var goodsStr = "";
-                        var goodsInfo = obj.data;
-                        for(var i=0;i<goodsInfo.length;i++){
-                            var goodInfo = goodsInfo[i];
-                            goodsStr += "<a href=\"javascript:goodDetail("+goodInfo.goodsId+");\" class=\"aui-flex b-line\">"+
-								"<div class=\"aui-ser-img\">" +
-                                "<img src=\""+goodInfo.mainPic+"\" alt=\"\">" +
-                                "</div>" +
-                                "<div class=\"aui-flex-box\">" +
-                                "<h2>"+goodInfo.desc+"</h2>" +
-                                "<span>月销 "+goodInfo.monthSales+"</span>" +
-                                "<h3><em>"+goodInfo.couponPrice+"元劵</em><em style='background-color: #f50; color: #fff; position: relative;'>返利"+goodInfo.commission+"元</em><i>原价 "+goodInfo.originalPrice+"</i></h3>" +
-                                "<h4><em>到手价￥"+goodInfo.actualPrice+"</em> <i>已领 <font color='red'>"+goodInfo.couponReceiveNum+"</font></i></h4>" +
-                                "</div></a>";
-						}
-
-                        $("#goodsInfo"+index).html($("#goodsInfo"+index).html()+goodsStr);
-                    } else{
-                        alert(obj.msg);
-                    }
-
+            type: "post",
+            url: postUrl,
+            success: function(data) {
+                var curPageData = data; // 接口返回的当前页数据列表
+                var totalSize = data.totle; // 接口返回的总数据量(比如列表有26个数据,每页10条,共3页; 则totalSize值为26)
+                var dta = store.session('good_data');
+                if(dta){
+                    dta.data = dta.data.concat(curPageData.data);
                 }else{
-                    alert("添加失败");
+                    dta = curPageData;
                 }
+
+                store.session('good_data', dta);
+                mescroll.endBySize(dta.data.length, totalSize);
+
+                //设置列表数据
+                if(pageNum==1){
+                    $('#goodsInfo'+sort).html(setListData(curPageData));//自行实现 TODO
+                }else{
+                    $('#goodsInfo'+sort).append(setListData(curPageData));//自行实现 TODO
+                }
+            },
+            error: function(e) {
+                //联网失败的回调,隐藏下拉刷新和上拉加载的状态
+                mescroll.endErr();
             }
         });
     }
 
-    function goodDetail(goodsId){
-        //window.location.href = "${basePath}/good/privilege?goodsId="+goodsId;
-        window.location.href = "${basePath}/good/good_supper_detail?itemId="+goodsId+"&type=1";
-	}
+    function setListData(curPageData) {
+        if(curPageData!=""){
+            if (typeof curPageData === 'string') {
+                curPageData = JSON.parse(curPageData);
+            }
+            var goodsStr = "";
+            if (curPageData.code == "1000"){
+                var goodsInfo= "";
+                if (typeof curPageData.data === 'string') {
+                    goodsInfo = JSON.parse(curPageData.data);
+                }else{
+                    goodsInfo = curPageData.data;
+                }
+                for(var i=0;i<goodsInfo.length;i++){
+                    var goodInfo = goodsInfo[i];
+                    goodsStr += "<a href=\"javascript:goodDetail("+goodInfo.goodsId+");\" class=\"aui-flex b-line\">"+
+                        "<div class=\"aui-ser-img\">" +
+                        "<img src=\""+goodInfo.mainPic+"\" alt=\"\">" +
+                        "</div>" +
+                        "<div class=\"aui-flex-box\">" +
+                        "<h2>"+goodInfo.desc+"</h2>" +
+                        "<span>月销 "+goodInfo.monthSales+"</span>" +
+                        "<h3><em>"+goodInfo.couponPrice+"元劵</em><em style='background-color: #f50; color: #fff; position: relative;'>返利"+goodInfo.commission+"元</em><i>原价 "+goodInfo.originalPrice+"</i></h3>" +
+                        "<h4><em>到手价￥"+goodInfo.actualPrice+"</em> <i>已领 <font color='red'>"+goodInfo.couponReceiveNum+"</font></i></h4>" +
+                        "</div></a>";
+                }
+                return goodsStr;
 
-    // 自定义事件
-    function ajax_function() {
-        pageIndex++;
-        var num = $("#num").val();
-        var goods_subcid = $("#goods_subcid").val();
-        searchGoods(num,goods_subcid,pageIndex);
+            } else{
+                alert(curPageData.msg);
+            }
+
+        }else{
+            alert("添加失败");
+        }
+
+        return null;
     }
 
 </script>

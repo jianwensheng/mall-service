@@ -23,6 +23,10 @@ public class IndexController {
 
     @RequestMapping("/index")
     public String index(HttpServletRequest request,Model model) {
+        //微信授权
+
+
+
         JSONObject obj = goodsService.getGoodClassify(request);
         if(obj.get("code").equals("1000")){
             List<Map<String,Object>> list = JSONObject.parseObject(obj.get("data").toString(),List.class);

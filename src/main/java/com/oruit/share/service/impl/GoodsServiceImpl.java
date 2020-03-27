@@ -124,6 +124,7 @@ public class GoodsServiceImpl implements GoodsService {
         JSONObject jsonObject = JSONObject.parseObject(HttpUtils.sendGet(MethodUtil.goods_url,MethodUtil.postContent(paraMap)),JSONObject.class);
         if(jsonObject.get("code").equals(0)){
             String list = ((JSONObject)jsonObject.get("data")).get("list").toString();
+            Integer totalNum = Integer.parseInt(((JSONObject)jsonObject.get("data")).get("totalNum").toString());
             JSONArray array =  JSONObject.parseObject(list,JSONArray.class);
             array.forEach(json->{
                 JSONObject jsonObj =(JSONObject) json;
@@ -132,8 +133,8 @@ public class GoodsServiceImpl implements GoodsService {
                 Double commission = MethodUtil.getCommission(actualPrice,commissionRate);
                 jsonObj.put("commission",commission);
             });
-            RedisUtil.setByTime(goods_info_key,JsonDealUtil.getSuccJSONObject("0|操作成功", String.valueOf(array.size()), array).toJSONString(),MethodUtil.expires);
-            return JsonDealUtil.getSuccJSONObject("0|操作成功", String.valueOf(array.size()), array);
+            RedisUtil.setByTime(goods_info_key,JsonDealUtil.getSuccJSONObject("0|操作成功", String.valueOf(totalNum), array).toJSONString(),MethodUtil.expires);
+            return JsonDealUtil.getSuccJSONObject("0|操作成功", String.valueOf(totalNum), array);
         }
         return JsonDealUtil.getSuccJSONObject("0|操作成功", "", "");
     }
@@ -471,6 +472,7 @@ public class GoodsServiceImpl implements GoodsService {
         JSONObject jsonObject = JSONObject.parseObject(HttpUtils.sendGet(MethodUtil.ap_good_url,MethodUtil.postContent(paraMap)),JSONObject.class);
         if(jsonObject.get("code").equals(0)){
             String list = ((JSONObject)jsonObject.get("data")).get("list").toString();
+            Integer totalNum = Integer.parseInt(((JSONObject)jsonObject.get("data")).get("totalNum").toString());
             JSONArray array =  JSONObject.parseObject(list,JSONArray.class);
             array.forEach(json->{
                 JSONObject jsonObj =(JSONObject) json;
@@ -479,9 +481,9 @@ public class GoodsServiceImpl implements GoodsService {
                 Double commission = MethodUtil.getCommission(actualPrice,commissionRate);
                 jsonObj.put("commission",commission);
             });
-            RedisUtil.setByTime(good_ap_list_key,JsonDealUtil.getSuccJSONObject("0|操作成功", String.valueOf(array.size()), array).toJSONString(),MethodUtil.expires);
-            return JsonDealUtil.getSuccJSONObject("0|操作成功", String.valueOf(array.size()), array);
-        }
+            RedisUtil.setByTime(good_ap_list_key,JsonDealUtil.getSuccJSONObject("0|操作成功", String.valueOf(totalNum), array).toJSONString(),MethodUtil.expires);
+            return JsonDealUtil.getSuccJSONObject("0|操作成功", String.valueOf(totalNum), array);
+    }
         return JsonDealUtil.getSuccJSONObject("0|操作成功", "", "");
     }
 
