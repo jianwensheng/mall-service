@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class LoginController {
     public void index(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String inviteUrl = NET_WEB +"/login";
+        inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
         String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
                 + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
         response.sendRedirect(url);
