@@ -76,8 +76,4 @@ public class LoginController {
         String homeUrl = NET_WEB +"/index";
         response.sendRedirect(homeUrl);
     }
-
-
-
-
 }

@@ -118,9 +118,7 @@ public class WeixinController {
                    String goodsId = WxUtils.TbGoodInfoByGoodId(word,apikey);
                     log.info("goodsId:"+goodsId);
                     JSONObject obj = goodsService.getPrivilege(goodsId);
-                    log.info("obj:"+obj.toJSONString());
                     JSONObject goodsDetailObj = goodsService.goodsDetail(goodsId);
-                    log.info("goodsDetailObj:"+goodsDetailObj.toJSONString());
                     if (obj.get("code").equals("1000")) {
                         JSONObject jsonObject = JSONObject.parseObject(obj.get("data").toString(), JSONObject.class);
                         tpwd = jsonObject.getString("tpwd");//淘口令
@@ -128,7 +126,6 @@ public class WeixinController {
                     }
                     if (goodsDetailObj.get("code").equals("1000")) {
                         JSONObject goodsDetail = JSONObject.parseObject(goodsDetailObj.get("data").toString(), JSONObject.class);
-                        log.info("goodsDetail:"+goodsDetail.toJSONString());
                         Integer couponPrice = goodsDetail.getInteger("couponPrice");
                         //计算佣金
                         String actualPrice = goodsDetail.getString("goodsDetail");
