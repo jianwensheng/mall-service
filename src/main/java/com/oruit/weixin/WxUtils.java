@@ -82,7 +82,8 @@ public class WxUtils {
        String result = HttpUtils.doGet(requestUrl);
        JSONObject jsonObject = JSONObject.parseObject(result,JSONObject.class);
         try {
-            if(jsonObject.get("code").equals("1")){
+            String code = jsonObject.get("code").toString();
+            if(code.equals("1")){
                 //调用成功,获取商品ID
                 String url = jsonObject.get("url").toString();
                 String goodsId = url.split("\\?")[0].split("/")[3].split("\\.")[0].substring(1);
