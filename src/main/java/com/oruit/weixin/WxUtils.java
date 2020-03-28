@@ -22,6 +22,7 @@ public class WxUtils {
         String token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appId + "&secret=" + appSecret + "&code=" + code + "&grant_type=authorization_code";
 
         String result = HttpUtils.doGet(token_url);
+        log.info("result:{}",result);
         if (StringUtils.isNotBlank(result)) {
             try {
                 ObjectMapper mapper = new ObjectMapper();
