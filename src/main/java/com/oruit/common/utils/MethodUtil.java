@@ -187,8 +187,8 @@ public class MethodUtil {
         String smileIcon = "\uD83D\uDE0A";
         String word = "";
         try {
-            String pattern = "([€₤₳¢¤฿฿₵₡₫ƒ₲₭£₥₦₱〒₮₩₴₪៛﷼₢M₰₯₠₣₧ƒ✔"+moneyIcon+giftIcon+keyIcon+woodIcon+cattleIcon+
-                    fluteIcon+dogIcon+dogSmileIcon+goldIcon+musicIcon+smileIcon+"])\\w{8,12}([€₤₳¢¤฿฿₵₡₫ƒ₲₭£₥₦₱〒₮₩₴₪៛﷼₢M₰₯₠₣₧ƒ✔"+moneyIcon+
+            String pattern = "([€₤₳¢¤฿฿₵₡₫ƒ₲₭£₥₦₱〒₮₩₴₪៛﷼₢M₰₯₠₣₧ƒ✔$￥(《"+moneyIcon+giftIcon+keyIcon+woodIcon+cattleIcon+
+                    fluteIcon+dogIcon+dogSmileIcon+goldIcon+musicIcon+smileIcon+"])\\w{8,12}([€₤₳¢¤฿฿₵₡₫ƒ₲₭£₥₦₱〒₮₩₴₪៛﷼₢M₰₯₠₣₧ƒ✔$￥)《"+moneyIcon+
                     giftIcon+keyIcon+woodIcon+cattleIcon+fluteIcon+dogIcon+dogSmileIcon+goldIcon+musicIcon+smileIcon+"])";
 
             Pattern r = Pattern.compile(pattern);
@@ -213,7 +213,7 @@ public class MethodUtil {
 
 
     public static void main(String[] args) {
-          String content = "fu植这行话\uD83D\uDCB0GI9D1RlFjCc\uD83D\uDCB0转移至淘宀┡ē【实木餐桌现代简约可伸缩折叠钢化玻璃餐桌家用带电磁炉餐桌椅组合】；或https://m.tb.cn/h.VgRpc9Y?sm=a4d58b 掂击鏈→接，再选择瀏lan嘂..大开";
+          String content = "fu置这行话$iLC11ROfg6o$转移至淘宀┡ē【2019秋季新款很仙的两件套洋气网红减龄时尚显瘦初秋小香风套装裙】；或https://m.tb.cn/h.V5xZWMx?sm=21e472 點击链街，再选择瀏lan嘂..dakai";
           System.out.println(getWord(content));
     }
 
