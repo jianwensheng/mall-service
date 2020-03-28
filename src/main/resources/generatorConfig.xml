@@ -36,8 +36,8 @@
 
         <!-- mybatis-generator:generate -->
         <!-- -->
-        <table schema="mall" tableName="tb_collection"
-               domainObjectName="TbCollection"
+        <table schema="mall" tableName="tb_user"
+               domainObjectName="TbUser"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
         </table>

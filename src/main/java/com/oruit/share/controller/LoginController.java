@@ -49,6 +49,7 @@ public class LoginController {
     public void login(HttpServletRequest request, Model model, HttpSession session,
                       String code,HttpServletResponse response)throws IOException {
         String open_id = "";
+        log.info("login code:{}",code);
         if (session.getAttribute("open_id") == null) {
             System.out.println("系统开始，检查open_id=" +
                     session.getAttribute("open_id"));
@@ -69,7 +70,7 @@ public class LoginController {
             }
             else {
                 System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                System.out.println("oppen_id==null");
+                System.out.println("open_id==null");
             }
         }
 

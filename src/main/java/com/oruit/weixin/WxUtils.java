@@ -19,6 +19,7 @@ public class WxUtils {
 
 
     public static TbUser oppenIdInfo(String code, String appId, String appSecret,HttpSession session) {
+        log.info("code:{},appId:{},appSecret:{}",code,appId,appSecret);
         String token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appId + "&secret=" + appSecret + "&code=" + code + "&grant_type=authorization_code";
 
         String result = HttpUtils.doGet(token_url);

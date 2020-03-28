@@ -59,15 +59,13 @@ public class WeixinController {
                 String echostr = request.getParameter("echostr");
                 if (weixinService.checkSignature(signature, timestamp, nonce)) {
                     out.print(echostr);
-                    log.info("微信服務驗證成功!");
+                    log.info("微信服务验证成功!");
                 }
             }else{
                 try {
                     String respMessage = "异常消息！";
                     respMessage = weixinPost(request);
                     out.write(respMessage);
-                    log.info("The request completed successfully");
-                    log.info("to weixin server "+respMessage);
                 } catch (Exception e) {
                     log.error("Failed to convert the message from weixin!");
                 }
@@ -126,9 +124,6 @@ public class WeixinController {
                    }
 
                 }
-
-                log.info("content:"+content);
-
                 //自动回复
                 TextMessage text = new TextMessage();
                 text.setContent(content);
@@ -182,6 +177,9 @@ public class WeixinController {
         }
         return respMessage;
     }
+
+
+
 
     public String getContent(JSONObject goodsDetailObj,String tpwd) throws Exception{
         String priceStr = null;

@@ -11,9 +11,11 @@ import com.oruit.share.dao.TbBrandMapper;
 import com.oruit.share.domain.*;
 import com.oruit.share.service.GoodsService;
 import com.oruit.share.service.OtherService;
+import com.oruit.weixin.WxUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +48,9 @@ public class GoodControler {
 
     @Autowired
     private TbBrandMapper tbBrandMapper;
+
+    @Value("${taobao.apikey}")
+    private String apikey;
 
     @RequestMapping("/goodSearch")
     public String goodSearch(HttpServletRequest request, Model model) {
@@ -520,6 +525,61 @@ public class GoodControler {
         JSONObject json = otherService.getPddSearchList(paraMap,request);
         RedisUtil.setObject(key,MethodUtil.expires,json);
         return json;
+    }
+
+    @RequestMapping("/test")
+    public String test(HttpServletRequest request, Model model) {
+        String content = "fu植这行话₤GI9D1RlFjCc₤转移至淘宀┡ē【实木餐桌现代简约可伸缩折叠钢化玻璃餐桌家用带电磁炉餐桌椅组合】；或https://m.tb.cn/h.VgRpc9Y?sm=a4d58b 掂击鏈→接，再选择瀏lan嘂..大开";
+        String word = MethodUtil.getWord(content);
+        String goodsId = WxUtils.TbGoodInfoByGoodId(word,apikey);
+        JSONObject obj = goodsService.getPrivilege(goodsId);
+        String tpwd = null;
+        try {
+            if (obj.get("code").equals("1000")) {
+                JSONObject jsonObject = JSONObject.parseObject(obj.get("data").toString(), JSONObject.class);
+                tpwd = jsonObject.getString("tpwd");//淘口令
+                log.info("tpwd:"+tpwd);
+                JSONObject goodsDetailObj = goodsService.goodsDetail(goodsId);
+                content = getContent(goodsDetailObj,tpwd);
+            }else{
+                content = "该产品没有优惠,换个产品吧!";
+            }
+        } catch (Exception e) {
+            log.error("异常:{}",e.getMessage());
+        }
+        return "test";
+    }
+
+
+    public String getContent(JSONObject goodsDetailObj,String tpwd) throws Exception{
+        String priceStr = null;
+        String commissStr = null;
+        String title = null;
+        String content = null;
+        if (goodsDetailObj.get("code").equals("1000")) {
+            JSONObject goodsDetail = JSONObject.parseObject(goodsDetailObj.get("data").toString(), JSONObject.class);
+            Integer couponPrice = goodsDetail.getInteger("couponPrice");
+            //计算佣金
+            String actualPrice = goodsDetail.getString("actualPrice");
+            String commissionRate = goodsDetail.getString("commissionRate");
+            Double commiss = MethodUtil.getPddCommission(actualPrice,commissionRate);
+            title = goodsDetail.getString("title");
+            if(couponPrice>0){
+                priceStr = "【优惠券】:"+couponPrice+" 圓";
+            }else{
+                //无优惠券
+                priceStr = "【预估价格】:"+actualPrice+" 圓";
+            }
+
+            commissStr = "【佣金】:"+commiss+" 沅";
+        }
+        content = title+"\n" +
+                "----\n" +
+                priceStr+"\n" +
+                commissStr+"\n" +
+                "----\n" +
+                "複製本条消息，打开'手机tao宝'即可下单("+tpwd+")";
+        return content;
     }
 
 }

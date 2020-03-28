@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="${basePath}/resources/css/operation.css">
+
+
+    <script>
+        var appId = '';
+
+        function setAppType(){
+            Sysolar.appType = 0;
+            Sysolar.appVersion = '1';
+            if(Sysolar.appType == 0){
+                Sysolar.appType = Cookie.get('appType') == null ? 0 : parseInt(Cookie.get('appType'));
+            }
+            else{
+                Cookie.set('appType', Sysolar.appType, 5);
+            }
+            Sysolar.IOSPhoneType = 0;
+            Sysolar.ANDPhoneType = 0;
+            if('18998793275' == '18061675763'){
+            }
+        }
+        setAppType();
+
+        function apiready(){
+            var iosType = 0;
+            if(iosType == 1 && (typeof api != 'undefined') && api != null){
+                api.setStatusBarStyle({
+                    style:'light'
+                });
+            }
+        }
+        apiready();
+    </script>
+
+
+    <title>新人必读攻略</title>
+</head>
+<body>
+<img class="banner" src="${basePath}/resources/images/banner.png" />
+<div class="class-list">
+
+    <a href="${basePath}/guide/tbSaveMoney" class="item">
+        <div class="wrap">
+            <img class="icon" src="${basePath}/resources/images/icon-tb.png"  style="width: 45px;height: 45px;" />
+            <span class="title">淘宝省钱教程</span>
+        </div>
+        <u class="iconfont icon-right"></u>
+    </a>
+
+    <a href="${basePath}/guide/pddSaveMoney" class="item">
+        <div class="wrap">
+            <img class="icon" src="${basePath}/resources/images/nav-003.png" />
+            <span class="title">拼多多省钱教程</span>
+        </div>
+        <u class="iconfont icon-right"></u>
+    </a>
+
+    <a href="./index-class-jd.html" class="item">
+        <div class="wrap">
+            <img class="icon" src="${basePath}/resources/images/nav-002.png" />
+            <span class="title">京东省钱教程</span>
+        </div>
+        <u class="iconfont icon-right"></u>
+    </a>
+
+    <a href="./faq.html" class="item">
+        <div class="wrap">
+            <img class="icon" src="${basePath}/resources/images/question.png" />
+            <span class="title">常见问题</span>
+        </div>
+        <u class="iconfont icon-right"></u>
+    </a>
+
+</div>
+</body>
+</html>
