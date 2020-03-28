@@ -54,7 +54,7 @@ public class LoginController {
             System.out.println("系统开始，检查open_id=" +
                     session.getAttribute("open_id"));
             TbUser user = WxUtils.oppenIdInfo(code,appId,appSecret,session);
-            open_id = (String)session.getAttribute("oppen_id");
+            open_id = (String)session.getAttribute("open_id");
 
             if ((open_id != null) && (!"".equals(open_id))) {
                 List<TbUser> tbUsers = userService.queryUser(user);
