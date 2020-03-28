@@ -168,7 +168,8 @@ public class GoodsServiceImpl implements GoodsService {
             RedisUtil.setByTime(goods_key,JsonDealUtil.getSuccJSONObject("0|操作成功", "", list).toJSONString(),0);
             return JsonDealUtil.getSuccJSONObject("0|操作成功", "", list);
         }
-        return JsonDealUtil.getSuccJSONObject("0|操作成功", "", "");
+        String msg = jsonObject.get("msg").toString();
+        return JsonDealUtil.getErrJSONObject(msg);
     }
 
     @Override
