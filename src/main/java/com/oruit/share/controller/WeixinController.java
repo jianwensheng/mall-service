@@ -149,6 +149,8 @@ public class WeixinController {
                     content = "该产品没有优惠,换个产品吧!";
                 }
 
+                log.info("content:"+content);
+
                 //自动回复
                 TextMessage text = new TextMessage();
                 text.setContent(content);
@@ -159,41 +161,10 @@ public class WeixinController {
 
                 respMessage = textMessageToXml(text);
 
-            } /*else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {// 事件推送
-                String eventType = requestMap.get("Event");// 事件类型
+            }else if(msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)){
+                //
 
-                if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {// 订阅
-                    respContent = "欢迎关注xxx公众号！";
-                    return MessageResponse.getTextMessage(fromUserName , toUserName , respContent);
-                } else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {// 自定义菜单点击事件
-                    String eventKey = requestMap.get("EventKey");// 事件KEY值，与创建自定义菜单时指定的KEY值对应
-                    logger.info("eventKey is:" +eventKey);
-                    return xxx;
-                }
-            }
-            //开启微信声音识别测试 2015-3-30
-            else if(msgType.equals("voice"))
-            {
-                String recvMessage = requestMap.get("Recognition");
-                //respContent = "收到的语音解析结果："+recvMessage;
-                if(recvMessage!=null){
-                    respContent = TulingApiProcess.getTulingResult(recvMessage);
-                }else{
-                    respContent = "您说的太模糊了，能不能重新说下呢？";
-                }
-                return MessageResponse.getTextMessage(fromUserName , toUserName , respContent);
-            }
-            //拍照功能
-            else if(msgType.equals("pic_sysphoto"))
-            {
-
-            }
-            else
-            {
-                return MessageResponse.getTextMessage(fromUserName , toUserName , "返回为空");
-            }*/
-            // 事件推送
-            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
+            }else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
                 String eventType = requestMap.get("Event");// 事件类型
                 // 订阅
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
