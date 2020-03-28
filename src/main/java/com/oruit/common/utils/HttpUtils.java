@@ -34,7 +34,8 @@ public class HttpUtils {
         CloseableHttpResponse response = null;
         try {
             URL url = new URL(urlStr.toString());
-            URI uri = new URI(urlStr.substring(0,4),url.getUserInfo(),url.getHost(),url.getPort(),url.getPath(),url.getQuery(),null);
+            String head = urlStr.split("://")[0];
+            URI uri = new URI(head,url.getUserInfo(),url.getHost(),url.getPort(),url.getPath(),url.getQuery(),null);
             HttpGet httpGet = new HttpGet(uri);
             response = client.execute(httpGet);
             HttpEntity entity = response.getEntity();
