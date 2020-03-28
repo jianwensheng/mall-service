@@ -1,6 +1,5 @@
 package com.oruit.share.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.oruit.common.utils.*;
@@ -166,7 +165,7 @@ public class GoodsServiceImpl implements GoodsService {
         JSONObject jsonObject = JSONObject.parseObject(HttpUtils.sendGet(MethodUtil.privilege_url,MethodUtil.postContent(paraMap)),JSONObject.class);
         if(jsonObject.get("code").equals(0)){
             JSONObject list = ((JSONObject)jsonObject.get("data"));
-            RedisUtil.setByTime(MethodUtil.goods_privilege_key+goodsId,JsonDealUtil.getSuccJSONObject("0|操作成功", "", list).toJSONString(),0);
+            RedisUtil.setByTime(goods_key,JsonDealUtil.getSuccJSONObject("0|操作成功", "", list).toJSONString(),0);
             return JsonDealUtil.getSuccJSONObject("0|操作成功", "", list);
         }
         return JsonDealUtil.getSuccJSONObject("0|操作成功", "", "");

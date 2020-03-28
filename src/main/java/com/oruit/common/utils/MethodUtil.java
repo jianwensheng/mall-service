@@ -1,8 +1,13 @@
 package com.oruit.common.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.math.BigDecimal;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+@Slf4j
 public class MethodUtil {
 
     public static final String appSecret = "b6adf9856994f2a30df85c3c76fb89ab";//应用sercret
@@ -52,6 +57,8 @@ public class MethodUtil {
     public static final String pdd_goods_list_key = "pdd_goods_list_query_";
 
     public static final String gpdd_ood_info_key = "pdd_good_info_";
+
+    public static final String good_tkl_key = "tao_tkl_";
 
     public static final Integer pageSize = 10;
 
@@ -161,11 +168,53 @@ public class MethodUtil {
         return -1;
     }
 
+    /**
+     * 根据内容获取淘口令
+     * @param content
+     * @return
+     */
+    public static String getWord(String content) {
+        String moneyIcon = "\uD83D\uDCB0";
+        String giftIcon = "\uD83C\uDF81";
+        String keyIcon = "\uD83D\uDD11";
+        String woodIcon = "\uD83D\uDCF2";
+        String cattleIcon = "\uD83D\uDD10";
+        String fluteIcon = "\uD83D\uDDDD";
+        String dogIcon = "\uD83D\uDE3A";
+        String dogSmileIcon = "\uD83D\uDE38";
+        String goldIcon = "\uD83D\uDCB2";
+        String musicIcon = "\uD83C\uDFB5";
+        String smileIcon = "\uD83D\uDE0A";
+        String word = "";
+        try {
+            String pattern = "([€₤₳¢¤฿฿₵₡₫ƒ₲₭£₥₦₱〒₮₩₴₪៛﷼₢M₰₯₠₣₧ƒ✔"+moneyIcon+giftIcon+keyIcon+woodIcon+cattleIcon+
+                    fluteIcon+dogIcon+dogSmileIcon+goldIcon+musicIcon+smileIcon+"])\\w{8,12}([€₤₳¢¤฿฿₵₡₫ƒ₲₭£₥₦₱〒₮₩₴₪៛﷼₢M₰₯₠₣₧ƒ✔"+moneyIcon+
+                    giftIcon+keyIcon+woodIcon+cattleIcon+fluteIcon+dogIcon+dogSmileIcon+goldIcon+musicIcon+smileIcon+"])";
+
+            Pattern r = Pattern.compile(pattern);
+            Matcher m = r.matcher(content);
+
+            if (m.find()) {
+                word = m.group();
+            }
+            if(word.length()==15){
+                //前后各占2个字节
+                word = word.substring(2,word.length()-2);
+            }else if(word.length()==13){
+                //前后各占1个字节
+                word = word.substring(1,word.length()-1);
+            }
+        } catch (Exception e) {
+            log.error("根据内容获取淘口令报异常:{}",e.getMessage());
+        }
+        return word;
+    }
 
 
 
     public static void main(String[] args) {
-
+          String content = "fu植这行话\uD83D\uDCB0GI9D1RlFjCc\uD83D\uDCB0转移至淘宀┡ē【实木餐桌现代简约可伸缩折叠钢化玻璃餐桌家用带电磁炉餐桌椅组合】；或https://m.tb.cn/h.VgRpc9Y?sm=a4d58b 掂击鏈→接，再选择瀏lan嘂..大开";
+          System.out.println(getWord(content));
     }
 
 }

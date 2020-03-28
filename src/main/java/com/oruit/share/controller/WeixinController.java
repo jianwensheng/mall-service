@@ -1,7 +1,12 @@
 package com.oruit.share.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.oruit.common.utils.MethodUtil;
+import com.oruit.common.utils.StringUtils;
 import com.oruit.share.domain.TextMessage;
+import com.oruit.share.service.GoodsService;
 import com.oruit.share.service.WeixinService;
+import com.oruit.weixin.WxUtils;
 import com.oruit.weixin.util.MessageUtil;
 import com.thoughtworks.xstream.XStream;
 import lombok.extern.slf4j.Slf4j;
@@ -10,10 +15,10 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +36,13 @@ import java.util.Map;
 public class WeixinController {
 
     @Autowired
-    WeixinService weixinService;
+    private WeixinService weixinService;
+
+    @Autowired
+    private GoodsService goodsService;
+
+    @Value("${taobao.apikey}")
+    private String apikey;
 
     @RequestMapping(value="/check",method = {RequestMethod.GET, RequestMethod.POST})
     public void check(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -96,14 +107,51 @@ public class WeixinController {
 
             // 文本消息
             if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {
-                //这里根据关键字执行相应的逻辑，只有你想不到的，没有做不到的
-                if(content.equals("xxx")){
+               //这里根据关键字执行相应的逻辑，只有你想不到的，没有做不到的
+                String word = MethodUtil.getWord(content);
+                if(StringUtils.isNotEmpty(word)){
+                    String tpwd = null;
+                    String priceStr = null;
+                    String commissStr = null;
+                    String title = null;
+                   //根据获得的淘口令去查询相应的信息
+                   String goodsId = WxUtils.TbGoodInfoByGoodId(word,apikey);
+                    JSONObject obj = goodsService.getPrivilege(goodsId);
+                    JSONObject goodsDetailObj = goodsService.goodsDetail(goodsId);
+                    if (obj.get("code").equals("1000")) {
+                        JSONObject jsonObject = JSONObject.parseObject(obj.get("data").toString(), JSONObject.class);
+                        tpwd = jsonObject.getString("tpwd");//淘口令
+                    }
+                    if (goodsDetailObj.get("code").equals("1000")) {
+                        JSONObject goodsDetail = JSONObject.parseObject(goodsDetailObj.get("data").toString(), JSONObject.class);
+                        Integer couponPrice = goodsDetail.getInteger("couponPrice");
+                        //计算佣金
+                        String actualPrice = goodsDetail.getString("goodsDetail");
+                        String commissionRate = goodsDetail.getString("commissionRate");
+                        Double commiss = MethodUtil.getPddCommission(actualPrice,commissionRate);
+                        title = goodsDetail.getString("title");
+                        if(couponPrice>0){
+                            priceStr = "【优惠券】:"+couponPrice+" 圓";
+                        }else{
+                            //无优惠券
+                            priceStr = "【预估价格】:"+actualPrice+" 圓";
+                        }
 
+                        commissStr = "【佣金】:"+commiss+" 沅";
+                    }
+                    content = title+"\n" +
+                            "----\n" +
+                            priceStr+"\n" +
+                            commissStr+"\n" +
+                            "----\n" +
+                            "複製本条消息，打开'手机tao宝'即可下单("+tpwd+")";
+                }else{
+                    content = "该产品没有优惠,换个产品吧!";
                 }
 
                 //自动回复
                 TextMessage text = new TextMessage();
-                text.setContent("the text is" + content);
+                text.setContent(content);
                 text.setToUserName(fromUserName);
                 text.setFromUserName(toUserName);
                 text.setCreateTime(new Date().getTime() + "");

@@ -1,8 +1,12 @@
 package com.oruit.weixin;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oruit.common.utils.HttpUtils;
+import com.oruit.common.utils.JsonDealUtil;
+import com.oruit.common.utils.MethodUtil;
 import com.oruit.common.utils.StringUtils;
+import com.oruit.common.utils.cache.redis.RedisUtil;
 import com.oruit.share.domain.TbUser;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,6 +16,7 @@ import java.util.Map;
 
 @Slf4j
 public class WxUtils {
+
 
     public static TbUser oppenIdInfo(String code, String appId, String appSecret,HttpSession session) {
         String token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appId + "&secret=" + appSecret + "&code=" + code + "&grant_type=authorization_code";
@@ -60,6 +65,37 @@ public class WxUtils {
                 log.error("解析微信返回信息異常", e);
             }
     }
+
+    /**
+     * 根据淘口令查询商品ID
+     * @param tkl
+     * @return
+     */
+    public static String TbGoodInfoByGoodId(String tkl,String apikey){
+       String tklKey = MethodUtil.good_tkl_key+tkl;
+        String obj = RedisUtil.get(tklKey);
+        if(obj!=null){
+            return obj;
+        }
+       String requestUrl = "https://api.taokouling.com/tkl/tkljm?apikey=API_KEY&tkl=￥TKL￥";
+       requestUrl = requestUrl.replace("API_KEY", apikey).replace("TKL", tkl);
+       String result = HttpUtils.doGet(requestUrl);
+       JSONObject jsonObject = JSONObject.parseObject(result,JSONObject.class);
+        try {
+            if(jsonObject.get("code").equals("1")){
+                //调用成功,获取商品ID
+                String url = jsonObject.get("url").toString();
+                String goodsId = url.split("\\?")[0].split("/")[3].split("\\.")[0].substring(1);
+                RedisUtil.setByTime(tklKey, goodsId,60*10);
+                return goodsId;
+            }
+        } catch (Exception e) {
+            log.error("淘口令解析失败:{}",e.getMessage());
+        }
+        return null;
+    }
+
+
 
 
 }
