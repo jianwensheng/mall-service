@@ -18,4 +18,6 @@ public interface TbUserMapper {
     int updateByPrimaryKey(TbUser record);
 
     List<TbUser> queryUser(TbUser user);
+
+    TbUser queryOpenIdUserInfo(String openId);
 }

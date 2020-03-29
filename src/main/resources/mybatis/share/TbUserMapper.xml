@@ -20,10 +20,11 @@
     <result column="head_pic" property="headPic" jdbcType="VARCHAR" />
     <result column="deviceId" property="deviceid" jdbcType="VARCHAR" />
     <result column="wechat" property="wechat" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, username, mobile, email, sex, country, province, city, open_id, user_type, status, 
-    create_time, update_time, password, union_id, head_pic, deviceId, wechat
+    create_time, update_time, password, union_id, head_pic, deviceId, wechat,token
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -108,6 +109,9 @@
       <if test="wechat != null" >
         wechat,
       </if>
+      <if test="token != null" >
+        token,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -163,6 +167,9 @@
       </if>
       <if test="wechat != null" >
         #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -220,6 +227,9 @@
       <if test="wechat != null" >
         wechat = #{wechat,jdbcType=VARCHAR},
       </if>
+      <if test="token != null" >
+        token = #{token,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -251,5 +261,13 @@
     from tb_user
     where open_id = #{openId,jdbcType=VARCHAR}
   </select>
+
+  <select id="queryOpenIdUserInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </select>
+
 
 </mapper>

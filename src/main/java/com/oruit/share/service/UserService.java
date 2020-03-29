@@ -11,4 +11,6 @@ public interface UserService {
     void insertTbUser(TbUser user);
 
     int updateTbUser(TbUser user);
+
+    TbUser queryOpenIdUserInfo(String openId);
 }

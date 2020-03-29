@@ -28,4 +28,9 @@ public class UserServiceImpl implements UserService {
     public int updateTbUser(TbUser user) {
         return tbUserMapper.updateByPrimaryKeySelective(user);
     }
+
+    @Override
+    public TbUser queryOpenIdUserInfo(String openId) {
+        return tbUserMapper.queryOpenIdUserInfo(openId);
+    }
 }

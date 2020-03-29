@@ -32,9 +32,9 @@ public class WxUtils {
                 TbUser user = new TbUser();
                 user.setOpenId(userMap.get("openid"));
                 user.setCode(code);
-                user.setAccessToken(userMap.get("access_token"));
+                user.setToken(userMap.get("access_token"));
                 session.setAttribute("open_id", user.getOpenId());
-                weixinUserInfo(user);
+                weixinUserInfo(user,session);
                 return user;
             } catch (Exception e) {
                 log.error("解析微信返回信息異常", e.getMessage());
@@ -44,9 +44,9 @@ public class WxUtils {
     }
 
 
-    public static void weixinUserInfo(TbUser user) {
+    public static void weixinUserInfo(TbUser user,HttpSession session) {
         String requestUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
-        requestUrl = requestUrl.replace("ACCESS_TOKEN", user.getAccessToken()).replace("OPENID", user.getOpenId());
+        requestUrl = requestUrl.replace("ACCESS_TOKEN", user.getToken()).replace("OPENID", user.getOpenId());
         String result = HttpUtils.doGet(requestUrl);
         log.info("weixinUserInfo,result={}", result);
         if (StringUtils.isNotBlank(result))
@@ -63,6 +63,8 @@ public class WxUtils {
                 if (userMap.get("unionid") != null) {
                     user.setUnionId(String.valueOf(userMap.get("unionid")));
                 }
+                session.setAttribute("headPic", user.getHeadPic());
+                session.setAttribute("nickName", user.getUsername());
             } catch (Exception e) {
                 log.error("解析微信返回信息異常", e);
             }

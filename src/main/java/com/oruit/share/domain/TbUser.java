@@ -45,7 +45,7 @@ public class TbUser implements Serializable {
 
     private String code;
 
-    private String accessToken;
+    private String token;
 
     private String language;
 
