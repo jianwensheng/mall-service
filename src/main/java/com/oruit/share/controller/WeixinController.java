@@ -67,7 +67,7 @@ public class WeixinController {
                     respMessage = weixinPost(request);
                     out.write(respMessage);
                 } catch (Exception e) {
-                    log.error("Failed to convert the message from weixin!");
+                    log.error("Failed to convert the message from weixin!异常:{}",e.getMessage());
                 }
             }
         }catch (Exception ex){
