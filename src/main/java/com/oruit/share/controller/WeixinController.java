@@ -137,7 +137,8 @@ public class WeixinController {
             }else if(msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)){
                 //
 
-            }else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
+            }
+            /*else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
                 String eventType = requestMap.get("Event");// 事件类型
                 // 订阅
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
@@ -170,7 +171,7 @@ public class WeixinController {
                         respMessage = textMessageToXml(text);
                     }
                 }
-            }
+            }*/
         }
         catch (Exception e) {
             log.error("weixinPost error {}",e.getMessage());
