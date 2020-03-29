@@ -135,11 +135,10 @@ public class IndexController {
                 log.info("open_id==null");
             }
         }
-        String headPic = session.getAttribute("headPic").toString();
-        String nickName = session.getAttribute("nickName").toString();
+        user = (TbUser)session.getAttribute("user");
 
-        model.addAttribute("headPic",headPic);
-        model.addAttribute("headPic",nickName);
+        model.addAttribute("headPic",user.getHeadPic());
+        model.addAttribute("nickName",user.getUsername());
         return "mine";
     }
 

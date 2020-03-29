@@ -63,8 +63,7 @@ public class WxUtils {
                 if (userMap.get("unionid") != null) {
                     user.setUnionId(String.valueOf(userMap.get("unionid")));
                 }
-                session.setAttribute("headPic", user.getHeadPic());
-                session.setAttribute("nickName", user.getUsername());
+                session.setAttribute("user", user);
             } catch (Exception e) {
                 log.error("解析微信返回信息異常", e);
             }
