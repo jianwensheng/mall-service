@@ -7,8 +7,10 @@
 
      Integer id;
 
-     String access_token;
+     String accessToken;
 
-     Long add_time;
+     Long addTime;
+
+     Integer expiresIn;
 
  }

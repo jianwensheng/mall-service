@@ -3,9 +3,11 @@ package com.oruit.share.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.oruit.common.utils.StringUtils;
+import com.oruit.share.domain.AccessToken;
 import com.oruit.share.domain.TbBannerDO;
 import com.oruit.share.domain.TbClassifyDO;
 import com.oruit.share.domain.TbUser;
+import com.oruit.share.service.AccessTokenService;
 import com.oruit.share.service.GoodsService;
 import com.oruit.share.service.TaobaoService;
 import com.oruit.share.service.UserService;
@@ -44,6 +46,9 @@ public class IndexController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AccessTokenService accessTokenService;
 
     @RequestMapping("/MP_verify_saioSVJexjgyNclA.txt")
     public String verify(HttpServletRequest request,Model model) {
@@ -97,25 +102,28 @@ public class IndexController {
     }
 
     @RequestMapping("/mineIndex")
-    public void mineIndex(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        String inviteUrl = NET_WEB +"/mine";
-        inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
-        String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
-                + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
-        response.sendRedirect(url);
+    public void mineIndex(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
+        String url = null;
+        if (session.getAttribute("open_id") == null) {
+            String inviteUrl = NET_WEB + "/mine";
+            inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
+            url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
+                    + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
+            response.sendRedirect(url);
+        }else{
+            url= NET_WEB+"/mine";
+            response.sendRedirect(url);
+        }
     }
 
     @RequestMapping("/mine")
     public String mine(HttpServletRequest request, Model model,HttpSession session,String code) {
-        String open_id = session.getAttribute("open_id")!=null?
-                session.getAttribute("open_id").toString():"";
+        String open_id = "";
         log.info("login code:{}",code);
         TbUser user = null;
-        if (open_id == null) {
-            System.out.println("系统开始，检查open_id=" +
-                    session.getAttribute("open_id"));
-            user = WxUtils.oppenIdInfo(code,appId,appSecret,session);
+        if (StringUtils.isNotEmpty(code)) {
+            AccessToken accessToken = accessTokenService.getToken(appId,appSecret);
+            user = WxUtils.oppenIdInfo(code,appId,appSecret,accessToken,session);
             open_id = (String)session.getAttribute("open_id");
 
             if (StringUtils.isNotEmpty(open_id)) {
@@ -134,8 +142,9 @@ public class IndexController {
                 log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 log.info("open_id==null");
             }
+        }else{
+            user = (TbUser)session.getAttribute("user");
         }
-        user = (TbUser)session.getAttribute("user");
 
         model.addAttribute("headPic",user.getHeadPic());
         model.addAttribute("nickName",user.getUsername());

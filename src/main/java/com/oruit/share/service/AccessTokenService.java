@@ -12,4 +12,7 @@
     int update(Map<String, Object> map);
  
     List<AccessToken> listById(AccessToken accessToken);
+
+    AccessToken getToken(String appid, String appsecret);
+
  }

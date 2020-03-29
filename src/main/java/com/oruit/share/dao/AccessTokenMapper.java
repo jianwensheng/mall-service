@@ -8,5 +8,5 @@ public interface AccessTokenMapper {
 
     int update(Map<String, Object> paramMap);
 
-    List<AccessToken> listById(AccessToken paramAccessToken);
+    List<AccessToken> listById();
 }
