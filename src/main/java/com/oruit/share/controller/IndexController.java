@@ -56,8 +56,7 @@ public class IndexController {
     }
 
     @RequestMapping("/index")
-    public String index(HttpServletRequest request,Model model) {
-
+    public String index(HttpServletRequest request,Model model,HttpSession session) {
         JSONObject obj = goodsService.getGoodClassify(request);
         if(obj.get("code").equals("1000")){
             List<Map<String,Object>> list = JSONObject.parseObject(obj.get("data").toString(),List.class);
@@ -77,6 +76,8 @@ public class IndexController {
         map.put("bannerType","1");
         List<TbBannerDO> tbBannerList = goodsService.queryTbBanner(map);
         model.addAttribute("tbBannerList",tbBannerList);
+        TbUser tbUser = (TbUser) session.getAttribute("user");
+        model.addAttribute("userToken",tbUser.getToken());
         return "dtk_index";
     }
 

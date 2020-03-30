@@ -197,9 +197,6 @@
       <if test="city != null" >
         city = #{city,jdbcType=VARCHAR},
       </if>
-      <if test="openId != null" >
-        open_id = #{openId,jdbcType=VARCHAR},
-      </if>
       <if test="userType != null" >
         user_type = #{userType,jdbcType=SMALLINT},
       </if>
@@ -231,7 +228,7 @@
         token = #{token,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where open_id = #{openId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.oruit.share.domain.TbUser" >
     update tb_user

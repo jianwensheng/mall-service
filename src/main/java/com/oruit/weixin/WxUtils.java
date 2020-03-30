@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 public class WxUtils {
@@ -57,6 +58,8 @@ public class WxUtils {
                 user.setCity(String.valueOf(userMap.get("city")));
                 user.setLanguage(String.valueOf(userMap.get("language")));
                 user.setHeadPic(String.valueOf(userMap.get("headimgurl")));
+                //生成userToken
+                user.setToken(getGUID());
                 if (userMap.get("unionid") != null) {
                     user.setUnionId(String.valueOf(userMap.get("unionid")));
                 }
@@ -64,6 +67,16 @@ public class WxUtils {
             } catch (Exception e) {
                 log.error("解析微信返回信息異常", e);
             }
+    }
+
+
+    /**
+     * 生成token
+     * @return
+     */
+    public static String getGUID()
+    {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
     /**

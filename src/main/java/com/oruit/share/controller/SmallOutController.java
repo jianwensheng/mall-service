@@ -257,6 +257,20 @@ public class SmallOutController {
         return obj;
     }
 
+    /**
+     * 商品收藏
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "/collect")
+    @ResponseBody
+    public JSONObject collect(HttpServletRequest request, HttpServletResponse response)throws Exception {
+
+        return null;
+    }
+
 
 
 }
