@@ -20,11 +20,8 @@ public class WxUtils {
 
 
     public static TbUser oppenIdInfo(String code, String appId, String appSecret, AccessToken accessToken,HttpSession session) {
-        log.info("code:{},appId:{},appSecret:{}",code,appId,appSecret);
         String token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appId + "&secret=" + appSecret + "&code=" + code + "&grant_type=authorization_code";
-        log.info("token_url:{}",token_url);
         String result = HttpUtils.doGet(token_url);
-        log.info("result:{}",result);
         if (StringUtils.isNotBlank(result)) {
             try {
                 ObjectMapper mapper = new ObjectMapper();
@@ -48,6 +45,7 @@ public class WxUtils {
     public static void weixinUserInfo(TbUser user,HttpSession session) {
         String requestUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
         requestUrl = requestUrl.replace("ACCESS_TOKEN", user.getToken()).replace("OPENID", user.getOpenId());
+        log.info("weixinUserInfo,requestUrl={}", requestUrl);
         String result = HttpUtils.doGet(requestUrl);
         log.info("weixinUserInfo,result={}", result);
         if (StringUtils.isNotBlank(result))
