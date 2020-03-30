@@ -69,6 +69,7 @@ public class UserServiceImpl implements UserService {
             user.setUnionId(userInfo.getUnionId());
             user.setHeadPic(userInfo.getHeadPic());
             user.setStatus((short) 1);
+            user.setToken(userToken);
             insertTbUser(user);
             //accountService.init(user.getId());
             //inviteDetailService.finishInvite(userInfo.getUnionId(), user.getId());
