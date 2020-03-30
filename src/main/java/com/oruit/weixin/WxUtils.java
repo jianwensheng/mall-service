@@ -6,6 +6,7 @@ import com.oruit.common.utils.HttpUtils;
 import com.oruit.common.utils.MethodUtil;
 import com.oruit.common.utils.StringUtils;
 import com.oruit.common.utils.cache.redis.RedisUtil;
+import com.oruit.share.cache.LoginCacheUtil;
 import com.oruit.share.domain.TbUser;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +33,7 @@ public class WxUtils {
                 user.setToken(userMap.get("access_token"));
                 session.setAttribute("open_id", user.getOpenId());
                 weixinUserInfo(user,session);
+                LoginCacheUtil.save(user);
                 return user;
             } catch (Exception e) {
                 log.error("解析微信返回信息異常", e.getMessage());

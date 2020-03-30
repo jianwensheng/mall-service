@@ -17,4 +17,9 @@ public class CollectionServiceImpl implements CollectionService {
     public List<TbCollection> queryTbCollectionList(HashMap map) {
         return tbCollectionMapper.queryTbCollectionList(map);
     }
+
+    @Override
+    public TbCollection queryTbCollection(String userToken, String goodsId) {
+        return tbCollectionMapper.queryTbCollection(userToken,goodsId);
+    }
 }

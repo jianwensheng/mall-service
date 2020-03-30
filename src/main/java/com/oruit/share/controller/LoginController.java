@@ -1,10 +1,14 @@
 package com.oruit.share.controller;
 
+import com.oruit.common.utils.StringUtils;
 import com.oruit.share.domain.AccessToken;
 import com.oruit.share.domain.TbUser;
+import com.oruit.share.model.BaseResult;
 import com.oruit.share.service.AccessTokenService;
 import com.oruit.share.service.UserService;
+import com.oruit.util.ResponseCode;
 import com.oruit.weixin.WxUtils;
+import com.oruit.weixin.util.WXUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,12 +28,6 @@ import java.util.List;
 @Slf4j
 public class LoginController {
 
-    @Value("${weixin.appId}")
-    private String appId;
-
-    @Value("${weixin.appSecret}")
-    private String appSecret;
-
     @Value("${weixin.url}")
     private String NET_WEB;
 
@@ -43,11 +41,10 @@ public class LoginController {
     @RequestMapping("/")
     public void index(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
         String url = null;
-        log.info("主页openId:{}",session.getAttribute("open_id"));
         if (session.getAttribute("open_id") == null) {
             String inviteUrl = NET_WEB +"/login";
             inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
-            url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
+            url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WXUtil.getLoginAppId() + "&redirect_uri=" + inviteUrl
                     + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
             response.sendRedirect(url);
         }else{
@@ -59,26 +56,28 @@ public class LoginController {
     @RequestMapping("/login")
     public void login(HttpServletRequest request, Model model, HttpSession session,
                       String code,HttpServletResponse response)throws IOException {
-        String open_id = "";
-        log.info("login code:{}",code);
-        TbUser user = WxUtils.oppenIdInfo(code,appId,appSecret,session);
-        open_id = (String)session.getAttribute("open_id");
-
-        if ((open_id != null) && (!"".equals(open_id))) {
-            List<TbUser> tbUsers = userService.queryUser(user);
-            if (tbUsers.size() != 0) {
-                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                System.out.println("用户存在，则update");
-                userService.updateTbUser(user);
-            } else {
-                System.out.println("用户不存在，则insert");
-                user.setCreateTime(new Date());
-                userService.insertTbUser(user);
-            }
+        System.out.println("code:" + code);
+        if (StringUtils.isEmpty(code)) {
+            return;
         }
-        else {
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-            System.out.println("open_id==null");
+        try {
+            AccessToken accessToken = WXUtil.getAccessToken(code);
+            if (accessToken != null) {
+                TbUser userInfo = WXUtil.getUserInfo(accessToken.getAccessToken(), accessToken.getOpenId());
+                if (userInfo != null) {
+                    if(userInfo.getOpenId()==null) {
+                        log.info("openId is null,CODE_401_REGISTER_STOP");
+                        return;
+                    }
+                    TbUser login = userService.generateTokenAndSave(userInfo);
+                    if (login == null) {
+                        log.info("login is null,CODE_401_REGISTER_STOP");
+                        return;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         String homeUrl = NET_WEB +"/index";
         response.sendRedirect(homeUrl);

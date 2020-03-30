@@ -12,12 +12,6 @@ import java.util.Arrays;
 @Service
 public class WeixinServiceImpl implements WeixinService {
 
-    @Value("${weixin.appId}")
-    private String appId;
-
-    @Value("${weixin.appSecret}")
-    private String appSecret;
-
     @Value("${weixin.token}")
     private String token;
 

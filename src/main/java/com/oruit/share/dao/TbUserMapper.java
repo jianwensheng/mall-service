@@ -20,4 +20,6 @@ public interface TbUserMapper {
     List<TbUser> queryUser(TbUser user);
 
     TbUser queryOpenIdUserInfo(String openId);
+
+    TbUser queryuserTokenUserInfo(String userToken);
 }

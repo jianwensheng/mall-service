@@ -44,6 +44,9 @@ public class WeixinController {
     @Value("${taobao.apikey}")
     private String apikey;
 
+    @Value("weixin.url")
+    private String wxUrl;
+
     @RequestMapping(value="/check",method = {RequestMethod.GET, RequestMethod.POST})
     public void check(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 将请求、响应的编码均设置为UTF-8（防止中文乱码）
@@ -64,7 +67,7 @@ public class WeixinController {
             }else{
                 try {
                     String respMessage = "异常消息！";
-                    respMessage = weixinPost(request);
+                    respMessage = weixinPost(request,response);
                     out.write(respMessage);
                 } catch (Exception e) {
                     log.error("Failed to convert the message from weixin!异常:{}",e.getMessage());
@@ -85,7 +88,7 @@ public class WeixinController {
      * @param request
      * @return
      */
-    public String weixinPost(HttpServletRequest request) {
+    public String weixinPost(HttpServletRequest request,HttpServletResponse response) {
         String respMessage = null;
         try {
 
@@ -137,41 +140,41 @@ public class WeixinController {
             }else if(msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)){
                 //
 
-            }
-            /*else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
+            }else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
                 String eventType = requestMap.get("Event");// 事件类型
                 // 订阅
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
-
                     TextMessage text = new TextMessage();
-                    text.setContent("欢迎关注，xxx");
+                    text.setContent("欢迎关注，滴答快乐!");
                     text.setToUserName(fromUserName);
                     text.setFromUserName(toUserName);
                     text.setCreateTime(new Date().getTime() + "");
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-
                     respMessage = textMessageToXml(text);
-                }
-                // TODO 取消订阅后用户再收不到公众号发送的消息，因此不需要回复消息
-                else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {// 取消订阅
+                }else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {// 取消订阅
+                    // TODO 取消订阅后用户再收不到公众号发送的消息，因此不需要回复消息
 
-
-                }
-                // 自定义菜单点击事件
-                else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
+                }else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
+                    // 自定义菜单点击事件
                     String eventKey = requestMap.get("EventKey");// 事件KEY值，与创建自定义菜单时指定的KEY值对应
-                    if (eventKey.equals("customer_telephone")) {
-                        TextMessage text = new TextMessage();
-                        text.setContent("0755-86671980");
-                        text.setToUserName(fromUserName);
-                        text.setFromUserName(toUserName);
-                        text.setCreateTime(new Date().getTime() + "");
-                        text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-
-                        respMessage = textMessageToXml(text);
+                    if (eventKey.equals("V1001_UserCenter")) {
+                        //进入用户中心
+                        String url = wxUrl+"mineIndex?openId="+fromUserName;
+                        response.sendRedirect(url);
+                        return null;
                     }
+
+                    /**
+                     TextMessage text = new TextMessage();
+                     text.setContent("0755-86671980");
+                     text.setToUserName(fromUserName);
+                     text.setFromUserName(toUserName);
+                     text.setCreateTime(new Date().getTime() + "");
+                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                     respMessage = textMessageToXml(text);
+                     */
                 }
-            }*/
+            }
         }
         catch (Exception e) {
             log.error("weixinPost error {}",e.getMessage());

@@ -13,4 +13,8 @@ public interface UserService {
     int updateTbUser(TbUser user);
 
     TbUser queryOpenIdUserInfo(String openId);
+
+    TbUser queryTokenUserInfo(String userToken);
+
+    TbUser generateTokenAndSave(TbUser userInfo);
 }
