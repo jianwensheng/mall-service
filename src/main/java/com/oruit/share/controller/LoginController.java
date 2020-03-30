@@ -48,7 +48,8 @@ public class LoginController {
     public void index(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
         String url;
         String openId = session.getAttribute("open_id")!=null?session.getAttribute("open_id").toString():"";
-        log.info("进入商城 user openId:{}",openId);
+        log.info("进入商城 user openId:{},appId:{},wx.appId:{}",openId,appId, WXUtil.getLoginAppId());
+
         if (StringUtils.isEmpty(openId)) {
             String inviteUrl = NET_WEB +"/login";
             inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
