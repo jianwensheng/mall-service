@@ -48,7 +48,7 @@ public class LoginController {
     public void index(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
         String url;
         String openId = session.getAttribute("open_id")!=null?session.getAttribute("open_id").toString():"";
-        if (StringUtils.isNotEmpty(openId)) {
+        if (StringUtils.isEmpty(openId)) {
             String inviteUrl = NET_WEB +"/login";
             inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
             url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl

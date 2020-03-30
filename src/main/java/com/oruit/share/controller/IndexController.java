@@ -114,7 +114,7 @@ public class IndexController {
     public void mineIndex(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
         String url;
         String openId = session.getAttribute("open_id")!=null?session.getAttribute("open_id").toString():"";
-        if (StringUtils.isNotEmpty(openId)) {
+        if (StringUtils.isEmpty(openId)) {
             url = NET_WEB + "/mine";
             response.sendRedirect(url);
         } else {
