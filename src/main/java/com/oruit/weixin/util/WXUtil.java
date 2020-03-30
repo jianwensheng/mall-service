@@ -30,11 +30,11 @@ public class WXUtil {
 	}
 
 	public static String getPayAppId() {
-		return ApplicationContextUtil.getBean(Environment.class).getProperty("pay.wx.appId", "wx474c64e0017cec51");
+		return ApplicationContextUtil.getBean(Environment.class).getProperty("pay.wx.appId", "wx3f89d2c7ededa0d9");
 	}
 
 	public static String getPayAppSecret() {
-		return ApplicationContextUtil.getBean(Environment.class).getProperty("pay.wx.appSecret", "de13b02ad163854b49fa472610b168bc");
+		return ApplicationContextUtil.getBean(Environment.class).getProperty("pay.wx.appSecret", "417fb5ac86136846e07d7697fa0aba09");
 	}
 
 	public static String getMchAppId() {
