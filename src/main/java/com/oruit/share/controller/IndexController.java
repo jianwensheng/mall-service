@@ -84,8 +84,8 @@ public class IndexController {
         map.put("bannerType", "1");
         List<TbBannerDO> tbBannerList = goodsService.queryTbBanner(map);
         model.addAttribute("tbBannerList", tbBannerList);
-        String token = CurrentLoginUtil.getLoginInfo().getToken();
-        model.addAttribute("userToken", token);
+//        String token = CurrentLoginUtil.getLoginInfo().getToken();
+//        model.addAttribute("userToken", token);
         return "dtk_index";
     }
 
@@ -152,15 +152,15 @@ public class IndexController {
             } else {
                 String openId = session.getAttribute("open_id")!=null?session.getAttribute("open_id").toString():"";
                 String userOpenId = HttpUtils.getRequestParam(request, RedisConstant.USER_LOGIN_OPEN_INFO_KEY + openId);
-                user = (TbUser) LoginCacheUtil.getOpenInfo(userOpenId);
+                //user = (TbUser) LoginCacheUtil.getOpenInfo(userOpenId);
 
             }
         } catch (Exception e) {
             log.error("mine error:{}",e.getMessage());
         }
 
-        model.addAttribute("headPic", user.getHeadPic());
-        model.addAttribute("nickName", user.getUsername());
+        //model.addAttribute("headPic", user.getHeadPic());
+        //model.addAttribute("nickName", user.getUsername());
         return "mine";
     }
 
