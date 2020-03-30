@@ -31,6 +31,12 @@ public class LoginController {
     @Value("${weixin.url}")
     private String NET_WEB;
 
+    @Value("${login.wx.appId}")
+    private String appId;
+
+    @Value("${login.wx.appSecret}")
+    private String appSecret;
+
     @Autowired
     private UserService userService;
 
@@ -44,7 +50,7 @@ public class LoginController {
         if (session.getAttribute("open_id") == null) {
             String inviteUrl = NET_WEB +"/login";
             inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
-            url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WXUtil.getLoginAppId() + "&redirect_uri=" + inviteUrl
+            url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
                     + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
             response.sendRedirect(url);
         }else{
@@ -61,7 +67,7 @@ public class LoginController {
             return;
         }
         try {
-            AccessToken accessToken = WXUtil.getAccessToken(code);
+            AccessToken accessToken = WXUtil.getAccessToken(code,appId,appSecret);
             if (accessToken != null) {
                 TbUser userInfo = WXUtil.getUserInfo(accessToken.getAccessToken(), accessToken.getOpenId());
                 if (userInfo != null) {

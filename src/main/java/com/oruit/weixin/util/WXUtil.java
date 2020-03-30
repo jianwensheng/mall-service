@@ -64,13 +64,9 @@ public class WXUtil {
 		return isTest;
 	}
 
-	public static AccessToken getAccessToken(String code) throws IOException {
-		String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + getLoginAppId() + "&secret=" + getLoginAppSecret() + "&code=" + code
+	public static AccessToken getAccessToken(String code,String appid,String appSecret) throws IOException {
+		String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appid + "&secret=" + appSecret + "&code=" + code
 				+ "&grant_type=authorization_code";
-
-		// https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
-
-		// https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842
 		String result = SimpleRequestUtil.getResponseText(url);
 		System.out.println("getAccessToken="+result+",url="+url);
 		AccessToken accessToken = null;
