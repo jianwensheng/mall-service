@@ -46,10 +46,10 @@ public class IndexController {
     @Value("${weixin.url}")
     private String NET_WEB;
 
-    @Value("${login.wx.appId}")
+    @Value("${weixin.appId}")
     private String appId;
 
-    @Value("${login.wx.appSecret}")
+    @Value("${weixin.appSecret}")
     private String appSecret;
 
     @Autowired
@@ -121,7 +121,7 @@ public class IndexController {
         } else {
             String inviteUrl = NET_WEB + "/mine";
             inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
-            url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WXUtil.getLoginAppId() + "&redirect_uri=" + inviteUrl
+            url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
                     + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
             response.sendRedirect(url);
         }

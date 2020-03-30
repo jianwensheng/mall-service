@@ -31,10 +31,10 @@ public class LoginController {
     @Value("${weixin.url}")
     private String NET_WEB;
 
-    @Value("${login.wx.appId}")
+    @Value("${weixin.appId}")
     private String appId;
 
-    @Value("${login.wx.appSecret}")
+    @Value("${weixin.appSecret}")
     private String appSecret;
 
     @Autowired
