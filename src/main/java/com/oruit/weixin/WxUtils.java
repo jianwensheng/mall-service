@@ -3,11 +3,9 @@ package com.oruit.weixin;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oruit.common.utils.HttpUtils;
-import com.oruit.common.utils.JsonDealUtil;
 import com.oruit.common.utils.MethodUtil;
 import com.oruit.common.utils.StringUtils;
 import com.oruit.common.utils.cache.redis.RedisUtil;
-import com.oruit.share.domain.AccessToken;
 import com.oruit.share.domain.TbUser;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +17,7 @@ import java.util.Map;
 public class WxUtils {
 
 
-    public static TbUser oppenIdInfo(String code, String appId, String appSecret, AccessToken accessToken,HttpSession session) {
+    public static TbUser oppenIdInfo(String code, String appId, String appSecret,HttpSession session) {
         String token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appId + "&secret=" + appSecret + "&code=" + code + "&grant_type=authorization_code";
         String result = HttpUtils.doGet(token_url);
         if (StringUtils.isNotBlank(result)) {
@@ -30,7 +28,7 @@ public class WxUtils {
                 TbUser user = new TbUser();
                 user.setOpenId(userMap.get("openid"));
                 user.setCode(code);
-                user.setToken(accessToken.getAccessToken());
+                user.setToken(userMap.get("access_token"));
                 session.setAttribute("open_id", user.getOpenId());
                 weixinUserInfo(user,session);
                 return user;

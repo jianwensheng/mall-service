@@ -60,8 +60,7 @@ public class LoginController {
                       String code,HttpServletResponse response)throws IOException {
         String open_id = "";
         log.info("login code:{}",code);
-        AccessToken accessToken = accessTokenService.getToken(appId,appSecret);
-        TbUser user = WxUtils.oppenIdInfo(code,appId,appSecret,accessToken,session);
+        TbUser user = WxUtils.oppenIdInfo(code,appId,appSecret,session);
         open_id = (String)session.getAttribute("open_id");
 
         if ((open_id != null) && (!"".equals(open_id))) {

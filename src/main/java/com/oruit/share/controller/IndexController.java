@@ -122,8 +122,7 @@ public class IndexController {
         log.info("login code:{}",code);
         TbUser user = null;
         if (StringUtils.isNotEmpty(code)) {
-            AccessToken accessToken = accessTokenService.getToken(appId,appSecret);
-            user = WxUtils.oppenIdInfo(code,appId,appSecret,accessToken,session);
+            user = WxUtils.oppenIdInfo(code,appId,appSecret,session);
             open_id = (String)session.getAttribute("open_id");
 
             if (StringUtils.isNotEmpty(open_id)) {
