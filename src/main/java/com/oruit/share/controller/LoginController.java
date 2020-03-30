@@ -43,6 +43,7 @@ public class LoginController {
     @RequestMapping("/")
     public void index(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
         String url = null;
+        log.info("主页openId:{}",session.getAttribute("open_id"));
         if (session.getAttribute("open_id") == null) {
             String inviteUrl = NET_WEB +"/login";
             inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
