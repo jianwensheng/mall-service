@@ -148,7 +148,7 @@ public class IndexController {
                     }
                 }
             } else {
-                String openId = HttpUtils.getRequestParam(request, "openId");
+                String openId = session.getAttribute("open_id")!=null?session.getAttribute("open_id").toString():"";
                 String userOpenId = HttpUtils.getRequestParam(request, RedisConstant.USER_LOGIN_OPEN_INFO_KEY + openId);
                 user = (TbUser) LoginCacheUtil.getOpenInfo(userOpenId);
 
