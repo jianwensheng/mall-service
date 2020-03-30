@@ -53,7 +53,7 @@ public class LoginController {
         if (StringUtils.isEmpty(openId)) {
             String inviteUrl = NET_WEB +"/login";
             inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
-            url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
+            url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3f89d2c7ededa0d9&redirect_uri=" + inviteUrl
                     + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
             response.sendRedirect(url);
         }else{
