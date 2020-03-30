@@ -2,6 +2,7 @@ package com.oruit.share.service;
 
 import com.oruit.share.domain.TbUser;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface UserService {
@@ -16,5 +17,5 @@ public interface UserService {
 
     TbUser queryTokenUserInfo(String userToken);
 
-    TbUser generateTokenAndSave(TbUser userInfo);
+    TbUser generateTokenAndSave(TbUser userInfo, HttpSession session);
 }

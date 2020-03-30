@@ -112,16 +112,9 @@ public class IndexController {
 
     @RequestMapping("/mineIndex")
     public void mineIndex(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
-        String url = null;
-        String openId = HttpUtils.getRequestParam(request, "openId");
-        Boolean flag = false;
+        String url;
+        String openId = session.getAttribute("open_id")!=null?session.getAttribute("open_id").toString():"";
         if (StringUtils.isNotEmpty(openId)) {
-            String userOpenId = HttpUtils.getRequestParam(request, RedisConstant.USER_LOGIN_OPEN_INFO_KEY + openId);//openId
-            if (StringUtils.isNotEmpty(userOpenId)) {
-                flag = true;
-            }
-        }
-        if (flag) {
             url = NET_WEB + "/mine";
             response.sendRedirect(url);
         } else {
@@ -147,7 +140,7 @@ public class IndexController {
                             log.info("openId is null,CODE_401_REGISTER_STOP");
                             return "404";
                         }
-                        user = userService.generateTokenAndSave(userInfo);
+                        user = userService.generateTokenAndSave(userInfo,session);
                         if (user == null) {
                             log.info("login is null,CODE_401_REGISTER_STOP");
                             return "404";

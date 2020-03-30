@@ -9,6 +9,7 @@ import com.oruit.weixin.EmojiFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TbUser generateTokenAndSave(TbUser userInfo) {
+    public TbUser generateTokenAndSave(TbUser userInfo, HttpSession session) {
         String userToken = UUID.randomUUID().toString().replaceAll("-", "");
         TbUser tbUser = new TbUser();
         tbUser.setOpenId(userInfo.getOpenId());
@@ -77,6 +78,7 @@ public class UserServiceImpl implements UserService {
         if (user.getStatus() == null || user.getStatus().shortValue() != 1) {
             return null;
         }
+        session.setAttribute("openId",userInfo.getOpenId());
         LoginCacheUtil.save(user);
         return user;
     }
