@@ -1,6 +1,8 @@
 package com.oruit.share.controller;
 
+import com.oruit.common.utils.HttpUtils;
 import com.oruit.common.utils.StringUtils;
+import com.oruit.share.constant.RedisConstant;
 import com.oruit.share.domain.AccessToken;
 import com.oruit.share.domain.TbUser;
 import com.oruit.share.model.BaseResult;
@@ -47,14 +49,23 @@ public class LoginController {
     @RequestMapping("/")
     public void index(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
         String url = null;
-        if (session.getAttribute("open_id") == null) {
+        String openId = HttpUtils.getRequestParam(request, "openId");
+        Boolean flag = false;
+        if (StringUtils.isNotEmpty(openId)) {
+            String userOpenId = HttpUtils.getRequestParam(request, RedisConstant.USER_LOGIN_OPEN_INFO_KEY + openId);//openId
+            if (StringUtils.isNotEmpty(userOpenId)) {
+                flag = true;
+            }
+        }
+
+        if(flag){
+            url= NET_WEB+"/index";
+            response.sendRedirect(url);
+        }else{
             String inviteUrl = NET_WEB +"/login";
             inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
             url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
                     + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
-            response.sendRedirect(url);
-        }else{
-            url= NET_WEB+"/index";
             response.sendRedirect(url);
         }
     }

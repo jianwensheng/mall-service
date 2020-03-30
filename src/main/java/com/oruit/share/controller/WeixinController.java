@@ -157,9 +157,14 @@ public class WeixinController {
                 }else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
                     // 自定义菜单点击事件
                     String eventKey = requestMap.get("EventKey");// 事件KEY值，与创建自定义菜单时指定的KEY值对应
-                    if (eventKey.equals("V1001_UserCenter")) {
+                    if (eventKey.equals("V1001_Mall")) {
+                        //商城
+                        String url = wxUrl+"?openId="+fromUserName;
+                        response.sendRedirect(url);
+                        return null;
+                    }else if (eventKey.equals("V1001_UserCenter")) {
                         //进入用户中心
-                        String url = wxUrl+"mineIndex?openId="+fromUserName;
+                        String url = wxUrl+"/mineIndex?openId="+fromUserName;
                         response.sendRedirect(url);
                         return null;
                     }
