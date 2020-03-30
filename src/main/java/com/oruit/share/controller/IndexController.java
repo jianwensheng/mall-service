@@ -128,7 +128,7 @@ public class IndexController {
     }
 
     @RequestMapping("/mine")
-    public String mine(HttpServletRequest request, Model model, HttpSession session, String code) {
+    public String mine(HttpServletRequest request,HttpServletResponse response, Model model, HttpSession session, String code) {
         log.info("login code:{}", code);
         TbUser user = null;
         try {
@@ -146,6 +146,7 @@ public class IndexController {
                             log.info("login is null,CODE_401_REGISTER_STOP");
                             return "404";
                         }
+                        CurrentLoginUtil.saveToThread(request, response, user);
                     }
                 }
             } else {

@@ -6,6 +6,7 @@ import com.oruit.share.domain.TbUser;
 import com.oruit.share.model.BaseResult;
 import com.oruit.share.service.AccessTokenService;
 import com.oruit.share.service.UserService;
+import com.oruit.share.util.CurrentLoginUtil;
 import com.oruit.util.ResponseCode;
 import com.oruit.weixin.WxUtils;
 import com.oruit.weixin.util.WXUtil;
@@ -83,6 +84,7 @@ public class LoginController {
                         log.info("login is null,CODE_401_REGISTER_STOP");
                         return;
                     }
+                    CurrentLoginUtil.saveToThread(request, response, login);
                 }
             }
         } catch (IOException e) {
