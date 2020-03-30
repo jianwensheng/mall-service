@@ -46,6 +46,12 @@ public class IndexController {
     @Value("${weixin.url}")
     private String NET_WEB;
 
+    @Value("${login.wx.appId}")
+    private String appId;
+
+    @Value("${login.wx.appSecret}")
+    private String appSecret;
+
     @Autowired
     private UserService userService;
 
@@ -133,7 +139,7 @@ public class IndexController {
         TbUser user = null;
         try {
             if (StringUtils.isNotEmpty(code)) {
-                AccessToken accessToken = WXUtil.getAccessToken(code);
+                AccessToken accessToken = WXUtil.getAccessToken(code,appId,appSecret);
                 if (accessToken != null) {
                     TbUser userInfo = WXUtil.getUserInfo(accessToken.getAccessToken(), accessToken.getOpenId());
                     if (userInfo != null) {
