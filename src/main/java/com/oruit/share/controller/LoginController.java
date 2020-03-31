@@ -47,7 +47,7 @@ public class LoginController {
                     + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
             response.sendRedirect(url);
         }else{
-            url= NET_WEB+"/index";
+            url= NET_WEB+"/index?openId="+openId;
             response.sendRedirect(url);
         }
     }
