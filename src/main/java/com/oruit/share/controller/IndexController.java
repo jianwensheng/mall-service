@@ -81,9 +81,7 @@ public class IndexController {
                openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
            }
            log.info("index，openId:{}"+openId);
-           TbUser tbUser = RedisUtil.getObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY+openId,TbUser.class);
-           log.info("index，tbUser:{}"+tbUser.toString());
-           model.addAttribute("openId", tbUser.getOpenId());
+           model.addAttribute("openId", openId);
        }catch (Exception e){
            log.error("index error:{}",e.getMessage());
        }

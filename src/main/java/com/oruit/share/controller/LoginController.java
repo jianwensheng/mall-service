@@ -68,12 +68,11 @@ public class LoginController {
                 user.setCreateTime(new Date());
                 userService.insertTbUser(user);
             }
-        }
-        else {
+        }else {
             log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             log.info("open_id==null");
         }
-        String homeUrl = NET_WEB +"/index?openId='"+openId+"'";
+        String homeUrl = NET_WEB +"/index?openId="+openId;
         response.sendRedirect(homeUrl);
     }
 }
