@@ -1,18 +1,16 @@
 package com.oruit.share.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.oruit.common.utils.HttpUtils;
 import com.oruit.common.utils.StringUtils;
 import com.oruit.common.utils.cache.redis.RedisUtil;
 import com.oruit.share.constant.RedisConstant;
-import com.oruit.share.domain.AccessToken;
 import com.oruit.share.domain.TbBannerDO;
 import com.oruit.share.domain.TbClassifyDO;
 import com.oruit.share.domain.TbUser;
 import com.oruit.share.service.AccessTokenService;
 import com.oruit.share.service.GoodsService;
 import com.oruit.share.service.UserService;
-import com.oruit.share.util.CurrentLoginUtil;
 import com.oruit.weixin.WxUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +55,7 @@ public class IndexController {
     }
 
     @RequestMapping("/index")
-    public String index(HttpServletRequest request,Model model) {
+    public String index(HttpServletRequest request,Model model,HttpSession session) {
 
         JSONObject obj = goodsService.getGoodClassify(request);
         if(obj.get("code").equals("1000")){
@@ -120,9 +118,6 @@ public class IndexController {
             url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
                     + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
             response.sendRedirect(url);
-        }else{
-            url= NET_WEB+"/mine";
-            response.sendRedirect(url);
         }
     }
 
@@ -133,18 +128,13 @@ public class IndexController {
         try {
             String openId = HttpUtils.getRequestParam(request, "openId");//商品名称
             if (StringUtils.isNotEmpty(code)) {
-                user = WxUtils.oppenIdInfo(code,appId,appSecret,session);
+                user = WxUtils.oppenIdInfo(code, appId, appSecret, session);
             } else {
-                user = RedisUtil.getObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY+openId,TbUser.class);
+                user = RedisUtil.getObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY + openId, TbUser.class);
             }
-            else {
-                log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                log.info("open_id==null");
-            }
-        }else{
-            user = (TbUser)session.getAttribute("user");
+        }catch (Exception e){
+            log.info(e.getMessage());
         }
-
         model.addAttribute("headPic", user.getHeadPic());
         model.addAttribute("nickName", user.getUsername());
         return "mine";

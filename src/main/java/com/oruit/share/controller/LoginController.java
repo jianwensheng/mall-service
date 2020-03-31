@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,10 +38,11 @@ public class LoginController {
     @RequestMapping("/")
     public void index(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
         String openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
+        String url;
         if (StringUtils.isEmpty(openId)) {
             String inviteUrl = NET_WEB +"/login";
             inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
-            String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
+            url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
                     + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
             response.sendRedirect(url);
         }else{
@@ -56,7 +56,7 @@ public class LoginController {
 
         log.info("系统开始，检查openId={}",session.getAttribute("openId"));
 
-        TbUser user = WxUtils.oppenIdInfo(code,appId,appSecret,session);
+        TbUser user = WxUtils.openIdInfo(code,appId,appSecret,session);
         String open_id = (String)session.getAttribute("openId");
 
         if (StringUtils.isNotEmpty(open_id)) {
@@ -73,7 +73,7 @@ public class LoginController {
         }
         else {
             log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-            log.info("oppen_id==null");
+            log.info("open_id==null");
         }
         String homeUrl = NET_WEB +"/index";
         response.sendRedirect(homeUrl);
