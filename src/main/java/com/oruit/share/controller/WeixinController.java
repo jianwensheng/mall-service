@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -48,7 +49,7 @@ public class WeixinController {
     private String wxUrl;
 
     @RequestMapping(value="/check",method = {RequestMethod.GET, RequestMethod.POST})
-    public void check(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void check(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws Exception {
         // 将请求、响应的编码均设置为UTF-8（防止中文乱码）
         request.setCharacterEncoding("UTF-8");  //微信服务器POST消息时用的是UTF-8编码，在接收时也要用同样的编码，否则中文会乱码；
         response.setCharacterEncoding("UTF-8"); //在响应消息（回复消息给用户）时，也将编码方式设置为UTF-8，原理同上；
@@ -67,7 +68,7 @@ public class WeixinController {
             }else{
                 try {
                     String respMessage = "异常消息！";
-                    respMessage = weixinPost(request,response);
+                    respMessage = weixinPost(request,response,session);
                     out.write(respMessage);
                 } catch (Exception e) {
                     log.error("Failed to convert the message from weixin!异常:{}",e.getMessage());
@@ -88,7 +89,7 @@ public class WeixinController {
      * @param request
      * @return
      */
-    public String weixinPost(HttpServletRequest request,HttpServletResponse response) {
+    public String weixinPost(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         String respMessage = null;
         try {
 
@@ -155,7 +156,7 @@ public class WeixinController {
                     // TODO 取消订阅后用户再收不到公众号发送的消息，因此不需要回复消息
 
                 }else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
-                    // 自定义菜单点击事件
+                   /* // 自定义菜单点击事件
                     String eventKey = requestMap.get("EventKey");// 事件KEY值，与创建自定义菜单时指定的KEY值对应
                     if (eventKey.equals("V1001_Mall")) {
                         //商城
@@ -167,7 +168,7 @@ public class WeixinController {
                         String url = wxUrl+"/mineIndex?openId="+fromUserName;
                         response.sendRedirect(url);
                         return null;
-                    }
+                    }*/
 
                     /**
                      TextMessage text = new TextMessage();

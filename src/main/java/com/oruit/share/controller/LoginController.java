@@ -38,6 +38,7 @@ public class LoginController {
     @RequestMapping("/")
     public void index(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
         String openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
+        log.info("首页 openId：{}",openId);
         String url;
         if (StringUtils.isEmpty(openId)) {
             String inviteUrl = NET_WEB +"/login";
@@ -53,13 +54,10 @@ public class LoginController {
 
     @RequestMapping("/login")
     public void login(HttpSession session,String code,HttpServletResponse response)throws IOException {
-
-        log.info("系统开始，检查openId={}",session.getAttribute("openId"));
-
         TbUser user = WxUtils.openIdInfo(code,appId,appSecret,session);
-        String open_id = (String)session.getAttribute("openId");
-
-        if (StringUtils.isNotEmpty(open_id)) {
+        String openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
+        log.info("系统开始，检查openId={}",openId);
+        if (StringUtils.isNotEmpty(openId)) {
             List<TbUser> tbUsers = userService.queryUser(user);
             if (tbUsers.size() != 0) {
                 log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -75,7 +73,7 @@ public class LoginController {
             log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             log.info("open_id==null");
         }
-        String homeUrl = NET_WEB +"/index";
+        String homeUrl = NET_WEB +"/index?openId='"+openId+"'";
         response.sendRedirect(homeUrl);
     }
 }

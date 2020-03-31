@@ -56,31 +56,38 @@ public class IndexController {
 
     @RequestMapping("/index")
     public String index(HttpServletRequest request,Model model,HttpSession session) {
+       try{
+           String openId = HttpUtils.getRequestParam(request, "openId");//商品名称
+           JSONObject obj = goodsService.getGoodClassify(request);
+           if(obj.get("code").equals("1000")){
+               List<Map<String,Object>> list = JSONObject.parseObject(obj.get("data").toString(),List.class);
 
-        JSONObject obj = goodsService.getGoodClassify(request);
-        if(obj.get("code").equals("1000")){
-            List<Map<String,Object>> list = JSONObject.parseObject(obj.get("data").toString(),List.class);
-
-            List<Map<String,Object>> arr = new ArrayList<>();
-            if(list.size()> 4){
-               for(int i=0;i<4;i++){
-                   arr.add(list.get(i));
+               List<Map<String,Object>> arr = new ArrayList<>();
+               if(list.size()> 4){
+                   for(int i=0;i<4;i++){
+                       arr.add(list.get(i));
+                   }
                }
-            }
-            model.addAttribute("classifyList",arr);
-            model.addAttribute("cid",list.get(0).get("cid"));
-        }
-        List<TbClassifyDO> tbClassifyDOList = goodsService.queryTbClassify(1);
-        model.addAttribute("tbClassifyDOList",tbClassifyDOList);
-        HashMap map = new HashMap();
-        map.put("bannerType","1");
-        List<TbBannerDO> tbBannerList = goodsService.queryTbBanner(map);
-        model.addAttribute("tbBannerList", tbBannerList);
-        String openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
-        TbUser tbUser = RedisUtil.getObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY+openId,TbUser.class);
-        log.info("index，tbUser:{}"+tbUser.toString());
-        model.addAttribute("openId", tbUser.getOpenId());
-        return "dtk_index";
+               model.addAttribute("classifyList",arr);
+               model.addAttribute("cid",list.get(0).get("cid"));
+           }
+           List<TbClassifyDO> tbClassifyDOList = goodsService.queryTbClassify(1);
+           model.addAttribute("tbClassifyDOList",tbClassifyDOList);
+           HashMap map = new HashMap();
+           map.put("bannerType","1");
+           List<TbBannerDO> tbBannerList = goodsService.queryTbBanner(map);
+           model.addAttribute("tbBannerList", tbBannerList);
+           if(StringUtils.isEmpty(openId)){
+               openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
+           }
+           log.info("index，openId:{}"+openId);
+           TbUser tbUser = RedisUtil.getObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY+openId,TbUser.class);
+           log.info("index，tbUser:{}"+tbUser.toString());
+           model.addAttribute("openId", tbUser.getOpenId());
+       }catch (Exception e){
+           log.error("index error:{}",e.getMessage());
+       }
+       return "dtk_index";
     }
 
 
@@ -109,7 +116,7 @@ public class IndexController {
         String url;
         String openId = session.getAttribute("openId")!=null?session.getAttribute("openId").toString():"";
         log.info("mineIndex user openId:{}",openId);
-        if (StringUtils.isEmpty(openId)) {
+        if (StringUtils.isNotEmpty(openId)) {
             url = NET_WEB + "/mine";
             response.sendRedirect(url);
         } else {
