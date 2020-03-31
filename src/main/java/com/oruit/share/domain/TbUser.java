@@ -8,7 +8,6 @@ import java.util.Date;
 
 @Data
 public class TbUser implements Serializable {
-
     private Long id;
 
     @JSONField(name = "nickname")
@@ -18,19 +17,14 @@ public class TbUser implements Serializable {
 
     private String email;
 
-    @JSONField(name = "sex")
     private Short sex;
 
-    @JSONField(name = "country")
     private String country;
 
-    @JSONField(name = "province")
     private String province;
 
-    @JSONField(name = "city")
     private String city;
 
-    @JSONField(name = "openid")
     private String openId;
 
     private Short userType;

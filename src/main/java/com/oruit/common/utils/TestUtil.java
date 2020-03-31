@@ -13,11 +13,17 @@ import java.util.regex.Pattern;
 
 public class TestUtil {
 
+    static String appId = "wx3f89d2c7ededa0d9";
+
+    static String appSecret = "417fb5ac86136846e07d7697fa0aba09";
+
+    static String code = "011m4jfH1iGAb30KwKhH1A6TeH1m4jf0";
+
     public static void main(String[] args) {
-        String str = "https://a.m.taobao.com/i605657989518.htm?price=69-135&sourceType=item&sourceType=item&suid=" +
-                "20bd2342-a3b4-4b86-89c2-ea03bf408965&ut_sk=1.XCv%2FBoDSlz8DANbbPLb7CTQ1_21646297_1585321159486.Copy.1&un=" +
-                "e2f765742f6bf4fc8a195baaa22d8f6a&share_crt_v=1&spm=a2159r.13376460.0.0&sp_tk=4oK0bkMxdTFSamZna0zigrQ=";
-        String goodsId = str.split("\\?")[0].split("/")[3].split("\\.")[0].substring(1);
-        System.out.println(goodsId);
+        String token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appId + "&secret=" + appSecret + "&code=" + code + "&grant_type=authorization_code";
+        System.out.println(token_url);
+        String result = HttpUtils.doGet(token_url);
+        System.out.println(result);
+
     }
 }

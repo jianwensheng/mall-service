@@ -3,6 +3,7 @@ package com.oruit.weixin;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oruit.common.utils.HttpUtils;
+import com.oruit.common.utils.JsonDealUtil;
 import com.oruit.common.utils.MethodUtil;
 import com.oruit.common.utils.StringUtils;
 import com.oruit.common.utils.cache.redis.RedisUtil;
@@ -14,15 +15,17 @@ import lombok.extern.slf4j.Slf4j;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Slf4j
 public class WxUtils {
 
 
-    public static TbUser oppenIdInfo(String code, String appId, String appSecret,HttpSession session) {
+    public static TbUser oppenIdInfo(String code, String appId, String appSecret, AccessToken accessToken,HttpSession session) {
+        log.info("code:{},appId:{},appSecret:{}",code,appId,appSecret);
         String token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appId + "&secret=" + appSecret + "&code=" + code + "&grant_type=authorization_code";
+
         String result = HttpUtils.doGet(token_url);
+        log.info("result:{}",result);
         if (StringUtils.isNotBlank(result)) {
             try {
                 ObjectMapper mapper = new ObjectMapper();
@@ -46,7 +49,6 @@ public class WxUtils {
     public static void weixinUserInfo(TbUser user,HttpSession session) {
         String requestUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
         requestUrl = requestUrl.replace("ACCESS_TOKEN", user.getToken()).replace("OPENID", user.getOpenId());
-        log.info("weixinUserInfo,requestUrl={}", requestUrl);
         String result = HttpUtils.doGet(requestUrl);
         log.info("weixinUserInfo,result={}", result);
         if (StringUtils.isNotBlank(result))
@@ -60,12 +62,10 @@ public class WxUtils {
                 user.setCity(String.valueOf(userMap.get("city")));
                 user.setLanguage(String.valueOf(userMap.get("language")));
                 user.setHeadPic(String.valueOf(userMap.get("headimgurl")));
-                //生成userToken
-                user.setToken(getGUID());
                 if (userMap.get("unionid") != null) {
                     user.setUnionId(String.valueOf(userMap.get("unionid")));
                 }
-                RedisUtil.setObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY+user.getOpenId(),RedisConstant.HALF_MONTH,user);
+                session.setAttribute("user", user);
             } catch (Exception e) {
                 log.error("解析微信返回信息異常", e);
             }

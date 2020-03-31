@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,14 +23,14 @@ import java.util.List;
 @Slf4j
 public class LoginController {
 
-    @Value("${weixin.url}")
-    private String NET_WEB;
-
     @Value("${weixin.appId}")
     private String appId;
 
     @Value("${weixin.appSecret}")
     private String appSecret;
+
+    @Value("${weixin.url}")
+    private String NET_WEB;
 
     @Autowired
     private UserService userService;
@@ -45,10 +46,9 @@ public class LoginController {
                     + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
             response.sendRedirect(url);
         }else{
-            String homeUrl = NET_WEB +"/index";
-            response.sendRedirect(homeUrl);
+            url= NET_WEB+"/index";
+            response.sendRedirect(url);
         }
-
     }
 
     @RequestMapping("/login")
@@ -75,7 +75,6 @@ public class LoginController {
             log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             log.info("oppen_id==null");
         }
-
         String homeUrl = NET_WEB +"/index";
         response.sendRedirect(homeUrl);
     }
