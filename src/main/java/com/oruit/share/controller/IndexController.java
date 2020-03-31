@@ -80,7 +80,7 @@ public class IndexController {
            if(StringUtils.isEmpty(openId)){
                openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
            }
-           log.info("index，openId:{}"+openId);
+           log.info("index，openId:{}",openId);
            model.addAttribute("openId", openId);
        }catch (Exception e){
            log.error("index error:{}",e.getMessage());
