@@ -1,20 +1,13 @@
 package com.oruit.share.controller;
 
 import com.oruit.common.utils.StringUtils;
-import com.oruit.share.domain.AccessToken;
 import com.oruit.share.domain.TbUser;
-import com.oruit.share.model.BaseResult;
-import com.oruit.share.service.AccessTokenService;
 import com.oruit.share.service.UserService;
-import com.oruit.share.util.CurrentLoginUtil;
-import com.oruit.util.ResponseCode;
 import com.oruit.weixin.WxUtils;
-import com.oruit.weixin.util.WXUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,7 +59,7 @@ public class LoginController {
         TbUser user = WxUtils.oppenIdInfo(code,appId,appSecret,session);
         String open_id = (String)session.getAttribute("openId");
 
-        if ((open_id != null) && (!"".equals(open_id))) {
+        if (StringUtils.isNotEmpty(open_id)) {
             List<TbUser> tbUsers = userService.queryUser(user);
             if (tbUsers.size() != 0) {
                 log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");

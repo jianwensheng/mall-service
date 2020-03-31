@@ -1,25 +1,19 @@
 package com.oruit.share.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.oruit.common.utils.HttpUtils;
 import com.oruit.common.utils.StringUtils;
 import com.oruit.common.utils.cache.redis.RedisUtil;
-import com.oruit.share.cache.LoginCacheUtil;
 import com.oruit.share.constant.RedisConstant;
 import com.oruit.share.domain.AccessToken;
 import com.oruit.share.domain.TbBannerDO;
 import com.oruit.share.domain.TbClassifyDO;
 import com.oruit.share.domain.TbUser;
-import com.oruit.share.model.BaseResult;
 import com.oruit.share.service.AccessTokenService;
 import com.oruit.share.service.GoodsService;
-import com.oruit.share.service.TaobaoService;
 import com.oruit.share.service.UserService;
 import com.oruit.share.util.CurrentLoginUtil;
-import com.oruit.util.ResponseCode;
 import com.oruit.weixin.WxUtils;
-import com.oruit.weixin.util.WXUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,9 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Slf4j
@@ -88,7 +80,7 @@ public class IndexController {
         String openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
         TbUser tbUser = RedisUtil.getObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY+openId,TbUser.class);
         log.info("index，tbUser:{}"+tbUser.toString());
-        model.addAttribute("userToken", tbUser.getToken());
+        model.addAttribute("openId", tbUser.getOpenId());
         return "dtk_index";
     }
 
@@ -116,7 +108,7 @@ public class IndexController {
     @RequestMapping("/mineIndex")
     public void mineIndex(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
         String url;
-        String openId = session.getAttribute("open_id")!=null?session.getAttribute("open_id").toString():"";
+        String openId = session.getAttribute("openId")!=null?session.getAttribute("openId").toString():"";
         log.info("mineIndex user openId:{}",openId);
         if (StringUtils.isEmpty(openId)) {
             url = NET_WEB + "/mine";
@@ -135,35 +127,18 @@ public class IndexController {
         log.info("login code:{}", code);
         TbUser user = null;
         try {
+            String openId = HttpUtils.getRequestParam(request, "openId");//商品名称
             if (StringUtils.isNotEmpty(code)) {
-                AccessToken accessToken = WXUtil.getAccessToken(code,appId,appSecret);
-                if (accessToken != null) {
-                    TbUser userInfo = WXUtil.getUserInfo(accessToken.getAccessToken(), accessToken.getOpenId());
-                    if (userInfo != null) {
-                        if (userInfo.getOpenId() == null) {
-                            log.info("openId is null,CODE_401_REGISTER_STOP");
-                            return "404";
-                        }
-                        user = userService.generateTokenAndSave(userInfo,session);
-                        if (user == null) {
-                            log.info("login is null,CODE_401_REGISTER_STOP");
-                            return "404";
-                        }
-                        CurrentLoginUtil.saveToThread(request, response, user);
-                    }
-                }
+                user = WxUtils.oppenIdInfo(code,appId,appSecret,session);
             } else {
-                String openId = session.getAttribute("open_id")!=null?session.getAttribute("open_id").toString():"";
-                String userOpenId = HttpUtils.getRequestParam(request, RedisConstant.USER_LOGIN_OPEN_INFO_KEY + openId);
-                //user = (TbUser) LoginCacheUtil.getOpenInfo(userOpenId);
-
+                user = RedisUtil.getObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY+openId,TbUser.class);
             }
         } catch (Exception e) {
             log.error("mine error:{}",e.getMessage());
         }
 
-        //model.addAttribute("headPic", user.getHeadPic());
-        //model.addAttribute("nickName", user.getUsername());
+        model.addAttribute("headPic", user.getHeadPic());
+        model.addAttribute("nickName", user.getUsername());
         return "mine";
     }
 
