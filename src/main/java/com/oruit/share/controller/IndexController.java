@@ -29,7 +29,6 @@ import java.util.*;
 
 @Slf4j
 @Controller
-@RequestMapping("homepage")
 public class IndexController {
 
     @Autowired
