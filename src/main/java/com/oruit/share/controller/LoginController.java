@@ -40,12 +40,18 @@ public class LoginController {
         String openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
         log.info("首页 openId：{}",openId);
         String url;
-        String inviteUrl = NET_WEB +"/login";
-        inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
-        url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
-                + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
-        log.info("首页 url1：{}",url);
-        response.sendRedirect(url);
+        if (StringUtils.isEmpty(openId)) {
+            String inviteUrl = NET_WEB +"/login";
+            inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
+            url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
+                    + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
+            log.info("首页 url1：{}",url);
+            response.sendRedirect(url);
+        }else{
+            url= NET_WEB+"/index";
+            log.info("首页 url2：{}",url);
+            response.sendRedirect(url);
+        }
     }
 
     @RequestMapping("/login")
@@ -68,7 +74,7 @@ public class LoginController {
             log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             log.info("open_id==null");
         }
-        String homeUrl = NET_WEB +"/index?openId="+openId;
+        String homeUrl = NET_WEB +"/index";
         response.sendRedirect(homeUrl);
     }
 }

@@ -5,7 +5,6 @@ import com.oruit.common.utils.cache.redis.RedisUtil;
 import com.oruit.share.constant.RedisConstant;
 import com.oruit.share.domain.AbnormalOperation;
 import com.oruit.share.domain.TbUser;
-import com.oruit.share.service.AbnormalOperationService;
 import com.oruit.share.service.UserService;
 import com.oruit.share.util.ApplicationContextUtil;
 
@@ -44,11 +43,6 @@ public class LoginCacheUtil {
 			}
 		}
 		return login;
-	}
-	
-	public static void saveAOper(AbnormalOperation abnormalOperation) {
-		    AbnormalOperationService abnormalOperationService = ApplicationContextUtil.getBean(AbnormalOperationService.class);
-		    abnormalOperationService.insertSelective(abnormalOperation);
 	}
 	
 	public static void main(String[] args) {

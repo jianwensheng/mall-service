@@ -29,6 +29,7 @@ import java.util.*;
 
 @Slf4j
 @Controller
+@RequestMapping("homepage")
 public class IndexController {
 
     @Autowired
@@ -48,11 +49,6 @@ public class IndexController {
 
     @Autowired
     private AccessTokenService accessTokenService;
-
-    @RequestMapping("/MP_verify_saioSVJexjgyNclA.txt")
-    public String verify(HttpServletRequest request,Model model) {
-        return "verify";
-    }
 
     @RequestMapping("/index")
     public String index(HttpServletRequest request,Model model,HttpSession session) {

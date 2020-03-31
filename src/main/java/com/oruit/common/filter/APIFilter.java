@@ -33,20 +33,10 @@ public class APIFilter extends OncePerRequestFilter {
             log.debug("requestUrl:{}|queryString:{}", requestUrl, queryString);
         }*/
 
-        //由于服务器内存低，故不采用session
 
         //添加协议头已支持跨域请求
         response.addHeader("Access-Control-Allow-Origin", "*");
 
-        if (org.apache.commons.lang.StringUtils.isNotEmpty(queryString) && queryString.contains("showd=")) {
-            String showdomain = request.getParameter("showd");
-
-            String showdomainShowUrl = showdomain + request.getRequestURI().replace("/resources", "");
-
-            log.debug("showdomainShowUrl:{}", showdomainShowUrl);
-            response.sendRedirect(showdomainShowUrl);
-            return;
-        }
         filterChain.doFilter(request, response);
     }
 
