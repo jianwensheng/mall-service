@@ -41,16 +41,12 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private AccessTokenService accessTokenService;
-
 
     @RequestMapping("/")
     public void index(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
         String url;
-        String openId = session.getAttribute("open_id")!=null?session.getAttribute("open_id").toString():"";
-        log.info("进入商城 user openId:{},appId:{},wx.appId:{}",openId,appId, WXUtil.getLoginAppId());
-
+        String openId = session.getAttribute("openId")!=null?session.getAttribute("openId").toString():"";
+        log.info("openId:{}",openId);
         if (StringUtils.isEmpty(openId)) {
             String inviteUrl = NET_WEB +"/login";
             inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
@@ -84,7 +80,6 @@ public class LoginController {
                         log.info("login is null,CODE_401_REGISTER_STOP");
                         return;
                     }
-                    CurrentLoginUtil.saveToThread(request, response, login);
                 }
             }
         } catch (IOException e) {

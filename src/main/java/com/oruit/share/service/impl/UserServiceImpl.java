@@ -2,9 +2,11 @@ package com.oruit.share.service.impl;
 
 import com.oruit.common.utils.cache.redis.RedisUtil;
 import com.oruit.share.cache.LoginCacheUtil;
+import com.oruit.share.constant.RedisConstant;
 import com.oruit.share.dao.TbUserMapper;
 import com.oruit.share.domain.TbUser;
 import com.oruit.share.service.UserService;
+import com.oruit.share.util.ApplicationContextUtil;
 import com.oruit.weixin.EmojiFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,12 +39,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public TbUser queryOpenIdUserInfo(String openId) {
-        return tbUserMapper.queryOpenIdUserInfo(openId);
+        TbUser login = RedisUtil.getObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY + openId, TbUser.class);
+        if (login == null) {
+            login = tbUserMapper.queryOpenIdUserInfo(openId);
+            if (login != null) {
+                RedisUtil.setObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY+openId,RedisConstant.HALF_MONTH,login);
+            }
+        }
+        return login;
     }
 
     @Override
     public TbUser queryTokenUserInfo(String userToken) {
-        return tbUserMapper.queryuserTokenUserInfo(userToken);
+        TbUser login = RedisUtil.getObject(RedisConstant.USER_LOGIN_INFO_KEY + userToken, TbUser.class);
+        if (login == null) {
+            login = tbUserMapper.queryuserTokenUserInfo(userToken);
+            if (login != null) {
+                RedisUtil.setObject(RedisConstant.USER_LOGIN_INFO_KEY + userToken, RedisConstant.HALF_MONTH,login);
+            }
+        }
+        return login;
     }
 
     @Override

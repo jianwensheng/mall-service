@@ -18,8 +18,6 @@ public class LoginCacheUtil {
 	public static boolean save(TbUser tbUser) {
 		RedisUtil.setObject(RedisConstant.USER_LOGIN_INFO_KEY + tbUser.getToken()
 				,RedisConstant.HALF_MONTH,tbUser);
-		RedisUtil.setObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY + tbUser.getOpenId()
-				,RedisConstant.HALF_MONTH,tbUser);
 		return true;
 
 	}

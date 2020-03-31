@@ -84,8 +84,9 @@ public class IndexController {
         map.put("bannerType", "1");
         List<TbBannerDO> tbBannerList = goodsService.queryTbBanner(map);
         model.addAttribute("tbBannerList", tbBannerList);
-//        String token = CurrentLoginUtil.getLoginInfo().getToken();
-//        model.addAttribute("userToken", token);
+        String openId = session.getAttribute("openId")!=null?session.getAttribute("openId").toString():"";
+        TbUser tbUser = userService.queryOpenIdUserInfo(openId);
+        model.addAttribute("userToken", tbUser.getToken());
         return "dtk_index";
     }
 

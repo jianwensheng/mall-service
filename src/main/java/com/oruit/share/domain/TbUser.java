@@ -1,5 +1,6 @@
 package com.oruit.share.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -7,8 +8,9 @@ import java.util.Date;
 
 @Data
 public class TbUser implements Serializable {
-    private Long id;
 
+    private Long id;
+    @JSONField(name = "nickname")
     private String username;
 
     private String mobile;
@@ -23,6 +25,7 @@ public class TbUser implements Serializable {
 
     private String city;
 
+    @JSONField(name = "openid")
     private String openId;
 
     private Short userType;
@@ -35,8 +38,10 @@ public class TbUser implements Serializable {
 
     private String password;
 
+    @JSONField(name = "unionid")
     private String unionId;
 
+    @JSONField(name = "headimgurl")
     private String headPic;
 
     private String deviceid;
@@ -45,6 +50,7 @@ public class TbUser implements Serializable {
 
     private String code;
 
+    @JSONField(name = "access_token")
     private String token;
 
     private String language;

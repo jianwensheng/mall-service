@@ -18,4 +18,5 @@ public interface UserService {
     TbUser queryTokenUserInfo(String userToken);
 
     TbUser generateTokenAndSave(TbUser userInfo, HttpSession session);
+
 }
