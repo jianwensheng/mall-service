@@ -40,16 +40,12 @@ public class LoginController {
         String openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
         log.info("首页 openId：{}",openId);
         String url;
-        if (StringUtils.isEmpty(openId)) {
-            String inviteUrl = NET_WEB +"/login";
-            inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
-            url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
-                    + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
-            response.sendRedirect(url);
-        }else{
-            url= NET_WEB+"/index?openId="+openId;
-            response.sendRedirect(url);
-        }
+        String inviteUrl = NET_WEB +"/login";
+        inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
+        url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
+                + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
+        log.info("首页 url1：{}",url);
+        response.sendRedirect(url);
     }
 
     @RequestMapping("/login")

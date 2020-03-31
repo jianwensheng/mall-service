@@ -169,7 +169,6 @@ public class WeixinController {
                         response.sendRedirect(url);
                         return null;
                     }*/
-
                     /**
                      TextMessage text = new TextMessage();
                      text.setContent("0755-86671980");
