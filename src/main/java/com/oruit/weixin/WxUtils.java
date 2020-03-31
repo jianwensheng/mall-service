@@ -6,6 +6,7 @@ import com.oruit.common.utils.HttpUtils;
 import com.oruit.common.utils.MethodUtil;
 import com.oruit.common.utils.StringUtils;
 import com.oruit.common.utils.cache.redis.RedisUtil;
+import com.oruit.share.constant.RedisConstant;
 import com.oruit.share.domain.TbUser;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,6 +36,7 @@ public class WxUtils {
                 user.setToken(userMap.get("access_token"));
                 session.setAttribute("openId", user.getOpenId());
                 weixinUserInfo(user,session);
+                RedisUtil.setObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY + user.getOpenId(),MethodUtil.month_expires, user);
                 return user;
             } catch (Exception e) {
                 log.error("解析微信返回信息異常", e.getMessage());
@@ -64,7 +66,6 @@ public class WxUtils {
                 if (userMap.get("unionid") != null) {
                     user.setUnionId(String.valueOf(userMap.get("unionid")));
                 }
-                session.setAttribute("user", user);
             } catch (Exception e) {
                 log.error("解析微信返回信息異常", e);
             }

@@ -128,7 +128,7 @@ public class IndexController {
         try {
             String openId = HttpUtils.getRequestParam(request, "openId");//商品名称
             if (StringUtils.isNotEmpty(code)) {
-                user = WxUtils.oppenIdInfo(code, appId, appSecret, session);
+                user = WxUtils.openIdInfo(code, appId, appSecret, session);
             } else {
                 user = RedisUtil.getObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY + openId, TbUser.class);
             }

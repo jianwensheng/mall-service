@@ -106,6 +106,8 @@ public class MethodUtil {
 
     public static int week_expires = 60*60*24*7;
 
+    public static int month_expires = 60*60*24*30;
+
     public static TreeMap<String,String> postContent(TreeMap<String,String> paraMap){
         paraMap.put("appKey",appKey);
         paraMap.put("sign", SignMD5Util.getSignStr(paraMap,appSecret));
