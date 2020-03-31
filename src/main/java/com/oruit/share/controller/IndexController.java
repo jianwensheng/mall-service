@@ -76,10 +76,12 @@ public class IndexController {
                openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
            }
            log.info("index，openId:{}",openId);
-           model.addAttribute("openId", openId);
+           TbUser user = userService.queryOpenIdUserInfo(openId);
+           model.addAttribute("token",user.getToken());
        }catch (Exception e){
            log.error("index error:{}",e.getMessage());
        }
+
        return "dtk_index";
     }
 
@@ -125,6 +127,7 @@ public class IndexController {
     public String mine(HttpServletRequest request,HttpServletResponse response, Model model, HttpSession session, String code) {
         log.info("login code:{}", code);
         TbUser user = null;
+
         try {
             String openId = session.getAttribute("openId")!=null?session.getAttribute("openId").toString():"";
             if (StringUtils.isNotEmpty(code)) {

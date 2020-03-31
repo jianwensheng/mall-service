@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.HashMap;
 import java.util.List;
 
-public interface TbCollectionMapper {
+public interface TbCollectionMapper extends BaseMapper<TbCollection,Long>{
     int deleteByPrimaryKey(Long id);
 
     int insert(TbCollection record);
@@ -21,5 +21,5 @@ public interface TbCollectionMapper {
 
     List<TbCollection> queryTbCollectionList(HashMap map);
 
-    TbCollection queryTbCollection(@Param("userToken") String userToken,@Param("goodsId") String goodsId);
+    TbCollection queryTbCollection(@Param("userId") Long userId,@Param("goodId") Long goodsId);
 }

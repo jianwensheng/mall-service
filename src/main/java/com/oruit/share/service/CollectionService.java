@@ -6,10 +6,10 @@ import org.apache.ibatis.annotations.Param;
 import java.util.HashMap;
 import java.util.List;
 
-public interface CollectionService {
+public interface CollectionService extends BaseService<TbCollection,Long>{
 
     List<TbCollection> queryTbCollectionList(HashMap map);
 
-    TbCollection queryTbCollection(String userToken,String goodsId);
+    TbCollection queryTbCollection(Long userToken,Long goodsId);
 
 }

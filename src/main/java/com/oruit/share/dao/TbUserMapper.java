@@ -1,6 +1,7 @@
 package com.oruit.share.dao;
 
 import com.oruit.share.domain.TbUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,5 +22,5 @@ public interface TbUserMapper {
 
     TbUser queryOpenIdUserInfo(String openId);
 
-    TbUser queryuserTokenUserInfo(String userToken);
+    TbUser queryuserTokenUserInfo(@Param("userToken") String userToken);
 }

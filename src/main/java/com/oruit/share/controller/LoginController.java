@@ -37,6 +37,7 @@ public class LoginController {
 
     @RequestMapping("/")
     public void index(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
+        //session.setAttribute("openId","ouA-Q1sPSt6s0Lo8_B9svq7Xbii8");
         String openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
         log.info("首页 openId：{}",openId);
         String url;
@@ -45,11 +46,9 @@ public class LoginController {
             inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
             url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
                     + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
-            log.info("首页 url1：{}",url);
             response.sendRedirect(url);
         }else{
             url= NET_WEB+"/index";
-            log.info("首页 url2：{}",url);
             response.sendRedirect(url);
         }
     }

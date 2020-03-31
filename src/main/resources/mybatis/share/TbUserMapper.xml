@@ -270,7 +270,7 @@
     select
     <include refid="Base_Column_List" />
     from tb_user
-    where user_token = #{userToken,jdbcType=VARCHAR}
+    where token = #{userToken,jdbcType=VARCHAR}
   </select>
 
 

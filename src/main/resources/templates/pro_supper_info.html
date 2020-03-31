@@ -52,7 +52,6 @@
       document.documentElement.style.width = "100%";
   </script>
   <script src="${basePath}/resources/supper/js/jquery.min.js"></script>
-  <script src="../addons/bsht_tbk/res/js/nb_hs.js"></script>
   <script type="text/javascript" src="${basePath}/resources/js/swiper-3.4.2.jquery.min.js"></script>
 
   <script src="//res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
@@ -60,6 +59,7 @@
   <script type="text/javascript" src="${basePath}/resources/supper/js/clipboard.min.js"></script>
   <script type="text/javascript" src="${basePath}/resources/supper/js/jquery.qrcode.min.js"></script>
   <script type="text/javascript" src="${basePath}/resources/supper/js/layer.js"></script>
+  <script src="https://cdn.bootcss.com/store2/2.7.0/store2.min.js"></script>
   <script src="${basePath}/resources/supper/js/jq.nb.plus2.js"></script>
   <link rel="stylesheet" type="text/css" href="${basePath}/resources/supper/css/nb_plus2.css" />
 
@@ -645,7 +645,11 @@
       <img src="${basePath}/resources/images/logo_tb.png" style="border-radius: 3px;vertical-align: middle;margin-bottom: 1px;width:16px;height:16px;margin-right:3px;display:none" id="istb">${good.title!''}</div>
     <div class="goodsprice">
       <span class="baseprice"><em class="detailfanzi">返佣</em><em class="detailfanmoney">${good.prize!'0'}元</em></span>		    </div>
-    <a class="goodscollection addfav" data-id="${good.goodsId!''}" href="javascript:;" id="isfav" style="bottom: 33px;">收藏</a>
+    <#if collectStatus==0>
+         <a class="goodscollection addfav" data-id="${good.goodsId!''}" href="javascript:;" id="isfav" style="bottom: 33px;">收藏</a>
+         <#else>
+         <a class="goodscollection2 addfav" data-id="${good.goodsId!''}" href="javascript:;" id="isfav" style="bottom: 33px;">取消</a>
+    </#if>
   </div>
   <style>
     .progress {
@@ -1799,45 +1803,6 @@
     }
 </script>
 
-
-<script>
-    var nb_hs_url = "https://item.taobao.com/item.htm?id=609370213819";
-    var nb_token = d.encrypt(nb_hs_url, 2, true);
-    $('#nb_hs_token').html(nb_token);
-    nb_hs_url = encodeURIComponent(nb_hs_url);
-    var nb_b64 = new nb_Base64();
-    nb_token = nb_b64.encode(nb_token);
-    nb_token = nb_b64.encode(nb_token);
-
-
-    var wxsitecode="<div style='width:100%;'><div id='gzcode' style='padding-top:20px;'><img src='http://www.fqqfq.com/attachment/images/11/2019/11/GHsO422JZW0VYW2X1HA2vjEsWY0xeT.png' width='100%' height='100%' id='nosp'></div><div style='float:left;width:100%;height:20px;line-height:20px;font-size:16px;text-align:center;padding-bottom:10px;padding-top:10px'>关注我们 长按扫码</div></div>";
-
-    function wxsite(){
-
-        layer.open({
-            title:false,
-            type: 1,
-            closeBtn: 2,
-            shadeClose: true,
-            content: wxsitecode,
-            shade: [0.8, '#000']
-        });
-
-
-        $('.layer-anim').css('position','fixed');
-        $('.layer-anim').css('top','20%');
-        $('.layer-anim').css('left','0');
-        $('.layer-anim').css('right','0');
-        $('.layer-anim').css('width','100%');
-        $('.layer-anim').css('max-width','250px');
-        $('.layer-anim').css('margin','auto');
-        $('.layer-anim').css('border-radius','10px');
-
-    }
-</script>
-
-
-
 <script>
 
     var wxshare="<div id='allsharepic' class='sharepicw100' onclick='javascript:layer.closeAll();' style='padding:10px'><div class='sharepicw100 sharepictitle' style='text-align:center;'>@ 优惠淘淘券公众号</div><div class='sharepicw100'><img id='startpic' src='http://img.alicdn.com/imgextra/i3/2206868146929/O1CN01RdIVld213Wuox7Hy7_!!2206868146929.jpg' class='sharepicw100' style='max-width:94%'></div><div class='sharepicw35 sharepicfl qrcodediv' id='qrcodediv' style='text-align:center;margin:0 auto;'></div><div class='sharepicw60 sharepicfl sharepicpd6'><span class='sharepicw100 sharepicspan1' style='max-width:95%'><b>高档精品蕾丝美背内衣女无钢圈小胸聚拢文胸2019新款女士胸罩套装</b></span><span class='sharepicw100 sharepicspan2' style='text-decoration:line-through;color:#666'><small>原价：269.9</small></span><span class='sharepicw100 sharepicspan2'><b>券后价：69.9</b></span></div></div><div class='sharepicw100 sharepicfl sharepicdivbot' style='text-align:center;padding-bottom:20px'>长按扫码，先领券再购物！</div>";
@@ -2773,12 +2738,11 @@
     $(function() {
 
         $(".addfav").click(function(){
-
-            var url = "${basePath}/";
+            var token = store.session('token');
+            var url = "${basePath}/collection/collect?userToken="+token+"&goodsId=${good.goodsId!''}&plat=1";
             $.post(url, function(dat){
-                dat = eval('('+dat+')');
 
-                if (dat.status==1)
+                if (dat.code==1)
                 {
                     layer.msg('收藏成功！');
                     $('.addfav').html('取消');
@@ -2786,7 +2750,7 @@
                     $('.addfav').addClass('goodscollection2');
                 }
 
-                if (dat.status==0)
+                if (dat.code==0)
                 {
                     layer.msg('已取消收藏！');
                     $('.addfav').html('收藏');
@@ -2794,7 +2758,7 @@
                     $('.addfav').addClass('goodscollection');
                 }
 
-                if (dat.status==500)
+                if (dat.code==2000)
                 {
                     layer.msg('本功能仅限微信用户使用！');
                     $('.addfav').html('收藏');
@@ -2808,8 +2772,6 @@
 
 <script>
     $(function() {
-
-        wx.config(jssdkconfig);
         var $_share = {"title":"\u9ad8\u6863\u7cbe\u54c1\u857e\u4e1d\u7f8e\u80cc\u5185\u8863\u5973\u65e0\u94a2\u5708\u5c0f\u80f8\u805a\u62e2\u6587\u80f82019\u65b0\u6b3e\u5973\u58eb\u80f8\u7f69\u5957\u88c5","imgUrl":"http:\/\/img.alicdn.com\/imgextra\/i3\/2206868146929\/O1CN01RdIVld213Wuox7Hy7_!!2206868146929.jpg","desc":"\u9ad8\u6863\u7cbe\u54c1\u857e\u4e1d\u7f8e\u80cc\u5185\u8863\u5973\u65e0\u94a2\u5708\u5c0f\u80f8\u805a\u62e2\u6587\u80f82019\u65b0\u6b3e\u5973\u58eb\u80f8\u7f69\u5957\u88c5","link":"http:\/\/www.fqqfq.com\/app\/index.php?i=11&c=entry&do=show_api&m=bwwtlw_WW5Ob2RGOTBZbXM9_564533&iid=609370213819&actid=509d834b405741e795e3cd3979c152d7&yj=20.97&tit=6auY5qGj57K_b5ZOB6JW_b5Lid576O6IOM5YaF6KGj5aWz5peg6ZKi5ZyI5bCP6IO46IGa5oui5paH6IO4MjAxOeaWsOasvuWls_bWjq_biDuOe9qeWll_bijhQ_c_c&wenan=44CQ6auY56uv5ZOB6LSo44CR6YeH55So6L_bb5Y_bj5Lid5YWJ57Gz6auY6Z2i5paZ77yM54us54m56JOd5a6d55_bz5ZCK5Z2g77yM5ZCO6IOM6JW_b5Lid6ZWC56m65oCn5oSf6L_b35Lq644CC6IGa5oui6Ziy5LiL5Z6CLOS_bp_baUtuWJr_bS5syzmt7FW6K_bx5oOR44CC5aSn54mM5YGa5belLOS4iuetiei0qOmHj_b_b8jOW9sOaYvumrmOi0teawlOi0qOOAguS9oOS7juacquS9k_bmqjOi_ah_beahOmrmOaho_bWGheihoyzpgIHkurLlj4ss6Ze65a_bGLO_b8gemAn_bW6puaKou_b8geaJi_baFouaXoO_b8geWlsw_c_c&pic=http:\/\/img.alicdn.com\/imgextra\/i3\/2206868146929\/O1CN01RdIVld213Wuox7Hy7_!!2206868146929.jpg&fee1=269.9&fee2=69.9&qfee=200&fl=12.58&shopfl=&isdx=&maijia_id=&shopid=0&isnb=1&isnice=2&stype=5&shopyuji=0&hdk=&actid=509d834b405741e795e3cd3979c152d7&vid=&q_yl=&q_zl=&qcid="};
         if(typeof sharedata == 'undefined'){
             sharedata = $_share;
@@ -2834,17 +2796,10 @@
             }
         }
         wx.ready(function () {
-
-
             wx.onMenuShareAppMessage(sharedata);
             wx.onMenuShareTimeline(sharedata);
             wx.onMenuShareQQ(sharedata);
             wx.onMenuShareWeibo(sharedata);
-
-
-
-
-
         });
 
 

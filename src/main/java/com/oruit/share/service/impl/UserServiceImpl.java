@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         if (login == null) {
             login = tbUserMapper.queryOpenIdUserInfo(openId);
             if (login != null) {
-                RedisUtil.setObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY+openId,RedisConstant.HALF_MONTH,login);
+                RedisUtil.setObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY+openId,RedisConstant.HALF_HOUR,login);
             }
         }
         return login;
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         if (login == null) {
             login = tbUserMapper.queryuserTokenUserInfo(userToken);
             if (login != null) {
-                RedisUtil.setObject(RedisConstant.USER_LOGIN_INFO_KEY + userToken, RedisConstant.HALF_MONTH,login);
+                RedisUtil.setObject(RedisConstant.USER_LOGIN_INFO_KEY + userToken, RedisConstant.HALF_HOUR,login);
             }
         }
         return login;

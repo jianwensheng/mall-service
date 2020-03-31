@@ -9,8 +9,10 @@ import com.oruit.common.utils.PddUtil;
 import com.oruit.common.utils.cache.redis.RedisUtil;
 import com.oruit.share.dao.TbBrandMapper;
 import com.oruit.share.domain.*;
+import com.oruit.share.service.CollectionService;
 import com.oruit.share.service.GoodsService;
 import com.oruit.share.service.OtherService;
+import com.oruit.share.service.UserService;
 import com.oruit.weixin.WxUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -48,6 +50,13 @@ public class GoodControler {
 
     @Autowired
     private TbBrandMapper tbBrandMapper;
+
+    @Autowired
+    private CollectionService collectionService;
+
+    @Autowired
+    private UserService userService;
+
 
     @Value("${taobao.apikey}")
     private String apikey;
@@ -208,6 +217,18 @@ public class GoodControler {
     public String good_detail(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
         String goodsId = getRequestParam(request, "itemId");//商品ID
         String type = getRequestParam(request, "type");  // type 1.淘宝 2.拼多多
+        String userToken = getRequestParam(request, "token");//用户token
+        Integer collectStatus = 0;
+        if(StringUtils.isNotEmpty(userToken)){
+            TbUser user = userService.queryTokenUserInfo(userToken);
+            TbCollection tbCollection = collectionService.queryTbCollection(user.getId(),Long.valueOf(goodsId));
+            if(tbCollection!=null){
+                if(tbCollection.getStatus()==1){
+                    collectStatus = 1;
+                }
+            }
+        }
+        model.addAttribute("collectStatus",collectStatus);
         if (type.equals("1")) {
             //淘宝
             JSONObject obj = goodsService.getPrivilege(goodsId);

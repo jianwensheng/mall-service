@@ -153,7 +153,7 @@
                     </span>
 				<span class="aui-tabBar-item-text">咚咚抢</span>
 			</a>
-		 	<a href="${basePath}/mine?openId=${openId!''}" class="aui-tabBar-item ">
+		 	<a href="${basePath}/mine" class="aui-tabBar-item ">
 							<span class="aui-tabBar-item-icon">
 								<i class="icon icon-me"></i>
 							</span>
@@ -167,8 +167,8 @@
 <script type="text/javascript" src="${basePath}/resources/js/tab.js"></script>
 <script src="https://cdn.bootcss.com/store2/2.7.0/store2.min.js"></script>
 <script type="text/javascript">
-	if('${openId}'){
-        store.session('openId',"${openId!''}");
+	if("${token!''}"){
+        store.session('token',"${token!''}");
 	}
     function queryGoods(){
         window.location.href = "${basePath}/good/goodSupperSearch";
@@ -361,7 +361,8 @@
 
     function goodDetail(goodsId){
         store.session('scrollTop', $('#mescroll').scrollTop());
-        window.location.href = "${basePath}/good/good_supper_detail?itemId="+goodsId+"&type=1";
+        var token = store.session('token');
+        window.location.href = "${basePath}/good/good_supper_detail?itemId="+goodsId+"&type=1&token="+token;
     }
 
 

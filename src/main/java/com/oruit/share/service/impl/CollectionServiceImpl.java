@@ -4,14 +4,22 @@ import com.oruit.share.dao.TbCollectionMapper;
 import com.oruit.share.domain.TbCollection;
 import com.oruit.share.service.CollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class CollectionServiceImpl implements CollectionService {
+@Service
+public class CollectionServiceImpl extends BaseServiceImpl<TbCollection,Long> implements CollectionService {
 
     @Autowired
     private TbCollectionMapper tbCollectionMapper;
+
+    @Override
+    @Autowired
+    public void setBaseMapper() {
+        super.setBaseMapper(tbCollectionMapper);
+    }
 
     @Override
     public List<TbCollection> queryTbCollectionList(HashMap map) {
@@ -19,7 +27,9 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public TbCollection queryTbCollection(String userToken, String goodsId) {
-        return tbCollectionMapper.queryTbCollection(userToken,goodsId);
+    public TbCollection queryTbCollection(Long userId, Long goodsId) {
+        return tbCollectionMapper.queryTbCollection(userId,goodsId);
     }
+
+
 }
