@@ -126,7 +126,7 @@ public class IndexController {
         log.info("login code:{}", code);
         TbUser user = null;
         try {
-            String openId = HttpUtils.getRequestParam(request, "openId");//商品名称
+            String openId = session.getAttribute("openId")!=null?session.getAttribute("openId").toString():"";
             if (StringUtils.isNotEmpty(code)) {
                 user = WxUtils.openIdInfo(code, appId, appSecret, session);
             } else {
