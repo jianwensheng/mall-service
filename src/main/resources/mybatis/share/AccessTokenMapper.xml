@@ -16,5 +16,5 @@
     <select id="listById" resultType="com.oruit.share.domain.AccessToken">
     select * from access_token where id =1
     </select>
-    
+
 </mapper>

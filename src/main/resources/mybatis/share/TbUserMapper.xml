@@ -36,7 +36,7 @@
     delete from tb_user
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.oruit.share.domain.TbUser" >
+  <insert id="insert" parameterType="com.oruit.share.domain.TbUser" keyProperty="id" useGeneratedKeys="true">
     insert into tb_user (id, username, mobile, 
       email, sex, country, 
       province, city, open_id, 
@@ -52,7 +52,7 @@
       #{headPic,jdbcType=VARCHAR}, #{deviceid,jdbcType=VARCHAR}, #{wechat,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.oruit.share.domain.TbUser" >
+  <insert id="insertSelective" parameterType="com.oruit.share.domain.TbUser" keyProperty="id" useGeneratedKeys="true" >
     insert into tb_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -197,9 +197,6 @@
       <if test="city != null" >
         city = #{city,jdbcType=VARCHAR},
       </if>
-      <if test="openId != null" >
-        open_id = #{openId,jdbcType=VARCHAR},
-      </if>
       <if test="userType != null" >
         user_type = #{userType,jdbcType=SMALLINT},
       </if>
@@ -231,7 +228,7 @@
         token = #{token,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where open_id = #{openId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.oruit.share.domain.TbUser" >
     update tb_user
@@ -267,6 +264,13 @@
     <include refid="Base_Column_List" />
     from tb_user
     where open_id = #{openId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryuserTokenUserInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user
+    where user_token = #{userToken,jdbcType=VARCHAR}
   </select>
 
 

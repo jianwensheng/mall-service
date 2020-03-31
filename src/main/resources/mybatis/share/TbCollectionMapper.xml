@@ -170,4 +170,12 @@
     limit ${pageIndex},${pageSize}
   </select>
 
+  <select id="queryTbCollection" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_collection
+    where user_id = #{userId,jdbcType=BIGINT}
+    limit 1
+  </select>
+
 </mapper>

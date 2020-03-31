@@ -257,6 +257,4 @@ public class SmallOutController {
         return obj;
     }
 
-
-
 }

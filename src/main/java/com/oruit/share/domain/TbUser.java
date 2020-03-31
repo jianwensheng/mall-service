@@ -1,5 +1,6 @@
 package com.oruit.share.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -7,22 +8,29 @@ import java.util.Date;
 
 @Data
 public class TbUser implements Serializable {
+
     private Long id;
 
+    @JSONField(name = "nickname")
     private String username;
 
     private String mobile;
 
     private String email;
 
+    @JSONField(name = "sex")
     private Short sex;
 
+    @JSONField(name = "country")
     private String country;
 
+    @JSONField(name = "province")
     private String province;
 
+    @JSONField(name = "city")
     private String city;
 
+    @JSONField(name = "openid")
     private String openId;
 
     private Short userType;
@@ -35,8 +43,10 @@ public class TbUser implements Serializable {
 
     private String password;
 
+    @JSONField(name = "unionid")
     private String unionId;
 
+    @JSONField(name = "headimgurl")
     private String headPic;
 
     private String deviceid;
@@ -45,11 +55,37 @@ public class TbUser implements Serializable {
 
     private String code;
 
+    @JSONField(name = "access_token")
     private String token;
 
     private String language;
 
     private static final long serialVersionUID = 1L;
 
-
+    @Override
+    public String toString() {
+        return "TbUser{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", email='" + email + '\'' +
+                ", sex=" + sex +
+                ", country='" + country + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", openId='" + openId + '\'' +
+                ", userType=" + userType +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", password='" + password + '\'' +
+                ", unionId='" + unionId + '\'' +
+                ", headPic='" + headPic + '\'' +
+                ", deviceid='" + deviceid + '\'' +
+                ", wechat='" + wechat + '\'' +
+                ", code='" + code + '\'' +
+                ", token='" + token + '\'' +
+                ", language='" + language + '\'' +
+                '}';
+    }
 }

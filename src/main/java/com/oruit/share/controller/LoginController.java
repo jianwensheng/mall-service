@@ -1,10 +1,15 @@
 package com.oruit.share.controller;
 
+import com.oruit.common.utils.StringUtils;
 import com.oruit.share.domain.AccessToken;
 import com.oruit.share.domain.TbUser;
+import com.oruit.share.model.BaseResult;
 import com.oruit.share.service.AccessTokenService;
 import com.oruit.share.service.UserService;
+import com.oruit.share.util.CurrentLoginUtil;
+import com.oruit.util.ResponseCode;
 import com.oruit.weixin.WxUtils;
+import com.oruit.weixin.util.WXUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,62 +29,60 @@ import java.util.List;
 @Slf4j
 public class LoginController {
 
+    @Value("${weixin.url}")
+    private String NET_WEB;
+
     @Value("${weixin.appId}")
     private String appId;
 
     @Value("${weixin.appSecret}")
     private String appSecret;
 
-    @Value("${weixin.url}")
-    private String NET_WEB;
-
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private AccessTokenService accessTokenService;
 
 
     @RequestMapping("/")
     public void index(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
-        String url = null;
-        if (session.getAttribute("open_id") == null) {
+        String openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
+        if (StringUtils.isEmpty(openId)) {
             String inviteUrl = NET_WEB +"/login";
             inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
-            url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
+            String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
                     + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
             response.sendRedirect(url);
         }else{
-            url= NET_WEB+"/index";
-            response.sendRedirect(url);
+            String homeUrl = NET_WEB +"/index";
+            response.sendRedirect(homeUrl);
         }
+
     }
 
     @RequestMapping("/login")
-    public void login(HttpServletRequest request, Model model, HttpSession session,
-                      String code,HttpServletResponse response)throws IOException {
-        String open_id = "";
-        log.info("login code:{}",code);
-        AccessToken accessToken = accessTokenService.getToken(appId,appSecret);
-        TbUser user = WxUtils.oppenIdInfo(code,appId,appSecret,accessToken,session);
-        open_id = (String)session.getAttribute("open_id");
+    public void login(HttpSession session,String code,HttpServletResponse response)throws IOException {
+
+        log.info("系统开始，检查openId={}",session.getAttribute("openId"));
+
+        TbUser user = WxUtils.oppenIdInfo(code,appId,appSecret,session);
+        String open_id = (String)session.getAttribute("openId");
 
         if ((open_id != null) && (!"".equals(open_id))) {
             List<TbUser> tbUsers = userService.queryUser(user);
             if (tbUsers.size() != 0) {
-                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                System.out.println("用户存在，则update");
+                log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                log.info("用户存在，则update");
                 userService.updateTbUser(user);
             } else {
-                System.out.println("用户不存在，则insert");
+                log.info("用户不存在，则insert");
                 user.setCreateTime(new Date());
                 userService.insertTbUser(user);
             }
         }
         else {
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-            System.out.println("open_id==null");
+            log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            log.info("oppen_id==null");
         }
+
         String homeUrl = NET_WEB +"/index";
         response.sendRedirect(homeUrl);
     }

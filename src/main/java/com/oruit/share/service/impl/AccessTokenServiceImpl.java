@@ -48,7 +48,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
                 token.setAccessToken(jsonObject.getString("access_token"));
                 token.setExpiresIn(jsonObject.getInteger("expires_in"));
                 Map map = new HashMap();
-                map.put("add_time", nowtime);
+                map.put("addTime", nowtime);
                 map.put("accessToken", jsonObject.getString("access_token"));
                 map.put("expiresIn", token.getExpiresIn());
                 accessTokenMapper.update(map);
