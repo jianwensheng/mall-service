@@ -55,20 +55,11 @@ public class LoginController {
 
     @RequestMapping("/login")
     public void login(HttpSession session,String code,HttpServletResponse response)throws IOException {
-        TbUser user = WxUtils.openIdInfo(code,appId,appSecret,session);
         String openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
         log.info("系统开始，检查openId={}",openId);
         if (StringUtils.isNotEmpty(openId)) {
-            List<TbUser> tbUsers = userService.queryUser(user);
-            if (tbUsers.size() != 0) {
-                log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                log.info("用户存在，则update");
-                userService.updateTbUser(user);
-            } else {
-                log.info("用户不存在，则insert");
-                user.setCreateTime(new Date());
-                userService.insertTbUser(user);
-            }
+            TbUser user = WxUtils.openIdInfo(code,appId,appSecret,session);
+            userService.toUserInserOrUpdate(user);
         }else {
             log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             log.info("open_id==null");

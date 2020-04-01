@@ -1,26 +1,41 @@
 package com.oruit.share.service.impl;
 
+import com.oruit.common.constant.LevelType;
 import com.oruit.common.utils.cache.redis.RedisUtil;
 import com.oruit.share.cache.LoginCacheUtil;
 import com.oruit.share.constant.RedisConstant;
+import com.oruit.share.dao.TbAccountMapper;
+import com.oruit.share.dao.TbAddressMapper;
+import com.oruit.share.dao.TbInviteMapper;
 import com.oruit.share.dao.TbUserMapper;
+import com.oruit.share.domain.TbAccount;
+import com.oruit.share.domain.TbInvite;
 import com.oruit.share.domain.TbUser;
 import com.oruit.share.service.UserService;
 import com.oruit.share.util.ApplicationContextUtil;
 import com.oruit.weixin.EmojiFilter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private TbUserMapper tbUserMapper;
+
+    @Autowired
+    private TbInviteMapper tbInviteMapper;
+
+    @Autowired
+    private TbAccountMapper tbAccountMapper;
 
     @Override
     public List<TbUser> queryUser(TbUser user) {
@@ -98,5 +113,35 @@ public class UserServiceImpl implements UserService {
         session.setAttribute("openId",userInfo.getOpenId());
         LoginCacheUtil.save(user);
         return user;
+    }
+
+    @Override
+    public void toUserInserOrUpdate(TbUser user) {
+        List<TbUser> tbUsers = queryUser(user);
+        if (tbUsers.size() != 0) {
+            updateTbUser(user);
+        } else {
+            user.setCreateTime(new Date());
+            insertTbUser(user);
+            //添加邀请信息
+            TbInvite tbInvite = new TbInvite();
+            tbInvite.setUserName(user.getUsername());
+            tbInvite.setHeadPic(user.getHeadPic());
+            tbInvite.setUserId(user.getId());
+            tbInvite.setLevel(Short.valueOf(LevelType.USER_V1.getCode()+""));
+            tbInvite.setNumber(0);
+            tbInvite.setLevelName(LevelType.USER_V1.getDescription());
+            tbInvite.setCreateTime(new Date());
+            tbInvite.setUpdateTime(new Date());
+            tbInviteMapper.insertSelective(tbInvite);
+            //添加账号信息
+            TbAccount tbAccount = new TbAccount();
+            tbAccount.setUserId(user.getId());
+            tbAccount.setCashAmount(BigDecimal.ZERO);
+            tbAccount.setWithdrawAmount(BigDecimal.ZERO);
+            tbAccount.setCreateTime(new Date());
+            tbAccount.setUpdateTime(new Date());
+            tbAccountMapper.insertSelective(tbAccount);
+        }
     }
 }

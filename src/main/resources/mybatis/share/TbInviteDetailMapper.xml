@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oruit.share.dao.TbInviteDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.oruit.share.domain.TbInviteDetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="invited_user_id" property="invitedUserId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="invited_open_id" property="invitedOpenId" jdbcType="VARCHAR" />
+    <result column="invited_unionid" property="invitedUnionid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, invited_user_id, user_id, create_time, update_time, invited_open_id, invited_unionid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_invite_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_invite_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.oruit.share.domain.TbInviteDetail" >
+    insert into tb_invite_detail (id, invited_user_id, user_id, 
+      create_time, update_time, invited_open_id, 
+      invited_unionid)
+    values (#{id,jdbcType=BIGINT}, #{invitedUserId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{invitedOpenId,jdbcType=VARCHAR}, 
+      #{invitedUnionid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.oruit.share.domain.TbInviteDetail" >
+    insert into tb_invite_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="invitedUserId != null" >
+        invited_user_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="invitedOpenId != null" >
+        invited_open_id,
+      </if>
+      <if test="invitedUnionid != null" >
+        invited_unionid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="invitedUserId != null" >
+        #{invitedUserId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invitedOpenId != null" >
+        #{invitedOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="invitedUnionid != null" >
+        #{invitedUnionid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oruit.share.domain.TbInviteDetail" >
+    update tb_invite_detail
+    <set >
+      <if test="invitedUserId != null" >
+        invited_user_id = #{invitedUserId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invitedOpenId != null" >
+        invited_open_id = #{invitedOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="invitedUnionid != null" >
+        invited_unionid = #{invitedUnionid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oruit.share.domain.TbInviteDetail" >
+    update tb_invite_detail
+    set invited_user_id = #{invitedUserId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      invited_open_id = #{invitedOpenId,jdbcType=VARCHAR},
+      invited_unionid = #{invitedUnionid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

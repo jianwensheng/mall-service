@@ -19,4 +19,6 @@ public interface UserService {
 
     TbUser generateTokenAndSave(TbUser userInfo, HttpSession session);
 
+    void toUserInserOrUpdate(TbUser user);
+
 }

@@ -3,9 +3,12 @@ package com.oruit.share.service.impl;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.oruit.common.utils.HttpUtils;
+import com.oruit.common.utils.MethodUtil;
+import com.oruit.common.utils.cache.redis.RedisUtil;
 import com.oruit.share.dao.AccessTokenMapper;
 import com.oruit.share.domain.AccessToken;
 import com.oruit.share.service.AccessTokenService;
+import com.oruit.weixin.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,5 +66,41 @@ public class AccessTokenServiceImpl implements AccessTokenService {
             token.setAccessToken(((AccessToken)token_list.get(0)).getAccessToken());
         }
         return token;
+    }
+
+    @Override
+    public String createPermanentQRCode(String accessToken, int sceneId) {
+        String key = MethodUtil.qrcode_url_key+sceneId;
+        Object obj = RedisUtil.get(key);
+        if(obj!=null){
+            return obj.toString();
+        }
+        String ticket;
+        String requestUrl = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN";
+        requestUrl = requestUrl.replace("ACCESS_TOKEN", accessToken);
+        String jsonMsg = "{\"expire_seconds\": 604800,\"action_name\": \"QR_LIMIT_SCENE\", \"action_info\": {\"scene\": {\"scene_id\": %d}}}";
+        net.sf.json.JSONObject jsonObject = CommonUtil.httpsRequest(requestUrl, "POST", String.format(jsonMsg, new Object[] { Integer.valueOf(sceneId) }));
+        String imgPath = null;
+        if (jsonObject != null) {
+            try {
+                ticket = jsonObject.getString("ticket");
+                log.info("创建永久带参二维码成功 ticket:{}", ticket);
+                imgPath = getQRCode(ticket);
+                RedisUtil.setByTime(key,imgPath,MethodUtil.week_expires);
+            } catch (Exception e) {
+                int errorCode = jsonObject.getInt("errcode");
+                String errorMsg = jsonObject.getString("errmsg");
+                log.error("创建永久带参二维码失败 errcode:{} errmsg:{}", Integer.valueOf(errorCode), errorMsg);
+            }
+        }
+        return imgPath;
+    }
+
+    @Override
+    public String getQRCode(String ticket) {
+        String requestUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=TICKET";
+        requestUrl = requestUrl.replace("TICKET", CommonUtil.urlEncodeUTF8(ticket));
+        String requestJson = HttpUtils.doGet(requestUrl);
+        return requestJson;
     }
 }

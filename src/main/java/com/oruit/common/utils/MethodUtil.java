@@ -60,6 +60,8 @@ public class MethodUtil {
 
     public static final String good_tkl_key = "tao_tkl_";
 
+    public static final String qrcode_url_key = "qrcode_url_";
+
     public static final Integer pageSize = 10;
 
     public static final Integer pageNo = 1;

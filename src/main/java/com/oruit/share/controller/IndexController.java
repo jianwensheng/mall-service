@@ -127,11 +127,11 @@ public class IndexController {
     public String mine(HttpServletRequest request,HttpServletResponse response, Model model, HttpSession session, String code) {
         log.info("login code:{}", code);
         TbUser user = null;
-
         try {
             String openId = session.getAttribute("openId")!=null?session.getAttribute("openId").toString():"";
             if (StringUtils.isNotEmpty(code)) {
                 user = WxUtils.openIdInfo(code, appId, appSecret, session);
+                userService.toUserInserOrUpdate(user);
             } else {
                 user = RedisUtil.getObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY + openId, TbUser.class);
             }
