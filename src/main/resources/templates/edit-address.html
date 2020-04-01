@@ -27,7 +27,7 @@
                 <div class="aui-center">
                     <span class="aui-center-title">编辑地址</span>
                 </div>
-                <a href="javascript:;" class="aui-navBar-item" style="color:#ff1767">
+                <a href="javascript:delAddr(${tbAddress.id!''});" class="aui-navBar-item" style="color:#ff1767">
                     <i class="icon icon-sys"></i>删除
                 </a>
             </header>
@@ -69,6 +69,7 @@
         <script type="text/javascript" src="${basePath}/resources/themes/js/tab.js"></script>
         <script type="text/javascript" src="${basePath}/resources/themes/js/city.js"></script>
         <script type="text/javascript" src="${basePath}/resources/themes/js/address.js"></script>
+        <script src="https://cdn.bootcss.com/store2/2.7.0/store2.min.js"></script>
         <script type="text/javascript">
             /**
              * 默认调用
@@ -90,6 +91,27 @@
             /**
              * 设置默认值
              */
+
+            function delAddr(id){
+                var token = store.session('token');
+                var  b = confirm('确定删除？');
+                if(!b){
+                    return ;
+                }
+                $.ajax({
+                    url:'${basePath}/address/del',
+                    type:'post',
+                    data:'id='+id,
+                    success:function(rs){
+                        if(rs.code=='1000'){
+                            alert("删除成功！");
+                            location.href="${basePath}/address/index?token="+token;
+                        }else{
+                            alert("删除失败！");
+                        }
+                    }
+                })
+            }
         </script>
 
     </body>

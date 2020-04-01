@@ -2739,9 +2739,10 @@
 
         $(".addfav").click(function(){
             var token = store.session('token');
-            var url = "${basePath}/collection/collect?userToken="+token+"&goodsId=${good.goodsId!''}&plat=1";
-            $.post(url, function(dat){
-
+            var url = "${basePath}/collection/collect?userToken="+token+"" +
+                "&goodsId=${good.goodsId!''}&goodImg=${good.mainPic!''}&goodName=${good.dtitle!''}&goodDesc=${good.desc!''}" +
+                "&couponPrice=${good.couponPrice!''}&actualPrice=${good.actualPrice!''}&originalPrice=${good.originalPrice!''}&plat=1";
+            $.post(url,function(dat){
                 if (dat.code==1)
                 {
                     layer.msg('收藏成功！');

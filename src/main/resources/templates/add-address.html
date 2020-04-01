@@ -42,7 +42,7 @@
                     <div class="aui-address-cell-item">
                         <div class="aui-cell-name">手机号</div>
                         <div class="aui-cell-input">
-                            <input type="text" id="mobile" name="mobile" class="cell-input" placeholder="请输入您的手机号" autocomplete="off">
+                            <input type="number" id="mobile" name="mobile" class="cell-input" placeholder="请输入您的手机号" autocomplete="off">
                         </div>
                     </div>
                     <div class="aui-address-cell-item">
@@ -78,6 +78,7 @@
         <script type="text/javascript" src="${basePath}/resources/themes/js/tab.js"></script>
         <script type="text/javascript" src="${basePath}/resources/themes/js/city.js"></script>
         <script type="text/javascript" src="${basePath}/resources/themes/js/address.js"></script>
+        <script src="https://cdn.bootcss.com/store2/2.7.0/store2.min.js"></script>
         <script type="text/javascript">
             /**
              * 默认调用
@@ -101,13 +102,45 @@
              */
 
             function addAdrs(){
-
+                var token = store.session('token');
                 var receiver = $("#receiver").val();
                 var mobile = $("#mobile").val();
                 var region = $("#J_Address").val();
                 var detailAddress = $("#detailAddress").val();
 
-                var isDefault = $("#checkbox").is(":checked");
+                if(receiver==''){
+                    alert('收货人不能为空!');
+                    $("#receiver").focus();
+                    return false;
+                }
+
+                if(mobile==''){
+                    alert('手机号不为空!');
+                    $("#mobile").focus();
+                    return false;
+                }else{
+                    //手机号不为空,判断是否正确
+                    var phoneNumReg = /(^[0-9]{3,4}\-{0,1}[0-9]{3,8}$)|(^[0-9]{3,8}$)|(^\([0-9]{3,4}\)[0-9]{3,8}$)|(^0{0,1}13[0-9]{9}$)/
+                    if(!phoneNumReg.test(mobile)||mobile.length!=11) {
+                        alert('请填写正确电话号码!!');
+                        $("#mobile").focus();
+                        return false;
+                    }
+                }
+
+                if(region==''){
+                    alert('请选择所在地区!');
+                    return false;
+                }
+
+                if(detailAddress==''){
+                    alert('详情地址不能为空!');
+                    $("#detailAddress").focus();
+                    return false;
+                }
+
+
+                var isDefault = $("input[type='checkbox']").is(':checked');
                 var addDefault = 0;
                 if(isDefault){
                     addDefault = 1;
@@ -117,7 +150,7 @@
                     dataType: "json", //返回json格式的数据
                     url: "${basePath}/address/addAddress", //要访问的后台地址
                     data: "receiver=" + receiver + "&mobile=" + mobile+"&region="+region
-                        +"&detailAddress="+detailAddress+"&addDefault="+addDefault,// 你的formid
+                        +"&detailAddress="+detailAddress+"&addDefault="+addDefault+"&token="+token,// 你的formid
                     success: function (obj) {//msg为返回的数据，在这里做数据绑定
                         if (obj != "") {
                             if (typeof obj === 'string') {
@@ -126,7 +159,7 @@
 
                             if(obj.code=='1000'){
                                 alert('添加成功!');
-                                location.href="${basePath}/address/index?userId=0";
+                                location.href="${basePath}/address/index?token="+token;
                             }else{
                                 alert('添加失败');
                             }

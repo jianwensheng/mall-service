@@ -2,6 +2,7 @@ package com.oruit.share.service;
 
 import com.oruit.share.domain.TbAddress;
 import okhttp3.Address;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,4 +17,9 @@ public interface AddressService {
     int updateTbAddress(TbAddress record);
 
     int updateDeleteTbAddress(TbAddress record);
+
+    int updateStatusTbAddress(Long userId);
+
+    int delTbAddress(Integer id);
+
 }

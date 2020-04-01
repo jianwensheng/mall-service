@@ -24,20 +24,6 @@
             <input type="hidden" id="goods_subcid" name="goods_subcid">
             <div class="tab-panel">
                 <div id="goodsInfo" class="tab-panel-item tab-active">
-                    <#if tbCollectionList?? && (tbCollectionList?size>0)>
-                    <#list tbCollectionList as tbCollection>
-                    <a href="javascript:goodDetail(${tbCollection.goodId})" class="aui-flex b-line">
-                        <div class="aui-ser-img">
-                            <img src="${tbCollection.goodImg!''}" alt=\"\">
-                        </div>
-                        <div class="aui-flex-box">
-                            <h2>${tbCollection.goodDesc!''}</h2>
-                            <h3><em>${tbCollection.couponPrice!'0'}元劵</em><i>原价: ${tbCollection.originalPrice!'0'}</i></h3>
-                            <h4><em>券后价: ￥${tbCollection.actualPrice!'0'}</em></h4>
-                        </div>
-                    </a>
-                    </#list>
-                    </#if>
                 </div>
             </div>
         </div>
@@ -52,14 +38,16 @@
 <script src="${basePath}/resources/js/zepto-byothers.min.js"></script>
 <script src="${basePath}/resources/js/search_index.js"></script>
 <script src="${basePath}/resources/js/more.js"></script>
+<script src="https://cdn.bootcss.com/store2/2.7.0/store2.min.js"></script>
 <script type="text/javascript">
-
-    function searchGoods(userId,pageIndex) {
+    var token = store.session('token');
+    intGoods(token,1);
+    function intGoods(token,pageIndex) {
                         $.ajax({
                             type: "post", //使用post方法访问后台
                             dataType: "json", //返回json格式的数据
-                            url: "${basePath}/collection/index", //要访问的后台地址
-                            data: "userId="+userId+"&pageIndex="+pageIndex+"&pageSize=10",// 你的formid
+                            url: "${basePath}/collection/collectionList", //要访问的后台地址
+                            data: "token="+token+"&pageIndex="+pageIndex+"&pageSize=20",// 你的formid
                             success: function(obj){//msg为返回的数据，在这里做数据绑定
                                 if(obj!=""){
                                     if (typeof obj === 'string') {
@@ -70,12 +58,12 @@
                                         var goodsInfo = obj.data;
                                         for(var i=0;i<goodsInfo.length;i++){
                                             var goodInfo = goodsInfo[i];
-                                            goodsStr += "<a href=\"javascript:goodDetail("+goodInfo.goodsId+");\" class=\"aui-flex b-line\">"+
+                                            goodsStr += "<a href=\"javascript:goodDetail("+goodInfo.goodId+");\" class=\"aui-flex b-line\">"+
                                                 "<div class=\"aui-ser-img\">" +
-                                                "<img src=\""+goodInfo.mainPic+"\" alt=\"\">" +
+                                                "<img src=\""+goodInfo.goodImg+"\" alt=\"\">" +
                                                 "</div>" +
                                                 "<div class=\"aui-flex-box\">" +
-                                                "<h2>"+goodInfo.desc+"</h2>" +
+                                                "<h2>"+goodInfo.goodDesc+"</h2>" +
                                                 "<h3><em>"+goodInfo.couponPrice+"元劵</em><i>原价 "+goodInfo.originalPrice+"</i></h3>" +
                                                 "<h4><em>券后价: ￥"+goodInfo.actualPrice+"</em></h4>" +
                                                 "</div></a>";

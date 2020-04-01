@@ -6,6 +6,7 @@ import com.oruit.common.utils.JsonDealUtil;
 import com.oruit.share.domain.TbCollection;
 import com.oruit.share.domain.TbUser;
 import com.oruit.share.service.CollectionService;
+import com.oruit.share.service.GoodsService;
 import com.oruit.share.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,31 +34,27 @@ public class CollectionController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private GoodsService goodsService;
+
     @RequestMapping("/index")
     public String index(HttpServletRequest request, Model model) throws Exception {
-        String userId = HttpUtils.getRequestParam(request, "userId");//显示页数
-        String pageIndex = HttpUtils.getRequestParam(request, "pageIndex");//显示页数
-        String pageSize = HttpUtils.getRequestParam(request, "pageSize");//显示条数
-        HashMap map = new HashMap();
-        map.put("userId", userId);
-        map.put("pageIndex", pageIndex);
-        map.put("pageSize", pageSize);
-        List<TbCollection> tbCollectionList = collectionService.queryTbCollectionList(map);
-        model.addAttribute("tbCollectionList", tbCollectionList);
         return "collection";
     }
 
     @RequestMapping("/collectionList")
     @ResponseBody
     public JSONObject collectionList(HttpServletRequest request, Model model) throws Exception {
-        String userId = HttpUtils.getRequestParam(request, "userId");//显示页数
+        String token = HttpUtils.getRequestParam(request, "token");//用户token
+        TbUser user = userService.queryTokenUserInfo(token);
         String pageIndex = HttpUtils.getRequestParam(request, "pageIndex");//显示页数
         String pageSize = HttpUtils.getRequestParam(request, "pageSize");//显示条数
         HashMap map = new HashMap();
-        map.put("userId", userId);
-        map.put("pageIndex", pageIndex);
+        map.put("userId", user.getId());
+        map.put("pageIndex", Integer.parseInt(pageIndex)-1);
         map.put("pageSize", pageSize);
         List<TbCollection> tbCollectionList = collectionService.queryTbCollectionList(map);
+
         return JsonDealUtil.getSuccJSONObject("0|操作成功", String.valueOf(tbCollectionList.size()), tbCollectionList);
 
     }
@@ -75,6 +73,12 @@ public class CollectionController {
         String userToken = HttpUtils.getRequestParam(request, "userToken");//用户userToken
         String goodsId = HttpUtils.getRequestParam(request, "goodsId");//商品ID
         String plat = HttpUtils.getRequestParam(request, "plat");//平台
+        String goodName = HttpUtils.getRequestParam(request, "goodName");//商品名称
+        String goodImg = HttpUtils.getRequestParam(request, "goodImg");//商品主图
+        String goodDesc = HttpUtils.getRequestParam(request, "goodDesc");//商品详情
+        String couponPrice = HttpUtils.getRequestParam(request, "couponPrice");//优惠券面额
+        String actualPrice = HttpUtils.getRequestParam(request, "actualPrice");//券后价
+        String originalPrice = HttpUtils.getRequestParam(request, "originalPrice");//商品原价
         String msg="";
         String code = "";
         try {
@@ -90,6 +94,12 @@ public class CollectionController {
                 tbCollection.setUpdateTime(new Date());
                 tbCollection.setPlat(plat);
                 tbCollection.setStatus(1);
+                tbCollection.setGoodName(goodName);
+                tbCollection.setGoodImg(goodImg);
+                tbCollection.setGoodDesc(goodDesc);
+                tbCollection.setCouponPrice(couponPrice);
+                tbCollection.setActualPrice(new BigDecimal(actualPrice));
+                tbCollection.setOriginalPrice(new BigDecimal(originalPrice));
                 count = collectionService.insertSelective(tbCollection);
                 if (count > 0) {
                     flag = true;
@@ -104,14 +114,28 @@ public class CollectionController {
                     //更改为收藏
                     tbCollection.setStatus(1);
                     tbCollection.setUpdateTime(new Date());
-                    count = collectionService.updateByPrimaryKeySelective(tbCollection);
+                    tbCollection.setGoodName(goodName);
+                    tbCollection.setGoodImg(goodImg);
+                    tbCollection.setGoodDesc(goodDesc);
+                    tbCollection.setCouponPrice(couponPrice);
+                    tbCollection.setActualPrice(new BigDecimal(actualPrice));
+                    tbCollection.setOriginalPrice(new BigDecimal(originalPrice));
+                    tbCollection.setPlat(plat);
+                    collectionService.updateByPrimaryKeySelective(tbCollection);
                     msg = "收藏成功";
                     code = "1";
                     flag = true;
                 }else if(tbCollection.getStatus()==1){
                     tbCollection.setStatus(0);
                     tbCollection.setUpdateTime(new Date());
-                    count = collectionService.updateByPrimaryKeySelective(tbCollection);
+                    tbCollection.setGoodName(goodName);
+                    tbCollection.setGoodImg(goodImg);
+                    tbCollection.setGoodDesc(goodDesc);
+                    tbCollection.setCouponPrice(couponPrice);
+                    tbCollection.setActualPrice(new BigDecimal(actualPrice));
+                    tbCollection.setOriginalPrice(new BigDecimal(originalPrice));
+                    tbCollection.setPlat(plat);
+                    collectionService.updateByPrimaryKeySelective(tbCollection);
                     msg = "已取消收藏";
                     code = "0";
                     flag = true;

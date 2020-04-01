@@ -140,6 +140,7 @@ public class IndexController {
         }
         model.addAttribute("headPic", user.getHeadPic());
         model.addAttribute("nickName", user.getUsername());
+        model.addAttribute("token", user.getToken());
         return "mine";
     }
 

@@ -40,5 +40,13 @@ public class AddressServiceImpl implements AddressService {
         return tbAddressMapper.updateDeleteTbAddress(record);
     }
 
+    @Override
+    public int updateStatusTbAddress(Long userId) {
+        return tbAddressMapper.updateStatusTbAddress(userId);
+    }
 
+    @Override
+    public int delTbAddress(Integer id) {
+        return tbAddressMapper.deleteByPrimaryKey(id);
+    }
 }

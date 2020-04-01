@@ -2,6 +2,7 @@ package com.oruit.share.dao;
 
 import com.oruit.share.domain.TbAddress;
 import okhttp3.Address;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface TbAddressMapper {
     List<Address> addressList(Long userId);
 
     int updateDeleteTbAddress(TbAddress record);
+
+    int updateStatusTbAddress(@Param("userId") Long userId);
 }
