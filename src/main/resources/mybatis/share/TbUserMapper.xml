@@ -7,6 +7,7 @@
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="sex" property="sex" jdbcType="SMALLINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="country" property="country" jdbcType="VARCHAR" />
     <result column="province" property="province" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="VARCHAR" />
@@ -24,7 +25,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, username, mobile, email, sex, country, province, city, open_id, user_type, status, 
-    create_time, update_time, password, union_id, head_pic, deviceId, wechat,token
+    create_time, update_time, password, union_id, head_pic, deviceId, wechat,token,code
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -112,6 +113,10 @@
       <if test="token != null" >
         token,
       </if>
+      <if test="code != null" >
+        code,
+      </if>
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -170,6 +175,9 @@
       </if>
       <if test="token != null" >
         #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

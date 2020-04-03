@@ -32,7 +32,6 @@ public class WxUtils {
                 Map<String, String> userMap = (Map<String, String>)mapper.readValue(result, HashMap.class);
                 TbUser user = new TbUser();
                 user.setOpenId(userMap.get("openid"));
-                user.setCode(code);
                 user.setToken(userMap.get("access_token"));
                 session.setAttribute("openId", user.getOpenId());
                 weixinUserInfo(user,session);
@@ -62,6 +61,7 @@ public class WxUtils {
                 user.setCity(String.valueOf(userMap.get("city")));
                 user.setLanguage(String.valueOf(userMap.get("language")));
                 user.setHeadPic(String.valueOf(userMap.get("headimgurl")));
+                user.setCode(ShareCodeUtil.createShareCode());
                 user.setToken(getGUID());
                 if (userMap.get("unionid") != null) {
                     user.setUnionId(String.valueOf(userMap.get("unionid")));

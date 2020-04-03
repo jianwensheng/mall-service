@@ -13,9 +13,48 @@
   <link type="text/css" rel="stylesheet" href="${basePath}/resources/themes/css/base.css">
   <link type="text/css" rel="stylesheet" href="${basePath}/resources/themes/css/icon.css">
   <link type="text/css" rel="stylesheet" href="${basePath}/resources/themes/css/home.css">
+  <link type="text/css" rel="stylesheet" href="${basePath}/resources/css/mine.css">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="iTunesArtwork@2x.png" sizes="114x114" rel="apple-touch-icon-precomposed">
+  <style>
+    .loadingbar3 {
+      width: 100%;
+      height: 100px;
+      display: none;
+      -webkit-box-pack: center;
+      -webkit-box-align: center;
+      position: fixed;
+      top: 50%;
+      left:0;
+      right:0;
+      margin-top: -1rem;
+      z-index: 10000000;
+      padding:5px;
+      text-align:center;
+    }
+    .loading3 {
+      width: 120px;
+      height: 80px;
+      opacity: 0.6;
+      font-size: 12px;
+      color: #fff;
+      background: #000;
+      text-align: center;
+      border-radius: 5px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-pack: center;
+      -webkit-box-align: center;
+      margin: 0px auto;
+    }
 
+    .aui-member-text p {
+      color: #ffe1ed;
+      font-weight: normal;
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
 
@@ -23,11 +62,11 @@
   <section class="aui-scrollView">
     <div class="aui-member-head">
       <div class="aui-member-user">
-        <img src="${headPic!''}" alt="">
+        <img src="${user.headPic!''}" alt="">
       </div>
       <div class="aui-member-text">
-        <h2>${nickName!''}</h2>
-        <p>151*****482</p>
+        <h2>${user.username!''}</h2>
+        <p>邀请码:${user.code!''}</p>
       </div>
     </div>
     <div class="aui-layout">
@@ -74,7 +113,7 @@
           <h5>我的好友</h5>
         </div>
       </a>
-      <a href="${basePath}/address/index?token=${token}" class="aui-flex b-line">
+      <a href="${basePath}/address/index?token=${user.token!''}" class="aui-flex b-line">
         <div class="aui-course-icon">
           <img src="${basePath}/resources/images/address.png" alt="">
         </div>
@@ -82,7 +121,7 @@
           <h5>收货地址</h5>
         </div>
       </a>
-      <a href="${basePath}/collection/index?token=${token}&pageIndex=1&pageSize=20" class="aui-flex b-line">
+      <a href="${basePath}/collection/index?token=${user.token!''}&pageIndex=1&pageSize=20" class="aui-flex b-line">
         <div class="aui-course-icon">
           <img src="${basePath}/resources/images/center-icon-sc.png" alt="">
         </div>
@@ -90,21 +129,47 @@
           <h5>我的收藏</h5>
         </div>
       </a>
+      <a href="javascript:invitationPoster();" class="aui-flex b-line">
+        <div class="aui-course-icon">
+          <img src="${basePath}/resources/images/share.png" alt="">
+        </div>
+        <div class="aui-flex-box">
+          <h5>生成邀请海报</h5>
+        </div>
+      </a>
       <div class="divHeight"></div>
-      <a href="tel:18519232894" class="aui-flex b-line">
+      <a href="#" class="aui-flex b-line" onclick="$('#contactService').css('display','block');return false;">
         <div class="aui-course-icon">
           <img src="${basePath}/resources/images/customer_service.png" alt="">
         </div>
         <div class="aui-flex-box">
           <h5>联系客服</h5>
         </div>
-        <div class="aui-flex-tel">18519232894</div>
+        <div class="aui-flex-tel">151*****8482</div>
         <div class="aui-flex-arrow"></div>
       </a>
     </div>
-
-
-
+    <div class="loadingbar3" style="display:none">
+      <div class='loading3'><img src='${basePath}/resources/images/loading.gif' style="width: 45px;height: 45px;"><br>加载中，请稍后<br></div>
+    </div>
+    <div class="pu" id="contactService" style="display:none">
+      <div class="puInnerBox" style="max-width:320px;">
+        <div class="puHead">联系客服</div>
+        <div style="color:#666;">
+          <span>长按图片 - 识别图中二维码 - 联系客服</span>
+          <p style="padding:6px 0;">
+            <img width="60%" src="https://coupon-mall.oss-cn-hangzhou.aliyuncs.com/service/course.png" id="serviceImg"/>
+          </p>
+          <p class="pt6">
+            <i>在线时间：9:00 -- 17:30</i>
+          </p>
+        </div>
+        <div class="puFoot">
+          <a class="btn" href="#" onclick="$('#contactService').css('display','none');">关闭</a>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
   </section>
   <footer class="aui-footer aui-footer-fixed">
     <a href="${basePath}/index" class="aui-tabBar-item">
@@ -133,10 +198,102 @@
     </a>
   </footer>
 </section>
+<input type="hidden" id="jumpurl" value="">
+<div id="readmoban" style="position: fixed;top: -100000px;"></div>
+<script type="text/javascript" src="${basePath}/resources/themes/js/jquery.min.js"></script>
+<script type="text/javascript" src="${basePath}/resources/themes/js/slider.js"></script>
+<script type="text/javascript" src="${basePath}/resources/themes/js/tab.js"></script>
+<script type="text/javascript" src="${basePath}/resources/supper/js/layer.js"></script>
+<script src="https://cdn.bootcss.com/store2/2.7.0/store2.min.js"></script>
+<script>
+  function invitationPoster() {
+      $('.loadingbar3').show();
+      var token = store.session('token');
+      var postsurl = "${basePath}/small/loadQcodeUrl?inviteCode=${user.code}&token="+token;
+      $.ajax({
+          type: "POST",
+          url: postsurl,
+          dataType: 'json',
+          jsonp: 'callback',
+          data: {
+              userId: '123'
+          },
+          success: function (dat) {
+              if (dat.code == '1000') {
+                  $('.loadingbar3').hide();
+                  var data = dat.data;
+                  $('#jumpurl').val(data.picUrl);
+                  var picdiv = "<div id='allsharepic' class='sharepicw100' style='padding:0px'><div class='sharepicw100'><img id='startpic' src='" + data.picUrl + "?v=2018' class='sharepicw100' style='max-width:100%;max-height:80vh'></div></div>";
+                  $(".imgData").attr("src", data.picUrl + "?v=2018");
+                  layer.open({
+                      title: false,
+                      type: 1,
+                      closeBtn: 1,
+                      shadeClose: true,
+                      content: picdiv,
+                      shade: [0.8, '#000'],
+                      btn: ['复制文案', '关闭'],
+                      yes: function () {
+                          //
+                          var clipboard = new Clipboard('.layui-layer-btn0', {
+                              target: function () {
+                                  return document.querySelector('#readmoban');
+                              }
+                          });
+                          clipboard.on('success', function (e) {
+                              $(".layui-layer-btn0").css("border-color", "#68d548");
+                              $(".layui-layer-btn0").css("background-color", "#68c151");
+                              $(".layui-layer-btn0").text("复制成功");
+                              setInterval(function () {
+                                  $(".layui-layer-btn0").css("border-color", "#4898d5");
+                                  $(".layui-layer-btn0").css("background-color", "#2e8ded");
+                                  $(".layui-layer-btn0").text("复制文案");
+                              }, 1500);
+                              e.clearSelection();
+                          });
+                          clipboard.on('error', function (e) {
+                              $(".layui-layer-btn0").css("border-color", "#e20d0d");
+                              $(".layui-layer-btn0").css("background-color", "#f31818");
+                              $(".layui-layer-btn0").text("复制失败");
+                              setInterval(function () {
+                                  $(".layui-layer-btn0").css("border-color", "#4898d5");
+                                  $(".layui-layer-btn0").css("background-color", "#2e8ded");
+                                  $(".layui-layer-btn0").text("复制文案");
+                              }, 1500);
+                          });
+                          //
+                      },
+                      btn2: function () {
+                          layer.closeAll();
+                          return false;
+                      },
+                      success: function (index) {
 
-<script type="text/javascript" src="themes/js/jquery.min.js"></script>
-<script type="text/javascript" src="themes/js/slider.js"></script>
-<script type="text/javascript" src="themes/js/tab.js"></script>
+                          var nbpic = $("#startpic").attr('src');
+                          var nbimg = '<img src="' + nbpic + '"><br>';
+                          var readmoban = $("#readmoban").html();
+                          var readmobanplus = nbimg + readmoban;
+                          $("#readmoban").html(readmobanplus);
 
+                      }
+                  });
+
+                  $('.layer-anim').css('position','fixed');
+                  $('.layer-anim').css('top','5%');
+                  $('.layer-anim').css('left','0');
+                  $('.layer-anim').css('right','0');
+                  $('.layer-anim').css('width','100%');
+                  $('.layer-anim').css('max-width','90%');
+                  $('.layer-anim').css('margin','auto');
+                  $('.layer-anim').css('border-radius','5px');
+
+              }else{
+
+              }
+          }
+      });
+  }
+  
+</script>
 </body>
 </html>

@@ -14,6 +14,7 @@ import com.oruit.share.domain.TbUser;
 import com.oruit.share.service.UserService;
 import com.oruit.share.util.ApplicationContextUtil;
 import com.oruit.weixin.EmojiFilter;
+import com.oruit.weixin.ShareCodeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface TbUserMapper {
+public interface TbUserMapper extends BaseMapper<TbUser,Long>{
     int deleteByPrimaryKey(Long id);
 
     int insert(TbUser record);

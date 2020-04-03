@@ -138,11 +138,11 @@ public class IndexController {
         }catch (Exception e){
             log.info(e.getMessage());
         }
-        model.addAttribute("headPic", user.getHeadPic());
-        model.addAttribute("nickName", user.getUsername());
-        model.addAttribute("token", user.getToken());
+        model.addAttribute("user", user);
         return "mine";
     }
+
+
 
     @RequestMapping("/video")
     public String video(HttpServletRequest request, Model model) {

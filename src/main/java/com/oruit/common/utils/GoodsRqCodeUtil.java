@@ -217,4 +217,44 @@ public class GoodsRqCodeUtil {
             log.error("生成优惠券海报失败", e);
         }
     }
+
+
+    public static void drawInvitationImage(String inviteCode,String filePath,String codeUrl)  {
+        log.info("打印图片二维码:"+codeUrl);
+        try {
+
+            // 设置背景图片
+            BufferedImage bg =ImageIO.read(new File(filePath));
+            Graphics2D g = bg.createGraphics();
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,         RenderingHints.VALUE_ANTIALIAS_ON);	    // 消除画图锯齿
+            g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);	// 消除文字锯齿
+
+            int y = 1050;
+
+            //我的邀请码
+            g.setFont(new Font("Microsoft YaHei", Font.PLAIN, 23));
+            g.setColor(Color.white);
+            g.drawString(inviteCode , 290, y+65);
+
+            // 写入二维码
+            BufferedImage qrcode = QrcodeGenerator.encode(	codeUrl, 155, 155);
+            g.drawImage(qrcode, 475, y+5, 150, 150, null);
+
+            g.setFont(new Font("Microsoft YaHei", Font.PLAIN, 22));
+            g.setColor(Color.gray);
+            g.drawString("长按识别二维码" , 470, y+170);
+            y+=25;
+
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);				// 消除画图锯齿
+            g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);	// 消除文字锯齿
+
+            g.dispose();
+            ImageIO.write(bg, "jpg", new File(filePath));
+        } catch (IOException e) {
+            log.error("生成邀请码海报失败", e);
+        }
+    }
+
+
+
 }

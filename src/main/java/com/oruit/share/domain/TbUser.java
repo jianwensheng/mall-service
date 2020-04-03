@@ -47,7 +47,10 @@ public class TbUser implements Serializable {
 
     private String wechat;
 
+    //邀请码
     private String code;
+
+
 
     @JSONField(name = "access_token")
     private String token;

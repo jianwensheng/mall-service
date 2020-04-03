@@ -5,10 +5,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.oruit.common.utils.*;
 import com.oruit.common.utils.cache.redis.RedisUtil;
 import com.oruit.common.utils.web.RequestUtils;
+import com.oruit.share.domain.AccessToken;
 import com.oruit.share.domain.GoodsInfoVO;
+import com.oruit.share.domain.TbUser;
+import com.oruit.share.service.AccessTokenService;
 import com.oruit.share.service.OtherService;
+import com.oruit.share.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.entity.ContentType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +33,19 @@ import java.util.logging.Logger;
 @Service
 @Slf4j
 public class OtherServiceImpl implements OtherService {
+
+    @Autowired
+    private AccessTokenService accessTokenService;
+
+    @Autowired
+    private UserService userService;
+
+    @Value("${weixin.appId}")
+    private String appId;
+
+    @Value("${weixin.appSecret}")
+    private String appSecret;
+
     @Override
     public JSONObject getGoodClassify() {
         //先从redis里面查询
@@ -386,8 +405,7 @@ public class OtherServiceImpl implements OtherService {
 
     @Override
     public String createCouponPoster(HttpServletRequest request,Long userId, GoodsInfoVO vo) throws Exception{
-
-        String fileUrl = (String)RedisUtil.get("couponPoster:u"+userId+"_g"+vo.getGoodsId());
+        String fileUrl = RedisUtil.get("couponPoster:u"+userId+"_g"+vo.getGoodsId());
         if(StringUtils.isBlank(fileUrl)){
             //生成图片
             String fileName = System.currentTimeMillis()+".jpg";
@@ -411,4 +429,31 @@ public class OtherServiceImpl implements OtherService {
         return fileUrl;
     }
 
+    @Override
+    public String createInvitationImg(String inviteCode,String token) throws Exception {
+        String fileUrl = RedisUtil.get("invitationImg_"+inviteCode);
+        if(StringUtils.isBlank(fileUrl)){
+            //生成图片
+            String fileName = "invitationFriend.jpg";
+            String fileOssName = "invitation_"+System.currentTimeMillis()+".jpg";
+            String imagePath = ZshopConstants.UploadFilesConstants.STATICFILESTEMPPATH + fileName;
+            File file = new File(imagePath);
+            AccessToken accessToken = accessTokenService.getToken(appId,appSecret);
+            TbUser tbUser = userService.queryTokenUserInfo(token);
+            String codeUrl = accessTokenService.createPermanentQRCode(accessToken.getAccessToken(),Integer.parseInt(tbUser.getId().toString()));
+            GoodsRqCodeUtil.drawInvitationImage(inviteCode,imagePath,codeUrl);
+            //上传至阿里云
+            OSSClientUtil ossClient = new OSSClientUtil();
+            FileInputStream fileInputStream = new FileInputStream(file);
+            MultipartFile multipartFile = new MockMultipartFile(fileOssName, fileOssName,
+                    ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream);
+            String url = ossClient.uploadImg2Oss(multipartFile);
+            if(url != null){
+                fileUrl = url;
+                RedisUtil.setByTime("invitationImg_"+inviteCode, fileUrl, MethodUtil.week_expires);
+            }
+        }
+
+        return fileUrl;
+    }
 }

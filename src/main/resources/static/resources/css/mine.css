@@ -1,0 +1,54 @@
+.pu {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    overflow: hidden;
+    z-index: 2000;
+    transform: translate(0, -50%);
+    font-size: 14px;
+}
+.puInnerBox {
+    width: 88%;
+    margin: 0 auto;
+    background-color: #FAFAFC;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+.puHead {
+    font-family: '微软雅黑';
+    font-size: 17px;
+    font-weight: 400;
+    color: #000;
+    line-height: 24px;
+    padding: 18px 0;
+}
+.puFoot {
+    font-size: 17px;
+    font-family: '微软雅黑';
+    border-top: 1px solid #E9E9E9;
+    margin-top: 18px;
+    overflow: hidden;
+}
+.puFoot .btn, .puFoot .btn2 {
+    display: block;
+    height: 48px;
+    line-height: 48px;
+    overflow: hidden;
+    color: #808080;
+    padding: 0px 0;
+    margin-top: 1px;
+}
+.clear {
+    clear: both;
+}
+.pt6 {
+    padding-top: 6px;
+}
+i {
+    color: #FF6600;
+}

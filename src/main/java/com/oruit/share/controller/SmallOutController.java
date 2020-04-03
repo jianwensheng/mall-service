@@ -241,6 +241,25 @@ public class SmallOutController {
 
     }
 
+    /**
+     * 生成邀请码
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "/loadQcodeUrl")
+    @ResponseBody
+    public JSONObject loadQcodeUrl(String inviteCode,String token,HttpServletRequest request)throws Exception {
+        String fileName = otherService.createInvitationImg(inviteCode,token);
+        if(fileName!=null){
+            Map<String, Object> result = new HashMap<>();
+            result.put("picUrl",fileName);
+            return JsonDealUtil.getSuccJSONObject("0|操作成功","", result);
+        }else{
+            return JsonDealUtil.getErrJSONObject("生成失败");
+        }
+
+    }
 
     /**
      * 获取淘口令

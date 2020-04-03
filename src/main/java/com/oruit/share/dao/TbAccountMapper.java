@@ -2,7 +2,7 @@ package com.oruit.share.dao;
 
 import com.oruit.share.domain.TbAccount;
 
-public interface TbAccountMapper {
+public interface TbAccountMapper extends BaseMapper<TbAccount,Long>{
     int deleteByPrimaryKey(Long id);
 
     int insert(TbAccount record);

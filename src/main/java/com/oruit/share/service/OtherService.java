@@ -11,29 +11,31 @@ import java.util.HashMap;
  */
 public interface OtherService {
 
-    public JSONObject getGoodClassify();
+     JSONObject getGoodClassify();
 
-    public JSONObject getDdqGoodList(String roundTime);
+     JSONObject getDdqGoodList(String roundTime);
 
-    public JSONObject getThemeList();
+     JSONObject getThemeList();
 
-    public JSONObject getThemeGoodsList(Long themeId);
+     JSONObject getThemeGoodsList(Long themeId);
 
-    public String getCmsPromUrl(Integer channelType);
+     String getCmsPromUrl(Integer channelType);
 
-    public JSONObject getPddSearchList(HashMap map,HttpServletRequest request);
+     JSONObject getPddSearchList(HashMap map,HttpServletRequest request);
 
-    public JSONObject getPddGoodsDetailInfo(Long goodId);
+     JSONObject getPddGoodsDetailInfo(Long goodId);
 
-    public String getPddGoodsPromotionUrl(Long goodId);
+     String getPddGoodsPromotionUrl(Long goodId);
 
     /**
      * 根据店铺ID查询店铺信息
      * @param mallId
      * @return
      */
-    public JSONObject getMallInfo(String mallId);
+    JSONObject getMallInfo(String mallId);
 
-    public String createCouponPoster(HttpServletRequest request, Long userId, GoodsInfoVO vo) throws Exception;
+    String createCouponPoster(HttpServletRequest request, Long userId, GoodsInfoVO vo) throws Exception;
+
+    String createInvitationImg(String inviteCode,String token) throws Exception;
 
 }

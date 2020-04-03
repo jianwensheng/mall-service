@@ -75,7 +75,6 @@ public class AccessTokenServiceImpl implements AccessTokenService {
         if(obj!=null){
             return obj.toString();
         }
-        String ticket;
         String requestUrl = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN";
         requestUrl = requestUrl.replace("ACCESS_TOKEN", accessToken);
         String jsonMsg = "{\"expire_seconds\": 604800,\"action_name\": \"QR_LIMIT_SCENE\", \"action_info\": {\"scene\": {\"scene_id\": %d}}}";
@@ -83,9 +82,8 @@ public class AccessTokenServiceImpl implements AccessTokenService {
         String imgPath = null;
         if (jsonObject != null) {
             try {
-                ticket = jsonObject.getString("ticket");
-                log.info("创建永久带参二维码成功 ticket:{}", ticket);
-                imgPath = getQRCode(ticket);
+                imgPath = jsonObject.getString("url");
+                log.info("创建永久带参二维码成功 url:{}", imgPath);
                 RedisUtil.setByTime(key,imgPath,MethodUtil.week_expires);
             } catch (Exception e) {
                 int errorCode = jsonObject.getInt("errcode");
@@ -100,7 +98,6 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     public String getQRCode(String ticket) {
         String requestUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=TICKET";
         requestUrl = requestUrl.replace("TICKET", CommonUtil.urlEncodeUTF8(ticket));
-        String requestJson = HttpUtils.doGet(requestUrl);
-        return requestJson;
+        return requestUrl;
     }
 }
