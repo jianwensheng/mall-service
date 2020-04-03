@@ -23,6 +23,6 @@ public class ZshopConstants {
             return false;
         }
 
-        public  static String STATICFILESTEMPPATH = getIsWindowSystem()?"D:/images/":"/opt/java/file";
+        public  static String STATICFILESTEMPPATH = getIsWindowSystem()?"D:/images/":"/opt/java/file/";
     }
 }
