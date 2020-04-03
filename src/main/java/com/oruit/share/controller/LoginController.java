@@ -47,9 +47,8 @@ public class LoginController {
 
     @RequestMapping("/login")
     public void login(HttpSession session,String code,HttpServletResponse response)throws IOException {
-        String openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
-        log.info("系统开始，检查openId={}",openId);
-        if (StringUtils.isNotEmpty(openId)) {
+        log.info("系统开始，code={}",code);
+        if (StringUtils.isNotEmpty(code)) {
             TbUser user = WxUtils.openIdInfo(code,appId,appSecret,session);
             userService.toUserInserOrUpdate(user);
         }else {
