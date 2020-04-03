@@ -434,7 +434,7 @@ public class OtherServiceImpl implements OtherService {
         String fileUrl = RedisUtil.get("invitationImg_"+inviteCode);
         if(StringUtils.isBlank(fileUrl)){
             //生成图片
-            String fileName = "invitationFriend.jpg";
+            String fileName = "/invitationFriend.jpg";
             String fileOssName = "invitation_"+System.currentTimeMillis()+".jpg";
             String imagePath = ZshopConstants.UploadFilesConstants.STATICFILESTEMPPATH + fileName;
             File file = new File(imagePath);
