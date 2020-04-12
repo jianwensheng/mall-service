@@ -46,7 +46,7 @@ public class LoginController {
         url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
                 + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
         response.sendRedirect(url);
-       /* session.setAttribute("openId","ouA-Q1sPSt6s0Lo8_B9svq7Xbii8");
+        /*session.setAttribute("openId","ouA-Q1sPSt6s0Lo8_B9svq7Xbii8");
         String openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
         log.info("首页 openId：{}",openId);
         String url;
@@ -68,7 +68,6 @@ public class LoginController {
         if (StringUtils.isNotEmpty(code)) {
             TbUser user = WxUtils.openIdInfo(code,appId,appSecret,session);
             userService.toUserInserOrUpdate(user);
-            log.info("login user=="+user+";userId:"+user.getId());
             RedisUtil.setObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY + user.getOpenId(), MethodUtil.month_expires, user);
         }else {
             log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");

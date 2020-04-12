@@ -144,7 +144,9 @@ public class IndexController {
         }
         model.addAttribute("user", user);
         //获取该用户账户信息
-        user = userService.queryOpenIdUserInfo(user.getOpenId());
+        if(user.getId()==null){
+            user = userService.queryOpenIdUserInfo(user.getOpenId());
+        }
         TbAccount tbAccount = accountService.queryTbAccountInfo(user.getId());
         model.addAttribute("account", tbAccount);
         return "mine";

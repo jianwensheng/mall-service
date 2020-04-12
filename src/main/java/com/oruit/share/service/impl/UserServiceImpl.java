@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public TbUser queryOpenIdUserInfo(String openId) {
         TbUser login = RedisUtil.getObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY + openId, TbUser.class);
-        if (login == null) {
+        if (login!=null && login.getId() == null) {
             login = tbUserMapper.queryOpenIdUserInfo(openId);
             if (login != null) {
                 RedisUtil.setObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY+openId,RedisConstant.HALF_HOUR,login);
