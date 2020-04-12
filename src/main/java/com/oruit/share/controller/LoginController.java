@@ -68,6 +68,7 @@ public class LoginController {
         if (StringUtils.isNotEmpty(code)) {
             TbUser user = WxUtils.openIdInfo(code,appId,appSecret,session);
             userService.toUserInserOrUpdate(user);
+            log.info("login user=="+user+";userId:"+user.getId());
             RedisUtil.setObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY + user.getOpenId(), MethodUtil.month_expires, user);
         }else {
             log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
