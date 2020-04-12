@@ -114,4 +114,42 @@
       invited_unionid = #{invitedUnionid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="queryTbInviteDetailUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_invite_detail
+    where user_id = #{userId,jdbcType=BIGINT}
+    and invited_open_id = #{invitedOpenId,jdbcType=VARCHAR}
+    limit 1
+  </select>
+
+  <select id="query" parameterType="com.oruit.share.domain.TbInviteDetail" resultMap="BaseResultMap">
+    SELECT a.*,b.`head_pic`,b.`username`
+    from tb_invite_detail a
+    LEFT JOIN tb_user b ON a.`invited_user_id` = b.`id`
+    WHERE 1=1
+    <if test="id != null">
+      and a.id = #{id,jdbcType=BIGINT}
+    </if>
+    <if test="invitedUserId != null">
+      and a.invited_user_id = #{invitedUserId,jdbcType=BIGINT}
+    </if>
+    <if test="userId != null">
+      and a.user_id = #{userId,jdbcType=BIGINT}
+    </if>
+    <if test="createTime != null">
+      and a.create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updateTime != null">
+      and a.update_time = #{updateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="invitedOpenId != null">
+      and a.invited_open_id = #{invitedOpenId,jdbcType=VARCHAR}
+    </if>
+    <if test="invitedUnionid != null">
+      and a.invited_unionid = #{invitedUnionid,jdbcType=VARCHAR}
+    </if>
+  </select>
+
 </mapper>

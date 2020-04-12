@@ -5,12 +5,15 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="withdraw_amount" property="withdrawAmount" jdbcType="DECIMAL" />
     <result column="cash_amount" property="cashAmount" jdbcType="DECIMAL" />
+    <result column="wait_settle_count" property="waitSettleCount" jdbcType="INTEGER" />
+    <result column="wait_cmis_amount" property="waitCmisAmount" jdbcType="DECIMAL" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, withdraw_amount, cash_amount, user_id, create_time, update_time
+    id, withdraw_amount, cash_amount, wait_settle_count, wait_cmis_amount, user_id, create_time, 
+    update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -24,11 +27,11 @@
   </delete>
   <insert id="insert" parameterType="com.oruit.share.domain.TbAccount" >
     insert into tb_account (id, withdraw_amount, cash_amount, 
-      user_id, create_time, update_time
-      )
+      wait_settle_count, wait_cmis_amount, user_id, 
+      create_time, update_time)
     values (#{id,jdbcType=BIGINT}, #{withdrawAmount,jdbcType=DECIMAL}, #{cashAmount,jdbcType=DECIMAL}, 
-      #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+      #{waitSettleCount,jdbcType=INTEGER}, #{waitCmisAmount,jdbcType=DECIMAL}, #{userId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.oruit.share.domain.TbAccount" >
     insert into tb_account
@@ -41,6 +44,12 @@
       </if>
       <if test="cashAmount != null" >
         cash_amount,
+      </if>
+      <if test="waitSettleCount != null" >
+        wait_settle_count,
+      </if>
+      <if test="waitCmisAmount != null" >
+        wait_cmis_amount,
       </if>
       <if test="userId != null" >
         user_id,
@@ -62,6 +71,12 @@
       <if test="cashAmount != null" >
         #{cashAmount,jdbcType=DECIMAL},
       </if>
+      <if test="waitSettleCount != null" >
+        #{waitSettleCount,jdbcType=INTEGER},
+      </if>
+      <if test="waitCmisAmount != null" >
+        #{waitCmisAmount,jdbcType=DECIMAL},
+      </if>
       <if test="userId != null" >
         #{userId,jdbcType=BIGINT},
       </if>
@@ -82,6 +97,12 @@
       <if test="cashAmount != null" >
         cash_amount = #{cashAmount,jdbcType=DECIMAL},
       </if>
+      <if test="waitSettleCount != null" >
+        wait_settle_count = #{waitSettleCount,jdbcType=INTEGER},
+      </if>
+      <if test="waitCmisAmount != null" >
+        wait_cmis_amount = #{waitCmisAmount,jdbcType=DECIMAL},
+      </if>
       <if test="userId != null" >
         user_id = #{userId,jdbcType=BIGINT},
       </if>
@@ -98,9 +119,19 @@
     update tb_account
     set withdraw_amount = #{withdrawAmount,jdbcType=DECIMAL},
       cash_amount = #{cashAmount,jdbcType=DECIMAL},
+      wait_settle_count = #{waitSettleCount,jdbcType=INTEGER},
+      wait_cmis_amount = #{waitCmisAmount,jdbcType=DECIMAL},
       user_id = #{userId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="queryTbAccountInfo" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_account
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+
 </mapper>

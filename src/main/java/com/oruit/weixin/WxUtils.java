@@ -35,7 +35,6 @@ public class WxUtils {
                 user.setToken(userMap.get("access_token"));
                 session.setAttribute("openId", user.getOpenId());
                 weixinUserInfo(user,session);
-                RedisUtil.setObject(RedisConstant.USER_LOGIN_OPEN_INFO_KEY + user.getOpenId(),MethodUtil.month_expires, user);
                 return user;
             } catch (Exception e) {
                 log.error("解析微信返回信息異常", e.getMessage());

@@ -14,4 +14,6 @@ public interface TbAccountMapper extends BaseMapper<TbAccount,Long>{
     int updateByPrimaryKeySelective(TbAccount record);
 
     int updateByPrimaryKey(TbAccount record);
+
+    TbAccount queryTbAccountInfo(Long userId);
 }

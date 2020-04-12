@@ -3,8 +3,12 @@ package com.oruit.share.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.oruit.common.utils.MethodUtil;
 import com.oruit.common.utils.StringUtils;
+import com.oruit.share.dao.TbInviteDetailMapper;
+import com.oruit.share.domain.TbInviteDetail;
 import com.oruit.share.domain.TextMessage;
 import com.oruit.share.service.GoodsService;
+import com.oruit.share.service.TbInviteDetailService;
+import com.oruit.share.service.TbInviteService;
 import com.oruit.share.service.WeixinService;
 import com.oruit.weixin.WxUtils;
 import com.oruit.weixin.util.MessageUtil;
@@ -41,6 +45,12 @@ public class WeixinController {
 
     @Autowired
     private GoodsService goodsService;
+
+    @Autowired
+    private TbInviteDetailService tbInviteDetailService;
+
+    @Autowired
+    private TbInviteService tbInviteService;
 
     @Value("${taobao.apikey}")
     private String apikey;
@@ -151,7 +161,28 @@ public class WeixinController {
                     text.setFromUserName(toUserName);
                     text.setCreateTime(new Date().getTime() + "");
                     text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+
+                    //关注公众号的同时检查是否存在邀请关系
+                    String eventKey = requestMap.get("EventKey");// 事件KEY值，与创建自定义菜单时指定的KEY值对应
+                    if(eventKey.contains("qrscene_")){
+                        Long userId =  Long.valueOf(eventKey.split("_")[1]);
+                        //更新邀请人数以及邀请详细记录表
+                        TbInviteDetail tbInviteDetail = tbInviteDetailService.queryTbInviteDetailUserId(userId,fromUserName);
+                        if(tbInviteDetail==null){
+                            tbInviteDetail = new TbInviteDetail();
+                            tbInviteDetail.setUserId(userId);
+                            tbInviteDetail.setInvitedOpenId(fromUserName);
+                            tbInviteDetail.setCreateTime(new Date());
+                            tbInviteDetail.setUpdateTime(new Date());
+                            tbInviteDetailService.insertSelective(tbInviteDetail);
+                            tbInviteService.addInviteNumber(userId);
+
+                        }
+                    }
+
                     respMessage = textMessageToXml(text);
+
+
                 }else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {// 取消订阅
                     // TODO 取消订阅后用户再收不到公众号发送的消息，因此不需要回复消息
 

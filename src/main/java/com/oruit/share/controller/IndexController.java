@@ -5,10 +5,12 @@ import com.oruit.common.utils.HttpUtils;
 import com.oruit.common.utils.StringUtils;
 import com.oruit.common.utils.cache.redis.RedisUtil;
 import com.oruit.share.constant.RedisConstant;
+import com.oruit.share.domain.TbAccount;
 import com.oruit.share.domain.TbBannerDO;
 import com.oruit.share.domain.TbClassifyDO;
 import com.oruit.share.domain.TbUser;
 import com.oruit.share.service.AccessTokenService;
+import com.oruit.share.service.AccountService;
 import com.oruit.share.service.GoodsService;
 import com.oruit.share.service.UserService;
 import com.oruit.weixin.WxUtils;
@@ -47,7 +49,9 @@ public class IndexController {
     private UserService userService;
 
     @Autowired
-    private AccessTokenService accessTokenService;
+    private AccountService accountService;
+
+
 
     @RequestMapping("/index")
     public String index(HttpServletRequest request,Model model,HttpSession session) {
@@ -139,6 +143,9 @@ public class IndexController {
             log.info(e.getMessage());
         }
         model.addAttribute("user", user);
+        //获取该用户账户信息
+        TbAccount tbAccount = accountService.queryTbAccountInfo(user.getId());
+        model.addAttribute("account", tbAccount);
         return "mine";
     }
 

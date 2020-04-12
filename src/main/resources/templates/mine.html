@@ -72,25 +72,25 @@
     <div class="aui-layout">
       <a href="order_list.html" class="aui-layout-item">
         <div class="aui-layout-icon">
-          1单
+          ${account.waitSettleCount!'0'}单
         </div>
         <div class="aui-layout-text">待结算订单</div>
       </a>
       <a href="order_list.html" class="aui-layout-item">
         <div class="aui-layout-icon">
-          0.55
+          ${account.waitCmisAmount!'0.00'}
         </div>
         <div class="aui-layout-text">待发放佣金</div>
       </a>
       <a href="order_list.html" class="aui-layout-item">
         <div class="aui-layout-icon">
-          0.55
+          ${account.cashAmount!'0.00'}
         </div>
         <div class="aui-layout-text">我的余额</div>
       </a>
       <a href="order_list.html" class="aui-layout-item">
         <div class="aui-layout-icon">
-          0.55
+          ${account.withdrawAmount!'0.00'}
         </div>
         <div class="aui-layout-text">累计提现</div>
       </a>

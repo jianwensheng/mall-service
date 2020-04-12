@@ -138,4 +138,37 @@
       level_name = #{levelName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <update id="addInviteNumber" parameterType="java.lang.Long">
+		update tb_invite set number = number + 1
+		where user_id =
+		#{userId,jdbcType=BIGINT}
+  </update>
+
+  <select id="query" parameterType="com.oruit.share.domain.TbInvite" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_invite where 1=1
+    <if test="id != null">
+      and id = #{id,jdbcType=BIGINT}
+    </if>
+    <if test="userId != null">
+      and user_id = #{userId,jdbcType=BIGINT}
+    </if>
+    <if test="createTime != null">
+      and create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updateTime != null">
+      and update_time = #{updateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="level != null">
+      and level = #{level,jdbcType=SMALLINT}
+    </if>
+    <if test="number != null">
+      and number = #{number,jdbcType=INTEGER}
+    </if>
+    <if test="levelName != null">
+      and level_name = #{levelName,jdbcType=VARCHAR}
+    </if>
+  </select>
+
 </mapper>

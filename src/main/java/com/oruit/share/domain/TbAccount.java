@@ -11,6 +11,10 @@ public class TbAccount implements Serializable {
 
     private BigDecimal cashAmount;
 
+    private Integer waitSettleCount;
+
+    private BigDecimal waitCmisAmount;
+
     private Long userId;
 
     private Date createTime;
@@ -41,6 +45,22 @@ public class TbAccount implements Serializable {
 
     public void setCashAmount(BigDecimal cashAmount) {
         this.cashAmount = cashAmount;
+    }
+
+    public Integer getWaitSettleCount() {
+        return waitSettleCount;
+    }
+
+    public void setWaitSettleCount(Integer waitSettleCount) {
+        this.waitSettleCount = waitSettleCount;
+    }
+
+    public BigDecimal getWaitCmisAmount() {
+        return waitCmisAmount;
+    }
+
+    public void setWaitCmisAmount(BigDecimal waitCmisAmount) {
+        this.waitCmisAmount = waitCmisAmount;
     }
 
     public Long getUserId() {
@@ -76,6 +96,8 @@ public class TbAccount implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", withdrawAmount=").append(withdrawAmount);
         sb.append(", cashAmount=").append(cashAmount);
+        sb.append(", waitSettleCount=").append(waitSettleCount);
+        sb.append(", waitCmisAmount=").append(waitCmisAmount);
         sb.append(", userId=").append(userId);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
@@ -98,6 +120,8 @@ public class TbAccount implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getWithdrawAmount() == null ? other.getWithdrawAmount() == null : this.getWithdrawAmount().equals(other.getWithdrawAmount()))
             && (this.getCashAmount() == null ? other.getCashAmount() == null : this.getCashAmount().equals(other.getCashAmount()))
+            && (this.getWaitSettleCount() == null ? other.getWaitSettleCount() == null : this.getWaitSettleCount().equals(other.getWaitSettleCount()))
+            && (this.getWaitCmisAmount() == null ? other.getWaitCmisAmount() == null : this.getWaitCmisAmount().equals(other.getWaitCmisAmount()))
             && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
@@ -110,6 +134,8 @@ public class TbAccount implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getWithdrawAmount() == null) ? 0 : getWithdrawAmount().hashCode());
         result = prime * result + ((getCashAmount() == null) ? 0 : getCashAmount().hashCode());
+        result = prime * result + ((getWaitSettleCount() == null) ? 0 : getWaitSettleCount().hashCode());
+        result = prime * result + ((getWaitCmisAmount() == null) ? 0 : getWaitCmisAmount().hashCode());
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
