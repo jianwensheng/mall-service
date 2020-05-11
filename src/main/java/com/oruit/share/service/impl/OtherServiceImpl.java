@@ -405,13 +405,14 @@ public class OtherServiceImpl implements OtherService {
 
     @Override
     public String createCouponPoster(HttpServletRequest request,Long userId, GoodsInfoVO vo) throws Exception{
+        String host = RequestUtils.getBasePath(request);
         String fileUrl = RedisUtil.get("couponPoster:u"+userId+"_g"+vo.getGoodsId());
         if(StringUtils.isBlank(fileUrl)){
             //生成图片
             String fileName = System.currentTimeMillis()+".jpg";
             String imagePath = ZshopConstants.UploadFilesConstants.STATICFILESTEMPPATH + fileName;
             File file = new File(imagePath);
-            GoodsRqCodeUtil.drawCouponPosterImage(RequestUtils.getBasePath(request), userId, vo, imagePath,fileName);
+            GoodsRqCodeUtil.drawCouponPosterImage(host, userId, vo, imagePath,fileName);
 
             //上传至阿里云
             OSSClientUtil ossClient = new OSSClientUtil();

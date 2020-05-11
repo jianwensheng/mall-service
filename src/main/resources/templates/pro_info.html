@@ -51,7 +51,7 @@
             <em>长按框内 <u class="p3">&gt;</u> 全选 <u class="p3">&gt;</u> 复制</em>
           </h2>
           <form name="puKoulingForm" id="puKoulingForm">
-            <textarea class="inputArea" id="word" style="display:block; height:58px;">一键复制淘口令: ${coupon.tpwd!''} ,打开 [淘宝APP] 即可领取优惠劵!</textarea>
+            <textarea class="inputArea" id="word" style="display:block; height:58px;" readonly >一键复制淘口令: ${coupon.tpwd!''} ,打开 [淘宝APP] 即可领取优惠劵!</textarea>
           </form>
         </div>
       </div>
@@ -76,14 +76,8 @@
 </div>
 <span id="tophovertree" title="返回顶部"></span>
 <div class="weui-tabbar wy-foot-menu">
-  <a href="javascript:;" class="weui-tabbar__item yellow-color open-popup" data-target="#join_cart">
-    <p class="promotion-foot-menu-label" onclick="javascript:history.back(-1);">返回</p>
-  </a>
   <a href="javascript:;" class="weui-tabbar__item red-color open-popup" data-target="#selcet_sku">
     <p class="promotion-foot-menu-label" onclick="copy();">一键复制淘口令</p>
-  </a>
-  <a href="javascript:;" class="weui-tabbar__item orange-color open-popup" data-target="#join_cart">
-    <p class="promotion-foot-menu-label" onclick="javascript:history.back(-1);">分享好物</p>
   </a>
 </div>
 

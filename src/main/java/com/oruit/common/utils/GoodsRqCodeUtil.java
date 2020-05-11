@@ -109,7 +109,7 @@ public class GoodsRqCodeUtil {
 
             // 写入二维码
             String prefix = "jd".equals(vo.getFrom()) ? ZshopConstants.JD_PREFIX : "pdd".equals(vo.getFrom()) ? ZshopConstants.PDD_PREFIX : ZshopConstants.TAOBAO_PREFIX;
-            BufferedImage qrcode = QrcodeGenerator.encode(	ZshopConstants.MOBILE_HOST + "/#/detail/" + prefix + vo.getGoodsId(), 230, 230);
+            BufferedImage qrcode = QrcodeGenerator.encode(	host + "/good/privilege?goodsId="+vo.getGoodsId(), 230, 230);
             g.drawImage(qrcode, 510, y+5, 230, 230, null);
 
             g.setFont(new Font("Microsoft YaHei", Font.PLAIN, 22));
