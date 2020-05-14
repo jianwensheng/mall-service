@@ -40,13 +40,13 @@ public class LoginController {
 
     @RequestMapping("/")
     public void index(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
-        /*String url;
+        String url;
         String inviteUrl = NET_WEB +"/login";
         inviteUrl = URLEncoder.encode(inviteUrl, "utf-8");
         url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" + inviteUrl
                 + "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
-        response.sendRedirect(url);*/
-        session.setAttribute("openId","ouA-Q1sPSt6s0Lo8_B9svq7Xbii8");
+        response.sendRedirect(url);
+       /* session.setAttribute("openId","ouA-Q1sPSt6s0Lo8_B9svq7Xbii8");
         String openId = session.getAttribute("openId") != null?session.getAttribute("openId").toString():"";
         log.info("首页 openId：{}",openId);
         String url;
@@ -59,7 +59,7 @@ public class LoginController {
         }else{
             url= NET_WEB+"/index";
             response.sendRedirect(url);
-        }
+        }*/
     }
 
     @RequestMapping("/login")
