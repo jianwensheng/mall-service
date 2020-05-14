@@ -22,7 +22,6 @@
 	}
 	.aui-center {
 		-webkit-box-ordinal-group: 3;
-		-webkit-order: 2;
 		-ms-flex-order: 2;
 		order: 2;
 		display: -webkit-box;
@@ -165,9 +164,9 @@
 <script type="text/javascript" src="${basePath}/resources/js/jquery.min.js"></script>
 <script type="text/javascript" src="${basePath}/resources/js/slider.js"></script>
 <script type="text/javascript" src="${basePath}/resources/js/tab.js"></script>
-<script src="https://cdn.bootcss.com/store2/2.7.0/store2.min.js"></script>
+<script src="${basePath}/resources/js/store2.min.js"></script>
 <script type="text/javascript">
-	if("${token!''}"){
+	if("${token!''}"!='undefined' && "${token!''}"!=''){
         store.session('token',"${token!''}");
 	}
     function queryGoods(){
@@ -283,7 +282,7 @@
                 }
             });
         }
-
+         alert(store.session('data'));
 		if(store.session('data')){
 			var data = store.session('data');
 			mescroll.setPageNum(store.session('page') + 1);
