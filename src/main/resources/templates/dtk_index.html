@@ -22,7 +22,6 @@
 	}
 	.aui-center {
 		-webkit-box-ordinal-group: 3;
-		-webkit-order: 2;
 		-ms-flex-order: 2;
 		order: 2;
 		display: -webkit-box;
@@ -165,9 +164,9 @@
 <script type="text/javascript" src="${basePath}/resources/js/jquery.min.js"></script>
 <script type="text/javascript" src="${basePath}/resources/js/slider.js"></script>
 <script type="text/javascript" src="${basePath}/resources/js/tab.js"></script>
-<script src="https://cdn.bootcss.com/store2/2.7.0/store2.min.js"></script>
+<script src="${basePath}/resources/js/store2.min.js"></script>
 <script type="text/javascript">
-	if("${token!''}"){
+	if("${token!''}"!='undefined' && "${token!''}"!=''){
         store.session('token',"${token!''}");
 	}
     function queryGoods(){
@@ -175,9 +174,6 @@
     }
 
         var mescroll = new MeScroll("mescroll", {
-            down: {
-                callback: downCallback
-            },
             up: {
                 auto: store.session('data') ? false : true,
                 callback: upCallback,
@@ -226,24 +222,6 @@
                 mescroll.resetUpScroll();
             }
         })
-
-
-        //下拉刷新的回调
-        function downCallback() {
-            $.ajax({
-                url: 'xxxxxx',
-                success: function(data) {
-                    //联网成功的回调,隐藏下拉刷新的状态;
-                    mescroll.endSuccess(); //无参. 注意结束下拉刷新是无参的
-                    //设置数据
-                    //setXxxx(data);//自行实现 TODO
-                },
-                error: function(data) {
-                    //联网失败的回调,隐藏下拉刷新的状态
-                    mescroll.endErr();
-                }
-            });
-        }
 
         var flag = false;
         //上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10

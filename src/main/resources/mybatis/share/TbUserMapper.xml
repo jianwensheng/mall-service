@@ -181,7 +181,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.oruit.share.domain.TbUser" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.oruit.share.domain.TbUser" keyProperty="id" useGeneratedKeys="true" >
     update tb_user
     <set >
       <if test="username != null" >
