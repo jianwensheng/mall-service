@@ -14,9 +14,10 @@ public class NofiyController {
 
     @ResponseBody
     @RequestMapping(value = "/nofiy",method = RequestMethod.POST)
-    public void index(HttpServletRequest request, String  component_verify_ticket) {
+    public String index(HttpServletRequest request, String  component_verify_ticket) {
         log.info("nofiy1=====进入了，component_verify_ticket:{}",component_verify_ticket);
         String component_verify_ticket1 = request.getParameter("component_verify_ticket");
         log.info("nofiy2=====进入了，component_verify_ticket:{}",component_verify_ticket1);
+        return "success";
     }
 }
